@@ -1,5 +1,8 @@
 package com.isa.menu;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
     SEARCH_COIN(2, "Wyszukaj coin z listy"),
@@ -13,6 +16,7 @@ public enum Menu {
 
 
     private final int position;
+
     private final String description;
 
     Menu(final int position, final String description) {
@@ -29,9 +33,13 @@ public enum Menu {
     }
 
     public static void printMenu() {
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +
+                "myCryptoWallet \n" +
+                "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
         for (Menu menu : Menu.values()) {
             System.out.println(menu);
         }
+
     }
     public static Menu getMenuItem(int number) {
         Menu menuToReturn = null;
@@ -41,6 +49,27 @@ public enum Menu {
             }
         }
         return menuToReturn;
+    }
+
+    public static void getMenu() {
+        Scanner sc = new Scanner(System.in);
+        Menu.printMenu();
+        try {
+            int userNumber = sc.nextInt();
+
+            if (userNumber > Menu.values().length) {
+                System.out.println("Wybierz liczbę w zakresie 1-8");
+
+            } else if (userNumber < Menu.values().length) {
+                System.out.println(Menu.getMenuItem(userNumber));
+
+            } else if (userNumber == Menu.EXIT.getPosition()) {
+                System.out.println("Potwierdzasz wyjście z programu?\nPowtórz liczbę...");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Podana wartość musi być liczbą całkowitą");
+            sc.nextLine();
+        }
     }
 
     @Override
