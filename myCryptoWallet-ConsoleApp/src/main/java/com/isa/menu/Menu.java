@@ -53,6 +53,7 @@ public enum Menu {
 
     public static void getMenu() {
         Scanner sc = new Scanner(System.in);
+        do{
         Menu.printMenu();
         try {
             int userNumber = sc.nextInt();
@@ -66,10 +67,10 @@ public enum Menu {
             } else if (userNumber == Menu.EXIT.getPosition()) {
                 System.out.println("Potwierdzasz wyjście z programu?\nPowtórz liczbę...");
             }
-        } catch (InputMismatchException e) {
+        }   catch (InputMismatchException e) {
             System.out.println("Podana wartość musi być liczbą całkowitą");
             sc.nextLine();
-        }
+        } }while(sc.nextInt() != Menu.EXIT.getPosition());
     }
 
     @Override
