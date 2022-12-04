@@ -1,38 +1,67 @@
 package com.isa;
 
 public class Coin {
-    // przykładowa klasa Coin, podmienić na docelową
-    private String symbol;
-    private String name;
-    private double price;
+    String coinName;
+    String coinSymbol;
+    Double price;
+    Enum currency;
+    Double coinVolumen;
+    String description;
+    Double changePrice;
 
-    public Coin(String symbol, String name, double price) {
-        this.symbol = symbol;
-        this.name = name;
-        this.price = price;
+    public String getCoinName() {
+        return coinName;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public String getCoinSymbol() {
+        return coinSymbol;
     }
 
-    public String getName() {
-        return name;
+    public void setCoinSymbol(String coinSymbol) {
+        this.coinSymbol = coinSymbol;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Enum getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Enum currency) {
+        this.currency = currency;
+    }
+
+    public Double getCoinVolumen() {
+        return coinVolumen;
+    }
+
+    public void setCoinVolumen(Double coinVolumen) {
+        this.coinVolumen = coinVolumen;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getChangePrice() {
+        return changePrice;
+    }
+
+    public void setChangePrice(Double changePrice) {
+        this.changePrice = changePrice;
     }
 }
