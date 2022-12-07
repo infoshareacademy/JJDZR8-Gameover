@@ -53,24 +53,43 @@ public enum Menu {
 
     public static void getMenu() {
         Scanner sc = new Scanner(System.in);
-        do{
-            Menu.printMenu();
+        boolean flag = true;
+        while (flag)
             try {
-                int userNumber = sc.nextInt();
-
-                if (userNumber > Menu.values().length) {
-                    System.out.println("Wybierz liczbę w zakresie 1-8");
-
-                } else if (userNumber < Menu.values().length) {
-                    System.out.println(Menu.getMenuItem(userNumber));
-
-                } else if (userNumber == Menu.EXIT.getPosition()) {
-                    System.out.println("Potwierdzasz wyjście z programu?\nPowtórz liczbę...");
+                Menu.printMenu();
+                int chooseOption = sc.nextInt();
+                switch (chooseOption) {
+                    case 1:
+                        System.out.println(Menu.ADD_COIN);
+                        break;
+                    case 2:
+                        System.out.println(Menu.SEARCH_COIN);
+                        break;
+                    case 3:
+                        System.out.println(Menu.LIST_COINS);
+                        break;
+                    case 4:
+                        System.out.println(Menu.UPDATE_COIN_LIST);
+                        break;
+                    case 5:
+                        System.out.println(Menu.ADD_FAVOURITE_COIN);
+                        break;
+                    case 6:
+                        System.out.println(Menu.EXPORT_FILE);
+                        break;
+                    case 7:
+                        System.out.println(Menu.IMPORT_FILE);
+                        break;
+                    case 8:
+                        flag = false;
+                        break;
+                    default:
+                        System.out.println("Nie ma takiej opcji, spróbuj ponownie");
                 }
-            }   catch (InputMismatchException e) {
-                System.out.println("Podana wartość musi być liczbą całkowitą");
-                sc.nextLine();
-            } }while(sc.nextInt() != Menu.EXIT.getPosition());
+            } catch (InputMismatchException | IllegalArgumentException e) {
+                System.out.println("Podaj liczbę całkowitą");
+                return;
+            }
     }
 
     @Override
