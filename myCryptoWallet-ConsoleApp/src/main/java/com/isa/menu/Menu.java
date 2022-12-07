@@ -24,7 +24,7 @@ public enum Menu {
         this.position = position;
     }
 
-    int getPosition() {
+   public int getPosition() {
         return position;
     }
 
@@ -54,23 +54,23 @@ public enum Menu {
     public static void getMenu() {
         Scanner sc = new Scanner(System.in);
         do{
-        Menu.printMenu();
-        try {
-            int userNumber = sc.nextInt();
+            Menu.printMenu();
+            try {
+                int userNumber = sc.nextInt();
 
-            if (userNumber > Menu.values().length) {
-                System.out.println("Wybierz liczbę w zakresie 1-8");
+                if (userNumber > Menu.values().length) {
+                    System.out.println("Wybierz liczbę w zakresie 1-8");
 
-            } else if (userNumber < Menu.values().length) {
-                System.out.println(Menu.getMenuItem(userNumber));
+                } else if (userNumber < Menu.values().length) {
+                    System.out.println(Menu.getMenuItem(userNumber));
 
-            } else if (userNumber == Menu.EXIT.getPosition()) {
-                System.out.println("Potwierdzasz wyjście z programu?\nPowtórz liczbę...");
-            }
-        }   catch (InputMismatchException e) {
-            System.out.println("Podana wartość musi być liczbą całkowitą");
-            sc.nextLine();
-        } }while(sc.nextInt() != Menu.EXIT.getPosition());
+                } else if (userNumber == Menu.EXIT.getPosition()) {
+                    System.out.println("Potwierdzasz wyjście z programu?\nPowtórz liczbę...");
+                }
+            }   catch (InputMismatchException e) {
+                System.out.println("Podana wartość musi być liczbą całkowitą");
+                sc.nextLine();
+            } }while(sc.nextInt() != Menu.EXIT.getPosition());
     }
 
     @Override
