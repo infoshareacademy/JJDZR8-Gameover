@@ -52,10 +52,11 @@ public enum Menu {
     }
 
     public static void getMenu() {
-        Scanner sc = new Scanner(System.in);
+
         boolean flag = true;
         while (flag)
             try {
+                Scanner sc = new Scanner(System.in);
                 Menu.printMenu();
                 int chooseOption = sc.nextInt();
                 switch (chooseOption) {
@@ -86,10 +87,10 @@ public enum Menu {
                     default:
                         System.out.println("Nie ma takiej opcji, spróbuj ponownie");
                 }
-            } catch (InputMismatchException | IllegalArgumentException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Podaj liczbę całkowitą");
-                return;
             }
+
     }
 
     @Override
