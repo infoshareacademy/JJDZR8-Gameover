@@ -1,13 +1,18 @@
 package com.isa;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Coin {
-    String coinName;
-    String coinSymbol;
-    Double price;
-    Enum currency;
-    Double coinVolumen;
+
+    private String coinName;
+    @SerializedName("symbol")
+    private String coinSymbol;
+    @SerializedName("lastPrice")
+    private double price;
+    //Enum currency;
+    double coinVolume;
     String description;
-    Double changePrice;
+    //Double changePrice;
 
     public String getCoinName() {
         return coinName;
@@ -33,35 +38,10 @@ public class Coin {
         this.price = price;
     }
 
-    public Enum getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Enum currency) {
-        this.currency = currency;
-    }
-
-    public Double getCoinVolumen() {
-        return coinVolumen;
-    }
-
-    public void setCoinVolumen(Double coinVolumen) {
-        this.coinVolumen = coinVolumen;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getChangePrice() {
-        return changePrice;
-    }
-
-    public void setChangePrice(Double changePrice) {
-        this.changePrice = changePrice;
+    public enum Endpoints {
+        BTC,
+        ETH,
+        LTC,
+        DODGEBUSD
     }
 }
