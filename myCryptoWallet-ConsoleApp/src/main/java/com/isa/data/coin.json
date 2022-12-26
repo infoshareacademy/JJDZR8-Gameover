@@ -1,17 +1,1 @@
-[
-  {
-    "symbol": "BTC",
-    "name": "Bitcoin",
-    "price": 16548.38
-  },
-  {
-    "symbol": "ETH",
-    "name": "Ethereum",
-    "price": 1213.9
-  },
-  {
-    "symbol": "DOGE",
-    "name": "Dogecoin",
-    "price": 0.10475
-  }
-]
+[{"symbol":"BTCBUSD","priceChange":"32.36000000","priceChangePercent":"0.192","weightedAvgPrice":"16823.21150682","prevClosePrice":"16821.22000000","lastPrice":"16853.58000000","lastQty":"0.00199000","bidPrice":"16853.36000000","bidQty":"0.06436000","askPrice":"16853.58000000","askQty":"0.00407000","openPrice":"16821.22000000","highPrice":"16920.00000000","lowPrice":"16710.24000000","volume":"71872.85461000","quoteVolume":"1209132234.70294440","openTime":1671965441661,"closeTime":1672051841661,"firstId":717394189,"lastId":719757931,"count":2363743},{"symbol":"XRPBUSD","priceChange":"0.00360000","priceChangePercent":"1.036","weightedAvgPrice":"0.34834677","prevClosePrice":"0.34760000","lastPrice":"0.35110000","lastQty":"10609.00000000","bidPrice":"0.35110000","bidQty":"36201.00000000","askPrice":"0.35120000","askQty":"63501.00000000","openPrice":"0.34750000","highPrice":"0.35170000","lowPrice":"0.34400000","volume":"67256702.00000000","quoteVolume":"23428655.19200000","openTime":1671965441643,"closeTime":1672051841643,"firstId":77593840,"lastId":77630494,"count":36655},{"symbol":"ETHBUSD","priceChange":"3.03000000","priceChangePercent":"0.249","weightedAvgPrice":"1212.17874078","prevClosePrice":"1218.50000000","lastPrice":"1221.52000000","lastQty":"0.29390000","bidPrice":"1221.52000000","bidQty":"17.43110000","askPrice":"1221.53000000","askQty":"23.00410000","openPrice":"1218.49000000","highPrice":"1224.33000000","lowPrice":"1192.38000000","volume":"171367.47750000","quoteVolume":"207728013.08702900","openTime":1671965441633,"closeTime":1672051841633,"firstId":439691541,"lastId":439853573,"count":162033},{"symbol":"LTCBUSD","priceChange":"4.87000000","priceChangePercent":"7.410","weightedAvgPrice":"68.35723714","prevClosePrice":"65.72000000","lastPrice":"70.59000000","lastQty":"0.22700000","bidPrice":"70.59000000","bidQty":"27.34900000","askPrice":"70.60000000","askQty":"0.87400000","openPrice":"65.72000000","highPrice":"71.68000000","lowPrice":"65.30000000","volume":"254253.62600000","quoteVolume":"17380075.40523000","openTime":1671965441341,"closeTime":1672051841341,"firstId":32536482,"lastId":32596728,"count":60247},{"symbol":"XLMBUSD","priceChange":"-0.00040000","priceChangePercent":"-0.538","weightedAvgPrice":"0.07371747","prevClosePrice":"0.07420000","lastPrice":"0.07390000","lastQty":"875.00000000","bidPrice":"0.07390000","bidQty":"80768.00000000","askPrice":"0.07410000","askQty":"65930.00000000","openPrice":"0.07430000","highPrice":"0.07440000","lowPrice":"0.07280000","volume":"4400189.00000000","quoteVolume":"324370.79430000","openTime":1671965441280,"closeTime":1672051841280,"firstId":13438585,"lastId":13440728,"count":2144}]

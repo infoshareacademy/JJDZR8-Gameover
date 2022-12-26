@@ -2,9 +2,17 @@ package com.isa;
 
 public class App {
     public static void main(String[] args) {
-    //Data.sendHttpRequest(Endpoints.buildRequest(), "binanceOutput.json");
-    String out = Data.sendHttpRequest("https://api.binance.com/api/v3/ticker/24hr?symbols=[%22BTCUSDT%22,%22ETHUSDT%22,%22DOGEUSDT%22]");
-        System.out.println(out);
+        String s = Endpoints.buildRequest();
+
+        String data = Data.sendHttpRequest(s);
+        Data.saveToFile(data, "coin.json");
+
+        Coin[] coins = Data.deserializeCoin();
+
+        for (int i = 0; i < coins.length; i++) {
+            System.out.print(coins[i].getSymbol().replace("BUSD", "") + " ");
+            System.out.println(coins[i].getLastPrice());
+        }
     }
 }
 

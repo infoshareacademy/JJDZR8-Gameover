@@ -19,7 +19,7 @@ public class Data {
     }
     public static Coin[] deserializeCoin(){
         Gson gson = new Gson();
-        return new Gson().fromJson(loadFile("Coin.json"), Coin[].class);
+        return new Gson().fromJson(loadFile("coin.json"), Coin[].class);
     }
     public static Coin[] deserializeCoin(String file){
         Gson gson = new Gson();
@@ -46,21 +46,15 @@ public class Data {
     public static String sendHttpRequest(String api) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(api)).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(System.out::println)
-                .join();
-        return client.toString();
-    }
-    public static void sendHttpRequest(String api, String file) {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(api)).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(System.out::println)
-                .join();
-        String out = client.toString();
-        Data.saveToFile(out, file);
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);  //FIXME
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e); //FIXME
+        }
+        return response.body();
     }
 }
 
