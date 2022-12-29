@@ -1,28 +1,34 @@
 package com.isa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-public enum Endpoints {
-    BTC("BTC","Bitcoin"),
-    ETH("ETH","Etherum"),
-    LTC("LTC","Litecoin"),
-    XRP("XRP","Ripple"),
-    XLM("XLM","Stellar");
+public class Endpoints {
+    private static List<String>endpoints = new ArrayList<>();
 
-    private final String name;
-    private final String symbol;
-
-    Endpoints(String symbol, String name) {
-        this.symbol = symbol;
-        this.name = name;
+    public static List<String> getEndpoints() {
+        return endpoints;
     }
 
-    public static List<String>endpoints = new ArrayList<>(Arrays.asList(
-            "BTC","ETH","LTC","XRP","XLM"
-    ));
-
+    public static void setEndpoints() {
+        Endpoints.endpoints = Data.deserializeEndpoints();
+    }
+    public static void addCoin(){
+        Scanner sc = new Scanner(System.in);;
+        System.out.println("Podaj symbol kryptowaluty");
+        String userInput = sc.nextLine();
+        if (endpoints.contains(userInput)){
+            System.out.println("Ta kryptowaluta znajduje się już na liście");
+        }else{
+            endpoints.add(userInput);
+        }
+        String response = Data.sendHttpRequest(Endpoints.buildRequest());
+        if (response.contains("\"code\":-1100")){
+            endpoints.remove(userInput);
+            System.out.println("Kryptowaluta o takim symbolu nie istnieje");
+        }
+    }
 
     public static String buildRequest() {
         StringBuilder sBuilder = new StringBuilder();
