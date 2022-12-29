@@ -1,5 +1,9 @@
 package com.isa;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum Endpoints {
     BTC("BTC","Bitcoin"),
     ETH("ETH","Etherum"),
@@ -14,11 +18,17 @@ public enum Endpoints {
         this.symbol = symbol;
         this.name = name;
     }
+
+    public static List<String>endpoints = new ArrayList<>(Arrays.asList(
+            "BTC","ETH","LTC","XRP","XLM"
+    ));
+
+
     public static String buildRequest() {
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
-        for (Endpoints endpoint : Endpoints.values()) {
-            sBuilder.append("%22" + endpoint.symbol + "BUSD%22,");
+        for (String endpoint : endpoints) {
+            sBuilder.append("%22" + endpoint + "BUSD%22,");
         }
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
         return sBuilder.toString();

@@ -11,8 +11,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Scanner;
 
 public class Data {
+
+    public static  void addCoin(){
+        Scanner sc = new Scanner(System.in);
+        List<String> endpoints =  Endpoints.endpoints;
+        endpoints.add(sc.nextLine());
+    }
     public static void serializer(Object object, String file){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         saveToFile(gson.toJson(object), file);
@@ -40,7 +48,7 @@ public class Data {
         try {
             Files.writeString(path, data);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("path not exist " + e);
         }
     }
     public static String sendHttpRequest(String api) {
@@ -55,6 +63,11 @@ public class Data {
             throw new RuntimeException(e); //FIXME
         }
         return response.body();
+    }
+
+    public static void updateCoinList(){
+        String response = sendHttpRequest(Endpoints.buildRequest());
+        saveToFile(response, "coin.json");
     }
 }
 

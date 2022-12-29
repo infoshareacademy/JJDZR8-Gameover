@@ -1,5 +1,7 @@
 package com.isa.menu;
 
+import com.isa.Data;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -52,7 +54,6 @@ public enum Menu {
     }
 
     public static void getMenu() {
-
         boolean flag = true;
         while (flag)
             try {
@@ -62,6 +63,7 @@ public enum Menu {
                 switch (chooseOption) {
                     case 1:
                         System.out.println(Menu.ADD_COIN);
+                        Data.addCoin();
                         break;
                     case 2:
                         System.out.println(Menu.SEARCH_COIN);
@@ -70,16 +72,19 @@ public enum Menu {
                         System.out.println(Menu.LIST_COINS);
                         break;
                     case 4:
-                        System.out.println(Menu.UPDATE_COIN_LIST);
+                        //System.out.println(Menu.UPDATE_COIN_LIST);
+                        Data.updateCoinList();
                         break;
                     case 5:
                         System.out.println(Menu.ADD_FAVOURITE_COIN);
                         break;
                     case 6:
                         System.out.println(Menu.EXPORT_FILE);
+                        //Data.serializer(Endpoints.BTC, );
                         break;
                     case 7:
                         System.out.println(Menu.IMPORT_FILE);
+                        //Data.loadFile();
                         break;
                     case 8:
                         flag = false;
