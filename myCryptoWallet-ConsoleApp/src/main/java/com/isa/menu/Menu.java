@@ -1,7 +1,14 @@
 package com.isa.menu;
 
+import com.isa.Coin;
+import com.isa.CoinSearch;
+
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+
+import static com.isa.Main.readCoinsFromJson;
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
@@ -61,10 +68,21 @@ public enum Menu {
                 int chooseOption = sc.nextInt();
                 switch (chooseOption) {
                     case 1:
-                        System.out.println(Menu.ADD_COIN);
+
                         break;
                     case 2:
-                        System.out.println(Menu.SEARCH_COIN);
+                        List<Coin> coinList = readCoinsFromJson();
+                        List<Coin> coins = new ArrayList<>();
+                        for (Coin coin : coinList) {
+                            coins.add(new Coin(coin.getCoinSymbol(), coin.getCoinName(), coin.getPrice()));
+                        }
+                        System.out.println("Podaj kryterium wyszukiwania (nazwa lub symbol):");
+                        String searchCriteria = sc.nextLine();
+                        List<Coin> searchResults = CoinSearch.search(coins, searchCriteria);
+                        System.out.println("Wynik wyszukiwania:");
+                        for (Coin coin : searchResults) {
+                            System.out.println(coin.getCoinSymbol() + " - " + coin.getCoinName() + " - " + coin.getPrice() + " USD");
+                        }
                         break;
                     case 3:
                         System.out.println(Menu.LIST_COINS);

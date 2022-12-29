@@ -9,6 +9,12 @@ public class Coin {
     String description;
     Double changePrice;
 
+    public Coin(String coinName, String coinSymbol, Double price) {
+        this.coinName = coinName;
+        this.coinSymbol = coinSymbol;
+        this.price = price;
+    }
+
     public String getCoinName() {
         return coinName;
     }
