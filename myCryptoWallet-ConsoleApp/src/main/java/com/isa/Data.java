@@ -16,10 +16,17 @@ import java.util.Scanner;
 
 public class Data {
 
-    public static  void addCoin(){
+    public static void addCoin(){
         Scanner sc = new Scanner(System.in);
         List<String> endpoints =  Endpoints.endpoints;
-        endpoints.add(sc.nextLine());
+        System.out.println("Podaj symbol kryptowaluty");
+        String userInput = sc.nextLine();
+        endpoints.add(userInput);
+        String response = sendHttpRequest(Endpoints.buildRequest());
+        if (response.contains("\"code\":-1100")){
+            endpoints.remove(userInput);
+            System.out.println("Kryptowaluta o takim symbolu nie istnieje");
+        }
     }
     public static void serializer(Object object, String file){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
