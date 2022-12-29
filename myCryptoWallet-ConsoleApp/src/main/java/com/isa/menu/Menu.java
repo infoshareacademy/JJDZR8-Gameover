@@ -8,7 +8,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.isa.Main.readCoinsFromJson;
+import static com.isa.CoinSearch.readCoinsFromJson;
+
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
