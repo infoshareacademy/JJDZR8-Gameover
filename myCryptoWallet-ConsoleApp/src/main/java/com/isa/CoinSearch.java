@@ -2,44 +2,48 @@ package com.isa;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.isa.Data.loadFile;
 
 
 public class CoinSearch {
 
-    public static List<Coin> readCoinsFromJson() {
+    public static Coin[] readCoinsFromJson() {
         try {
             Gson gson = new Gson();
-            Type coinListType = new TypeToken<List<Coin>>(){}.getType();
-            return gson.fromJson(new FileReader("java/com/isa/data/coin.json"), coinListType);
+            Coin[] coins = Data.deserializerCoin();
+            return gson.fromJson(loadFile("Coin.json"), Coin[].class);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public static List<Coin> search(List<Coin> coins, String searchCriteria) {
+
+    public static Coin[] search(Coin[] coins, String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
             if (coin.getCoinName().contains(searchCriteria) || coin.getCoinSymbol().contains(searchCriteria)) {
                 results.add(coin);
             }
         }
-        return results;
+        return results.toArray(new Coin[coins.length]);
     }
+
     public static void findYourToken() {
         Scanner sc = new Scanner(System.in);
-        List<Coin> coinList = readCoinsFromJson();
-        List<Coin> coins = new ArrayList<>();
-        for (Coin coin : coinList) {
-            coins.add(new Coin(coin.getCoinSymbol(), coin.getCoinName(), coin.getPrice()));
-        }
+        Coin[] coinList = readCoinsFromJson();
         System.out.println("Podaj kryterium wyszukiwania (nazwa lub symbol):");
         String searchCriteria = sc.nextLine();
-        List<Coin> searchResults = CoinSearch.search(coins, searchCriteria);
+        Coin[] coinArray = CoinSearch.search(coinList, searchCriteria);
+        List<Coin> searchResults = new ArrayList<>(Arrays.asList(coinArray));
         System.out.println("Wynik wyszukiwania:");
         for (Coin coin : searchResults) {
             System.out.println(coin.getCoinSymbol() + " - " + coin.getCoinName() + " - " + coin.getPrice() + " USD");
