@@ -72,18 +72,7 @@ public enum Menu {
 
                         break;
                     case 2:
-                        List<Coin> coinList = readCoinsFromJson();
-                        List<Coin> coins = new ArrayList<>();
-                        for (Coin coin : coinList) {
-                            coins.add(new Coin(coin.getCoinSymbol(), coin.getCoinName(), coin.getPrice()));
-                        }
-                        System.out.println("Podaj kryterium wyszukiwania (nazwa lub symbol):");
-                        String searchCriteria = sc.nextLine();
-                        List<Coin> searchResults = CoinSearch.search(coins, searchCriteria);
-                        System.out.println("Wynik wyszukiwania:");
-                        for (Coin coin : searchResults) {
-                            System.out.println(coin.getCoinSymbol() + " - " + coin.getCoinName() + " - " + coin.getPrice() + " USD");
-                        }
+                        CoinSearch.findYourToken();
                         break;
                     case 3:
                         System.out.println(Menu.LIST_COINS);

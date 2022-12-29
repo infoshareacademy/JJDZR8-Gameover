@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class CoinSearch {
@@ -29,5 +30,19 @@ public class CoinSearch {
         }
         return results;
     }
-
+    public static void findYourToken() {
+        Scanner sc = new Scanner(System.in);
+        List<Coin> coinList = readCoinsFromJson();
+        List<Coin> coins = new ArrayList<>();
+        for (Coin coin : coinList) {
+            coins.add(new Coin(coin.getCoinSymbol(), coin.getCoinName(), coin.getPrice()));
+        }
+        System.out.println("Podaj kryterium wyszukiwania (nazwa lub symbol):");
+        String searchCriteria = sc.nextLine();
+        List<Coin> searchResults = CoinSearch.search(coins, searchCriteria);
+        System.out.println("Wynik wyszukiwania:");
+        for (Coin coin : searchResults) {
+            System.out.println(coin.getCoinSymbol() + " - " + coin.getCoinName() + " - " + coin.getPrice() + " USD");
+        }
+    }
 }
