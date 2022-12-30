@@ -12,22 +12,9 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Scanner;
 
 public class Data {
 
-    public static void addCoin(){
-        Scanner sc = new Scanner(System.in);
-        List<String> endpoints =  Endpoints.endpoints;
-        System.out.println("Podaj symbol kryptowaluty");
-        String userInput = sc.nextLine();
-        endpoints.add(userInput);
-        String response = sendHttpRequest(Endpoints.buildRequest());
-        if (response.contains("\"code\":-1100")){
-            endpoints.remove(userInput);
-            System.out.println("Kryptowaluta o takim symbolu nie istnieje");
-        }
-    }
     public static void serializer(Object object, String file){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         saveToFile(gson.toJson(object), file);
@@ -39,6 +26,10 @@ public class Data {
     public static Coin[] deserializeCoin(String file){
         Gson gson = new Gson();
         return new Gson().fromJson(loadFile(file), Coin[].class);
+    }
+    public static List<String> deserializeEndpoints(){
+        Gson gson = new Gson();
+        return new Gson().fromJson(loadFile("endpoints.json"), Endpoints.getEndpoints().getClass());
     }
     public static String loadFile(String file){
         Path path = Path.of("src", "main", "java", "com", "isa", "data", file);
@@ -64,10 +55,8 @@ public class Data {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);  //FIXME
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e); //FIXME
         }
         return response.body();
     }
@@ -75,6 +64,7 @@ public class Data {
     public static void updateCoinList(){
         String response = sendHttpRequest(Endpoints.buildRequest());
         saveToFile(response, "coin.json");
+        System.out.println("Lista zaktualizowana pomyślnie");
     }
 }
 
