@@ -32,16 +32,20 @@ public class CoinsList {
     }
 
     public List<String> openPage(Integer pageNumber){
+        System.out.println(pagesMap.get(pageNumber - 1));
         return pagesMap.get(pageNumber - 1);
     }
 
-    public List<String> openPageFromKeyboard(){
-        Scanner scanner = new Scanner(System.in);
-        Integer pageNumber = 0;
+    public void openPageFromKeyboard(){
+
+        int pageNumber = 0;
         do {
+            System.out.println("podaj numer strony (total pages: " + totalPages + ")");
+            System.out.println("Aby wyjść podaj \"0\"");
+            Scanner scanner = new Scanner(System.in);
             pageNumber = Integer.parseInt(scanner.nextLine());
-            return openPage(pageNumber);
-        }while(pageNumber > 0 && pageNumber <= totalPages);
+            openPage(pageNumber);
+        }while(pageNumber != 0);
     }
 
     public void setTotalPages() {

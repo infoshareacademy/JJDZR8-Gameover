@@ -1,5 +1,6 @@
 package com.isa.menu;
 
+import com.isa.CoinsList;
 import com.isa.Data;
 import com.isa.Endpoints;
 
@@ -70,7 +71,8 @@ public enum Menu {
                         System.out.println(Menu.SEARCH_COIN);
                         break;
                     case 3:
-                        System.out.println(Menu.LIST_COINS);
+                        // System.out.println(Menu.LIST_COINS);
+                        CoinsList cL  = new CoinsList(2);
                         break;
                     case 4:
                         //System.out.println(Menu.UPDATE_COIN_LIST);
