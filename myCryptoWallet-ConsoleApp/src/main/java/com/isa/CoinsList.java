@@ -5,17 +5,20 @@ import java.util.*;
 public class CoinsList {
 
     private Map<Integer, List<String>> pagesMap;
-    private ArrayList<String> coins;
+    private List<String> coins;
     private int totalPages;
     private int recordsPerPage;
 
+    public CoinsList(int recordsPerPage) {
+        this.recordsPerPage = recordsPerPage;
+        this.coins = Endpoints.getEndpoints();
+        setTotalPages();
+        pagesCreator();
+        openPageFromKeyboard();
+    }
 
     public void pagesCreator() {
         this.pagesMap = new LinkedHashMap<>();
-
-        if (coins.size() < recordsPerPage) this.totalPages = 1;
-        else if (coins.size() % recordsPerPage != 0) this.totalPages = coins.size() / recordsPerPage + 1;
-        else this.totalPages = coins.size() / recordsPerPage;
 
         for (int i = 0; i < totalPages; i++) {
             List<String> temporaryCoinList;
@@ -39,11 +42,13 @@ public class CoinsList {
             pageNumber = Integer.parseInt(scanner.nextLine());
             return openPage(pageNumber);
         }while(pageNumber > 0 && pageNumber <= totalPages);
-
-
-
     }
 
+    public void setTotalPages() {
+        if (coins.size() < recordsPerPage) this.totalPages = 1;
+        else if (coins.size() % recordsPerPage != 0) this.totalPages = coins.size() / recordsPerPage + 1;
+        else this.totalPages = coins.size() / recordsPerPage;
+    }
 
     public Map<Integer, List<String>> getPagesMap() {
         return pagesMap;
