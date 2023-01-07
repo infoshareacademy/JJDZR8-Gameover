@@ -1,11 +1,7 @@
 package com.isa;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +15,7 @@ public class CoinSearch {
     public static Coin[] readCoinsFromJson() {
         try {
             Gson gson = new Gson();
-            Coin[] coins = Data.deserializerCoin();
+            Coin[] coins = Data.deserializeCoin();
             return gson.fromJson(loadFile("Coin.json"), Coin[].class);
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,7 +26,7 @@ public class CoinSearch {
     public static Coin[] search(Coin[] coins, String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
-            if (coin.getCoinName().contains(searchCriteria) || coin.getCoinSymbol().contains(searchCriteria)) {
+            if (coin.getSymbol().contains(searchCriteria)){
                 results.add(coin);
             }
         }
@@ -40,13 +36,13 @@ public class CoinSearch {
     public static void findYourToken() {
         Scanner sc = new Scanner(System.in);
         Coin[] coinList = readCoinsFromJson();
-        System.out.println("Podaj kryterium wyszukiwania (nazwa lub symbol):");
+        System.out.println("Podaj kryterium wyszukiwania (symbol):");
         String searchCriteria = sc.nextLine();
         Coin[] coinArray = CoinSearch.search(coinList, searchCriteria);
         List<Coin> searchResults = new ArrayList<>(Arrays.asList(coinArray));
         System.out.println("Wynik wyszukiwania:");
         for (Coin coin : searchResults) {
-            System.out.println(coin.getCoinSymbol() + " - " + coin.getCoinName() + " - " + coin.getPrice() + " USD");
+            System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + "USD");
         }
     }
 }
