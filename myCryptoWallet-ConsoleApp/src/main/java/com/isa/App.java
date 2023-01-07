@@ -1,13 +1,11 @@
 package com.isa;
-import com.isa.menu.Menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import com.isa.menu.Menu;
 
 public class App {
     public static void main(String[] args) {
-
+        Endpoints.setEndpoints(); //na starcie wczytuje symbole z pliku endpoints.json żeby uniknąć stracenia zapisanych "Coinów"
         Menu.getMenu();
     }
 }
+
