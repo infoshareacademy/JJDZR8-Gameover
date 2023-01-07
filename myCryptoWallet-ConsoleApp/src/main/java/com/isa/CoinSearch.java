@@ -11,7 +11,7 @@ public class CoinSearch {
 
     public static Coin[] readCoinsFromJson() {
         try {
-            Coin[] coins = Data.deserializeCoin();     // tutaj używamy już tylko metody deserializeCoin
+            Coin[] coins = Data.deserializeCoin();
             return coins;
         } catch (Exception e) {
             e.printStackTrace();
@@ -19,7 +19,7 @@ public class CoinSearch {
         }
     }
 
-    public static List<Coin> search(Coin[] coins, String searchCriteria) {   //. tutaj zmieniłem, żeby metoda od razu zwracała listę, a nie tablicę
+    public static List<Coin> search(Coin[] coins, String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
             if (coin.getSymbol().contains(searchCriteria)){
@@ -34,7 +34,7 @@ public class CoinSearch {
         Coin[] coinList = readCoinsFromJson();
         System.out.println("Podaj kryterium wyszukiwania (symbol):");
         String searchCriteria = sc.nextLine();
-        List<Coin> searchResults = CoinSearch.search(coinList, searchCriteria);     // tutaj minimalnie uprościłem kod
+        List<Coin> searchResults = CoinSearch.search(coinList, searchCriteria);    
         System.out.println("Wynik wyszukiwania:");
         for (Coin coin : searchResults) {
             System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + "USD");
