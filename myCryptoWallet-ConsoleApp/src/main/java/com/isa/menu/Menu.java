@@ -1,5 +1,6 @@
 package com.isa.menu;
 
+import com.isa.CoinSearch;
 import com.isa.CoinsList;
 import com.isa.Data;
 import com.isa.Endpoints;
@@ -69,6 +70,7 @@ public enum Menu {
                         break;
                     case 2:
                         System.out.println(Menu.SEARCH_COIN);
+                        CoinSearch.findYourToken();
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
