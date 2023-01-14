@@ -33,11 +33,11 @@ public class CoinSearch {
         Scanner sc = new Scanner(System.in);
         Coin[] coinList = readCoinsFromJson();
         System.out.println("Podaj kryterium wyszukiwania (symbol):");
-        String searchCriteria = sc.nextLine();
+        String searchCriteria = sc.nextLine().toUpperCase();
         List<Coin> searchResults = CoinSearch.search(coinList, searchCriteria);    
         System.out.println("Wynik wyszukiwania:");
         for (Coin coin : searchResults) {
-            System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + "USD");
+            System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + " USD");
         }
     }
 }

@@ -28,7 +28,7 @@ public class Endpoints {
             endpoints.remove(userInput);
             System.out.println("Kryptowaluta o takim symbolu nie istnieje");
         }
-        Data.serializer(endpoints,"endpoints.json");
+       // Data.serializer(endpoints,"endpoints.json");
     }
 
     public static String buildRequest() {
