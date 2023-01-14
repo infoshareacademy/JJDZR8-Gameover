@@ -87,12 +87,12 @@ public enum Menu {
                         break;
                     case 6:
                         System.out.println(Menu.EXPORT_FILE);
-                        //wczytuje zapisane wcześniej endpointy z pliku endpoints.json
+                        //zapisuje endpointsy do pliku
                         Data.serializer(Endpoints.getEndpoints(), "endpoints.json");
                         break;
                     case 7:
                         System.out.println(Menu.IMPORT_FILE);
-                        //importuje listę endpoints do pliku endpoints.json
+                        //importuje listę endpoints z pliku endpoints.json
                         Endpoints.setEndpoints();
                         break;
                     case 8:

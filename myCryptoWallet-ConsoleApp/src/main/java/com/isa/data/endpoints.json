@@ -1,11 +1,9 @@
 [
   "BTC",
   "ETH",
-  "LTC",
-  "XRP",
   "XLM",
   "BCH",
   "QNT",
-  "AAVE",
-  "AUTO"
+  "AUTO",
+  "LTC"
 ]

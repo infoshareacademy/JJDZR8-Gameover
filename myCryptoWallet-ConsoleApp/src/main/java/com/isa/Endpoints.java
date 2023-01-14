@@ -17,7 +17,7 @@ public class Endpoints {
     public static void addCoin(){
         Scanner sc = new Scanner(System.in);;
         System.out.println("Podaj symbol kryptowaluty");
-        String userInput = sc.nextLine();
+        String userInput = sc.nextLine().toUpperCase();
         if (endpoints.contains(userInput)){
             System.out.println("Ta kryptowaluta znajduje się już na liście");
         }else{
@@ -28,6 +28,7 @@ public class Endpoints {
             endpoints.remove(userInput);
             System.out.println("Kryptowaluta o takim symbolu nie istnieje");
         }
+        Data.serializer(endpoints,"endpoints.json");
     }
 
     public static String buildRequest() {
