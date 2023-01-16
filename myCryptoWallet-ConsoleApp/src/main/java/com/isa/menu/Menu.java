@@ -2,7 +2,7 @@ package com.isa.menu;
 
 import com.isa.CoinSearch;
 import com.isa.CoinsList;
-import com.isa.Data;
+import com.isa.control.Data;
 import com.isa.Endpoints;
 
 import java.util.InputMismatchException;
