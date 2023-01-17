@@ -1,17 +1,19 @@
 package com.isa;
 
+import com.isa.control.Data;
+
 import java.util.*;
 
 public class CoinsList {
 
-    private Map<Integer, List<String>> pagesMap;
-    private List<String> coins;
+    private Map<Integer, List<Coin>> pagesMap;
+    private List<Coin> coins;
     private int totalPages;
     private int recordsPerPage;
 
     public CoinsList(int recordsPerPage) {
         this.recordsPerPage = recordsPerPage;
-        this.coins = Endpoints.getEndpoints();
+        this.coins = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
         setTotalPages();
         pagesCreator();
         openPageFromKeyboard();
@@ -21,7 +23,7 @@ public class CoinsList {
         this.pagesMap = new LinkedHashMap<>();
 
         for (int i = 0; i < totalPages; i++) {
-            List<String> temporaryCoinList;
+            List<Coin> temporaryCoinList;
             if (coins.size() < recordsPerPage) temporaryCoinList = coins.subList(0, coins.size());
             else if (i == totalPages - 1) {
                 temporaryCoinList = coins.subList(i * recordsPerPage, coins.size());
@@ -31,7 +33,7 @@ public class CoinsList {
         }
     }
 
-    public List<String> openPage(Integer pageNumber){
+    public List<Coin> openPage(Integer pageNumber){
         System.out.println(pagesMap.get(pageNumber - 1));
         return pagesMap.get(pageNumber - 1);
     }
@@ -54,7 +56,7 @@ public class CoinsList {
         else this.totalPages = coins.size() / recordsPerPage;
     }
 
-    public Map<Integer, List<String>> getPagesMap() {
+    public Map<Integer, List<Coin>> getPagesMap() {
         return pagesMap;
     }
 }
