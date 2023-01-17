@@ -70,7 +70,8 @@ public enum Menu {
                         break;
                     case 2:
                         System.out.println(Menu.SEARCH_COIN);
-                        CoinSearch.findYourToken();
+                        CoinSearch coinSearch = new CoinSearch();
+                        coinSearch.findYourToken();
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);

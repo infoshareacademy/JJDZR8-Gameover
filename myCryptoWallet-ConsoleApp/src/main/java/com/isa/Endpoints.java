@@ -17,7 +17,7 @@ public class Endpoints {
         Endpoints.endpoints = Data.deserializeEndpoints();
     }
     public static void addCoin(){
-        Scanner sc = new Scanner(System.in);;
+        Scanner sc = new Scanner(System.in);
         System.out.println("Podaj symbol kryptowaluty");
         String userInput = sc.nextLine().toUpperCase();
         if (endpoints.contains(userInput)){

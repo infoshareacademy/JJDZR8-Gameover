@@ -8,6 +8,7 @@ public class CoinsList {
 
     private Map<Integer, List<Coin>> pagesMap;
     private List<Coin> coins;
+    private List<Coin> favouriteCoinsList;
     private int totalPages;
     private int recordsPerPage;
 
