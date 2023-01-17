@@ -34,7 +34,7 @@ public class Data {
         return new Gson().fromJson(loadFile("endpoints.json"), Endpoints.getEndpoints().getClass());
     }
     public static String loadFile(String file){
-        Path path = Path.of("src", "main", "java", "com", "isa", "data", file);
+        Path path = Path.of("src", "main", "resources", file);
         String fromFile = null;
         try {
             fromFile = Files.readString(path);
@@ -44,7 +44,7 @@ public class Data {
         return fromFile;
     }
     public static void saveToFile(String data, String file){
-        Path path = Path.of("src", "main", "java", "com", "isa", "data", file);
+        Path path = Path.of("src", "main", "resources", file);
         try {
             Files.writeString(path, data);
         } catch (IOException e) {
