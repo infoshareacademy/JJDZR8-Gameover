@@ -3,7 +3,10 @@ package com.isa;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coin {
+import java.util.Comparator;
+import java.util.Objects;
+
+public class Coin implements Comparable<Coin> {
     @SerializedName("symbol")
     @Expose
     private String symbol;
@@ -236,4 +239,21 @@ public class Coin {
         this.count = count;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coin coin = (Coin) o;
+        return firstId == coin.firstId && lastId == coin.lastId && Objects.equals(symbol, coin.symbol) && Objects.equals(priceChange, coin.priceChange) && Objects.equals(priceChangePercent, coin.priceChangePercent) && Objects.equals(weightedAvgPrice, coin.weightedAvgPrice) && Objects.equals(prevClosePrice, coin.prevClosePrice) && Objects.equals(lastPrice, coin.lastPrice) && Objects.equals(lastQty, coin.lastQty) && Objects.equals(bidPrice, coin.bidPrice) && Objects.equals(bidQty, coin.bidQty) && Objects.equals(askPrice, coin.askPrice) && Objects.equals(askQty, coin.askQty) && Objects.equals(openPrice, coin.openPrice) && Objects.equals(highPrice, coin.highPrice) && Objects.equals(lowPrice, coin.lowPrice) && Objects.equals(volume, coin.volume) && Objects.equals(quoteVolume, coin.quoteVolume) && Objects.equals(openTime, coin.openTime) && Objects.equals(closeTime, coin.closeTime) && Objects.equals(count, coin.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(symbol, priceChange, priceChangePercent, weightedAvgPrice, prevClosePrice, lastPrice, lastQty, bidPrice, bidQty, askPrice, askQty, openPrice, highPrice, lowPrice, volume, quoteVolume, openTime, closeTime, firstId, lastId, count);
+    }
+
+    @Override
+    public int compareTo(Coin coin) {
+        return this.symbol.compareTo(coin.getSymbol());
+    }
 }

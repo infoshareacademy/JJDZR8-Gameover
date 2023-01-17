@@ -3,18 +3,26 @@ package com.isa;
 import com.isa.control.Data;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CoinsList {
 
     private Map<Integer, List<Coin>> pagesMap;
-    private List<Coin> coins;
+    private final List<Coin> coins;
     private List<Coin> favouriteCoinsList;
     private int totalPages;
-    private int recordsPerPage;
+    private final int recordsPerPage;
 
     public CoinsList(int recordsPerPage) {
+        List<Coin> coinsList;
         this.recordsPerPage = recordsPerPage;
-        this.coins = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
+        try {
+            coinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
+        }catch (Exception e){
+            e.printStackTrace();
+            coinsList = null;
+        }
+        this.coins = coinsList;
         setTotalPages();
         pagesCreator();
         openPageFromKeyboard();
@@ -59,5 +67,25 @@ public class CoinsList {
 
     public Map<Integer, List<Coin>> getPagesMap() {
         return pagesMap;
+    }
+
+    public void AddYourFavouriteToken(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz szukaną frazę");
+        String string = scanner.nextLine().toUpperCase();
+        List<Coin> temporaryList = coins.stream().takeWhile(n -> n.getSymbol().contains(string))
+                .collect(Collectors.toList());
+
+        if (!temporaryList.isEmpty()){
+            temporaryList.forEach(n-> System.out.println(n.getSymbol() + " - " + n.getLastPrice() + " USD"));
+            System.out.println("czy chcesz dodać wybrane coiny do ulubionych? [Y/N]");
+            char[] choice = scanner.nextLine().toUpperCase().toCharArray();
+            if (choice[0] == 'Y') {
+                favouriteCoinsList.addAll(temporaryList);
+                Collections.sort(favouriteCoinsList);
+                // # TODO - dodać zapis do pliku "ulubione"
+            }
+        }
+
     }
 }
