@@ -3,10 +3,13 @@ package com.isa;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class Coin {
     @SerializedName("symbol")
     @Expose
     private String symbol;
+    private String name;
     @SerializedName("priceChange")
     @Expose
     private String priceChange;
@@ -67,6 +70,12 @@ public class Coin {
     @SerializedName("count")
     @Expose
     private Integer count;
+
+    public Coin() {
+        Map<String, String> coinsNames = Endpoints.getCoinsNames();
+        this.symbol = getSymbol().replace("BUSD", "");
+        this.name = coinsNames.get(symbol);
+    }
 
     public String getSymbol() {
         return symbol;

@@ -74,7 +74,7 @@ public enum Menu {
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        CoinsList cL  = new CoinsList(2);
+                        CoinsList cL  = new CoinsList(10);
                         break;
                     case 4:
                         //System.out.println(Menu.UPDATE_COIN_LIST);
