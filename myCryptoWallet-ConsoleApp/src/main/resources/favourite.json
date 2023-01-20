@@ -1,0 +1,25 @@
+[
+  {
+    "symbol": "BTCBUSD",
+    "priceChange": "20.12000000",
+    "priceChangePercent": "0.094",
+    "weightedAvgPrice": "21198.21956509",
+    "prevClosePrice": "21341.52000000",
+    "lastPrice": "21362.03000000",
+    "lastQty": "0.00247000",
+    "bidPrice": "21362.01000000",
+    "bidQty": "0.00139000",
+    "askPrice": "21364.05000000",
+    "askQty": "0.07031000",
+    "openPrice": "21341.91000000",
+    "highPrice": "21611.11000000",
+    "lowPrice": "20839.95000000",
+    "volume": "166395.72996000",
+    "quoteVolume": "3527293218.38562580",
+    "openTime": 1673897908168,
+    "closeTime": 1673984308168,
+    "firstId": 781847799,
+    "lastId": 785113022,
+    "count": 3265224
+  }
+]

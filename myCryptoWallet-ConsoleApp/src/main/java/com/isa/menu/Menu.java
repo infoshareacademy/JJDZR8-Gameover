@@ -1,12 +1,10 @@
 package com.isa.menu;
 
-import com.isa.CoinSearch;
-import com.isa.CoinsList;
+import com.isa.*;
 import com.isa.control.Data;
-import com.isa.Endpoints;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
@@ -75,7 +73,10 @@ public enum Menu {
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        CoinsList cL  = new CoinsList(2);
+                        List<Coin> coinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
+                        CoinsList cL  = new CoinsList(coinsList, 2);
+                        cL.pagesCreator();
+                        cL.openPageFromKeyboard();
                         break;
                     case 4:
                         //System.out.println(Menu.UPDATE_COIN_LIST);
@@ -85,6 +86,17 @@ public enum Menu {
                         break;
                     case 5:
                         System.out.println(Menu.ADD_FAVOURITE_COIN);
+                        List<Coin> favCoinsList;
+                        try {
+                            favCoinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin("favourite.json")));
+                        }catch (NullPointerException e){
+                            e.printStackTrace();
+                            favCoinsList = new ArrayList<>();
+                        }
+                        Favourite favourite = new Favourite(favCoinsList, 2);
+                        favourite.AddYourFavouriteToken();
+                        favourite.pagesCreator();
+                        favourite.openPageFromKeyboard();
                         break;
                     case 6:
                         System.out.println(Menu.EXPORT_FILE);

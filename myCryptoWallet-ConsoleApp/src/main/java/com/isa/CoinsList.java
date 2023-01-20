@@ -9,26 +9,20 @@ public class CoinsList {
 
     private Map<Integer, List<Coin>> pagesMap;
     private final List<Coin> coins;
-    private List<Coin> favouriteCoinsList;
     private int totalPages;
     private final int recordsPerPage;
 
-    public CoinsList(int recordsPerPage) {
-        List<Coin> coinsList;
+   // public CoinsList(int recordsPerPage) {
+
+   // }
+
+    public CoinsList( List<Coin> coins,int recordsPerPage) {
         this.recordsPerPage = recordsPerPage;
-        try {
-            coinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
-        }catch (Exception e){
-            e.printStackTrace();
-            coinsList = null;
-        }
-        this.coins = coinsList;
-        setTotalPages();
-        pagesCreator();
-        openPageFromKeyboard();
+        this.coins = coins;
     }
 
     public void pagesCreator() {
+        setTotalPages();
         this.pagesMap = new LinkedHashMap<>();
 
         for (int i = 0; i < totalPages; i++) {
@@ -69,23 +63,21 @@ public class CoinsList {
         return pagesMap;
     }
 
-    public void AddYourFavouriteToken(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz szukaną frazę");
-        String string = scanner.nextLine().toUpperCase();
-        List<Coin> temporaryList = coins.stream().takeWhile(n -> n.getSymbol().contains(string))
-                .collect(Collectors.toList());
+    public List<Coin> getCoins() {
+        return coins;
+    }
 
-        if (!temporaryList.isEmpty()){
-            temporaryList.forEach(n-> System.out.println(n.getSymbol() + " - " + n.getLastPrice() + " USD"));
-            System.out.println("czy chcesz dodać wybrane coiny do ulubionych? [Y/N]");
-            char[] choice = scanner.nextLine().toUpperCase().toCharArray();
-            if (choice[0] == 'Y') {
-                favouriteCoinsList.addAll(temporaryList);
-                Collections.sort(favouriteCoinsList);
-                // # TODO - dodać zapis do pliku "ulubione"
-            }
-        }
+    public int getRecordsPerPage() {
+        return recordsPerPage;
+    }
 
+    @Override
+    public String toString() {
+        return "CoinsList{" +
+                "pagesMap=" + pagesMap +
+                ", coins=" + coins +
+                ", totalPages=" + totalPages +
+                ", recordsPerPage=" + recordsPerPage +
+                '}';
     }
 }

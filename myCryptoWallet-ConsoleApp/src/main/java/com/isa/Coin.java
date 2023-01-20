@@ -256,4 +256,31 @@ public class Coin implements Comparable<Coin> {
     public int compareTo(Coin coin) {
         return this.symbol.compareTo(coin.getSymbol());
     }
+
+    @Override
+    public String toString() {
+        return "Coin{" +
+                "symbol='" + symbol + '\'' +
+                ", priceChange='" + priceChange + '\'' +
+                ", priceChangePercent='" + priceChangePercent + '\'' +
+                ", weightedAvgPrice='" + weightedAvgPrice + '\'' +
+                ", prevClosePrice='" + prevClosePrice + '\'' +
+                ", lastPrice='" + lastPrice + '\'' +
+                ", lastQty='" + lastQty + '\'' +
+                ", bidPrice='" + bidPrice + '\'' +
+                ", bidQty='" + bidQty + '\'' +
+                ", askPrice='" + askPrice + '\'' +
+                ", askQty='" + askQty + '\'' +
+                ", openPrice='" + openPrice + '\'' +
+                ", highPrice='" + highPrice + '\'' +
+                ", lowPrice='" + lowPrice + '\'' +
+                ", volume='" + volume + '\'' +
+                ", quoteVolume='" + quoteVolume + '\'' +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
+                ", firstId=" + firstId +
+                ", lastId=" + lastId +
+                ", count=" + count +
+                '}';
+    }
 }
