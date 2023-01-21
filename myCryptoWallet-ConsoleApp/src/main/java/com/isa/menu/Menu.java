@@ -2,6 +2,7 @@ package com.isa.menu;
 
 import com.isa.*;
 import com.isa.control.Data;
+import com.isa.Endpoints;
 
 import java.io.IOException;
 import java.util.*;
@@ -74,7 +75,7 @@ public enum Menu {
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
                         List<Coin> coinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin()));
-                        CoinsList cL  = new CoinsList(coinsList, 2);
+                        CoinsList cL  = new CoinsList(coinsList, 10);
                         cL.pagesCreator();
                         cL.openPageFromKeyboard();
                         break;

@@ -7,6 +7,7 @@ import com.isa.Coin;
 import com.isa.Endpoints;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,24 +15,28 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 public class Data {
+    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void serializer(Object object, String file){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         saveToFile(gson.toJson(object), file);
     }
     public static Coin[] deserializeCoin(){
-        Gson gson = new Gson();
         return new Gson().fromJson(loadFile("coin.json"), Coin[].class);
     }
     public static Coin[] deserializeCoin(String file){
-        Gson gson = new Gson();
         return new Gson().fromJson(loadFile(file), Coin[].class);
     }
     public static List<String> deserializeEndpoints(){
-        Gson gson = new Gson();
         return new Gson().fromJson(loadFile("endpoints.json"), Endpoints.getEndpoints().getClass());
+    }
+    public static Map<String,String> deserialize(String file, Object object){
+        return new Gson().fromJson(loadFile(file), (Type) object.getClass());
+    }
+    public static Map<String,String> deserializeRequest(String response, Object object){
+        return new Gson().fromJson(response, (Type) object.getClass());
     }
     public static String loadFile(String file){
         Path path = Path.of("src", "main", "resources", file);
@@ -67,6 +72,11 @@ public class Data {
         String response = sendHttpRequest(Endpoints.buildRequest());
         saveToFile(response, "coin.json");
         System.out.println("Lista zaktualizowana pomyślnie");
+    }
+
+    public static Map<String, String> deserializeCoinsNames() {
+        return gson.fromJson(loadFile("availableCoins.json"), Endpoints.getCoinsNames().getClass());
+
     }
 }
 
