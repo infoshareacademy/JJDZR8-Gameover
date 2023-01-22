@@ -1,11 +1,13 @@
 package com.isa.menu;
 
-import com.isa.*;
+import com.isa.CoinSearch;
+import com.isa.CoinsList;
 import com.isa.control.Data;
 import com.isa.Endpoints;
+import com.isa.control.Data;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
