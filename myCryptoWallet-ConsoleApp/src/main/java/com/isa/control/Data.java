@@ -39,7 +39,7 @@ public class Data {
         return new Gson().fromJson(response, (Type) object.getClass());
     }
     public static String loadFile(String file){
-        Path path = Path.of("src", "main", "resources", file);
+        Path path = Path.of("myCryptoWallet-ConsoleApp","src", "main", "resources", file);
         String fromFile = null;
         try {
             fromFile = Files.readString(path);
@@ -49,7 +49,7 @@ public class Data {
         return fromFile;
     }
     public static void saveToFile(String data, String file){
-        Path path = Path.of("src", "main", "resources", file);
+        Path path = Path.of("myCryptoWallet-ConsoleApp","src", "main", "resources", file);
         try {
             Files.writeString(path, data);
         } catch (IOException e) {
