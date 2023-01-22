@@ -2,8 +2,8 @@ package com.isa.menu;
 
 import com.isa.CoinSearch;
 import com.isa.CoinsList;
-import com.isa.Data;
 import com.isa.Endpoints;
+import com.isa.control.Data;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -74,7 +74,7 @@ public enum Menu {
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        CoinsList cL  = new CoinsList(2);
+                        CoinsList cL  = new CoinsList(10);
                         break;
                     case 4:
                         //System.out.println(Menu.UPDATE_COIN_LIST);
