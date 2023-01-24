@@ -7,13 +7,20 @@ public class Transaction {
     private Integer idTransaction;
     private String openTransactionDate;
     private String closeTransactionDate;
-    private Coin coin;
-    private double openPrice;
+    private final Coin coin;
+    private final double openPrice;
     private double closePrice;
     private double lastPrice;
     private boolean isActive;
     private final Date newDate = new Date();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public Transaction(Coin coin) {
+        this.coin = coin;
+        this.openPrice = Double.parseDouble(coin.getLastPrice());
+        this.isActive = true;
+        this.lastPrice = Double.parseDouble(coin.getLastPrice());
+    }
 
     public Integer getIdTransaction() {
         return idTransaction;
@@ -27,9 +34,6 @@ public class Transaction {
         return coin;
     }
 
-    public void setCoin(Coin coin) {
-        this.coin = coin;
-    }
 
     public String getOpenTransactionDate() {
         return openTransactionDate;
@@ -49,10 +53,6 @@ public class Transaction {
 
     public double getOpenPrice() {
         return openPrice;
-    }
-
-    public void setOpenPrice(double openPrice) {
-        this.openPrice = openPrice;
     }
 
     public double getClosePrice() {
