@@ -1,5 +1,8 @@
 package com.isa.control;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Transaction {
     private Integer idTransaction;
     private String openTransactionDate;
@@ -9,6 +12,8 @@ public class Transaction {
     private double closePrice;
     private double lastPrice;
     private boolean isActive;
+    private final Date newDate = new Date();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public Integer getIdTransaction() {
         return idTransaction;
@@ -30,16 +35,16 @@ public class Transaction {
         return openTransactionDate;
     }
 
-    public void setOpenTransactionDate(String openTransactionDate) {
-        this.openTransactionDate = openTransactionDate;
+    public void setOpenTransactionDate() {
+        this.openTransactionDate = dateFormat.format(newDate);
     }
 
     public String getCloseTransactionDate() {
         return closeTransactionDate;
     }
 
-    public void setCloseTransactionDate(String closeTransactionDate) {
-        this.closeTransactionDate = closeTransactionDate;
+    public void setCloseTransactionDate() {
+        this.closeTransactionDate = dateFormat.format(newDate);
     }
 
     public double getOpenPrice() {
