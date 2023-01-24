@@ -1,9 +1,14 @@
 package com.isa.control;
 
 public class Transaction {
-    Integer idTransaction;
-    Coin coin;
-    Wallet wallet;
+    private Integer idTransaction;
+    private String openTransactionDate;
+    private String closeTransactionDate;
+    private Coin coin;
+    private double openPrice;
+    private double closePrice;
+    private double lastPrice;
+    private boolean isActive;
 
     public Integer getIdTransaction() {
         return idTransaction;
@@ -21,11 +26,51 @@ public class Transaction {
         this.coin = coin;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public String getOpenTransactionDate() {
+        return openTransactionDate;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setOpenTransactionDate(String openTransactionDate) {
+        this.openTransactionDate = openTransactionDate;
+    }
+
+    public String getCloseTransactionDate() {
+        return closeTransactionDate;
+    }
+
+    public void setCloseTransactionDate(String closeTransactionDate) {
+        this.closeTransactionDate = closeTransactionDate;
+    }
+
+    public double getOpenPrice() {
+        return openPrice;
+    }
+
+    public void setOpenPrice(double openPrice) {
+        this.openPrice = openPrice;
+    }
+
+    public double getClosePrice() {
+        return closePrice;
+    }
+
+    public void setClosePrice(double closePrice) {
+        this.closePrice = closePrice;
+    }
+
+    public double getLastPrice() {
+        return lastPrice;
+    }
+
+    public void setLastPrice(double lastPrice) {
+        this.lastPrice = lastPrice;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
