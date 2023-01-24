@@ -1,9 +1,8 @@
-package com.isa;
+package com.isa.control;
 
-import com.isa.control.Data;
+import com.isa.control.Coin;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CoinsList {
 

@@ -1,11 +1,13 @@
-package com.isa;
+package com.isa.control;
 
+import com.isa.control.Coin;
+import com.isa.control.CoinsList;
 import com.isa.control.Data;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Favourite extends CoinsList{
+public class Favourite extends CoinsList {
 
     private final List<Coin> coins;
 

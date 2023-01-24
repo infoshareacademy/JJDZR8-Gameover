@@ -1,10 +1,7 @@
-package com.isa;
+package com.isa.boundary;
 
+import com.isa.control.Endpoints;
 import com.isa.menu.Menu;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.Stream;
 
 public class App {
     public static void main(String[] args) {

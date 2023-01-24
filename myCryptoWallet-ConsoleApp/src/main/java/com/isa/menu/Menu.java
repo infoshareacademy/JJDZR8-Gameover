@@ -1,8 +1,6 @@
 package com.isa.menu;
 
-import com.isa.*;
-import com.isa.control.Data;
-import com.isa.control.Data;
+import com.isa.control.*;
 
 import java.util.*;
 

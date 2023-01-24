@@ -1,11 +1,9 @@
-package com.isa;
+package com.isa.control;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;
-import java.util.Comparator;
-import java.util.Objects;
 
 public class Coin implements Comparable<Coin> {
     @SerializedName("symbol")

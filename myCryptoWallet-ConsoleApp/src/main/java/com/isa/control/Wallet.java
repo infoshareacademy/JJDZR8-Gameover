@@ -1,4 +1,6 @@
-package com.isa;
+package com.isa.control;
+
+import com.isa.control.Coin;
 
 public class Wallet {
     Integer walletId;

@@ -1,6 +1,4 @@
-package com.isa;
-
-import com.isa.control.Data;
+package com.isa.control;
 
 import java.util.*;
 

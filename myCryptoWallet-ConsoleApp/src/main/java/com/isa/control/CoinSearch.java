@@ -1,7 +1,5 @@
-package com.isa;
+package com.isa.control;
 
-
-import com.isa.control.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
