@@ -22,7 +22,11 @@ public class Data {
         saveToFile(gson.toJson(object), file);
     }
     public static Coin[] deserializeCoin(){
-        return new Gson().fromJson(loadFile("coin.json"), Coin[].class);
+        Coin[] coins = new Gson().fromJson(loadFile("coin.json"), Coin[].class);
+        for (Coin element : coins){
+            element.creatNameAndShortSymbolForCoin();
+        }
+        return coins;
     }
     public static Coin[] deserializeCoin(String file){
         return new Gson().fromJson(loadFile(file), Coin[].class);

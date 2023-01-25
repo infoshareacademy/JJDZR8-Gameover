@@ -10,8 +10,8 @@ public class Coin implements Comparable<Coin> {
     @SerializedName("symbol")
     @Expose
     private String symbol;
-    private final String shortSymbol = symbol.replace("BUSD","");
-    private String name = setName();
+    private String shortSymbol;
+    private String name;
     @SerializedName("priceChange")
     @Expose
     private String priceChange;
@@ -73,6 +73,8 @@ public class Coin implements Comparable<Coin> {
     @Expose
     private Integer count;
 
+
+
     public String getSymbol() {
         return symbol;
     }
@@ -85,13 +87,17 @@ public class Coin implements Comparable<Coin> {
         return shortSymbol;
     }
 
+    public void setShortSymbol(){
+        this.shortSymbol = symbol.replace("BUSD", "");
+    }
+
     public String getName() {
         return name;
     }
 
-    public String setName() {
+    public void setName() {
         Map<String, String> coinsNames = Endpoints.getCoinsNames();
-        return name = coinsNames.getOrDefault(shortSymbol, "Invalid name");
+        this.name = coinsNames.getOrDefault(shortSymbol, "Invalid name");
     }
 
     public String getPriceChange() {
@@ -252,6 +258,10 @@ public class Coin implements Comparable<Coin> {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+    public void creatNameAndShortSymbolForCoin(){
+        setShortSymbol();
+        setName();
     }
 
     @Override
