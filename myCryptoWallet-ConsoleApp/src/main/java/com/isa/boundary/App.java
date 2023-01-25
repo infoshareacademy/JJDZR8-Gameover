@@ -1,6 +1,11 @@
 package com.isa.boundary;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.isa.control.Coin;
+import com.isa.control.Data;
 import com.isa.control.Endpoints;
+import com.isa.control.Transaction;
 import com.isa.menu.Menu;
 
 public class App {
@@ -8,13 +13,8 @@ public class App {
       new Endpoints();
       Menu.getMenu();
 
- /*       Map<String,String> map = new LinkedHashMap<>();
-        map = Endpoints.getCoinsNames();
- //       map.forEach((k,v) -> System.out.println(k + " - " + v));
 
-        Stream stream = map.keySet().stream().filter(n -> n.matches("^\\[(\"[A-Z0-9-_.]{1,20}\"(,\"[A-Z0-9-_.]{1,20}\"){0,}){0,1}\]$"));
-        stream.forEach(System.out::println);
-  */
+
     }
 
 }

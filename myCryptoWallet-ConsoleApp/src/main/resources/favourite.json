@@ -1,4 +1,28 @@
 [
+
+  {
+    "symbol": "ADABUSD",
+    "priceChange": "-0.02390000",
+    "priceChangePercent": "-6.343",
+    "weightedAvgPrice": "0.37178590",
+    "prevClosePrice": "0.37680000",
+    "lastPrice": "0.35290000",
+    "lastQty": "1849.00000000",
+    "bidPrice": "0.35280000",
+    "bidQty": "3585.50000000",
+    "askPrice": "0.35290000",
+    "askQty": "24099.20000000",
+    "openPrice": "0.37680000",
+    "highPrice": "0.38300000",
+    "lowPrice": "0.35010000",
+    "volume": "77021213.50000000",
+    "quoteVolume": "28635401.43709000",
+    "openTime": 1674520409889,
+    "closeTime": 1674606809889,
+    "firstId": 96548347,
+    "lastId": 96632456,
+    "count": 84110
+  },
   {
     "symbol": "BTCBUSD",
     "priceChange": "20.12000000",

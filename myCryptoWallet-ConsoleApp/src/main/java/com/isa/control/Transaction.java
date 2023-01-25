@@ -1,5 +1,6 @@
 package com.isa.control;
 
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,12 +16,15 @@ public class Transaction {
     private final Date newDate = new Date();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+
     public Transaction(Coin coin) {
         this.coin = coin;
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.isActive = true;
         this.lastPrice = Double.parseDouble(coin.getLastPrice());
+        setOpenTransactionDate();
     }
+
 
     public Integer getIdTransaction() {
         return idTransaction;
@@ -54,6 +58,7 @@ public class Transaction {
     public double getOpenPrice() {
         return openPrice;
     }
+
 
     public double getClosePrice() {
         return closePrice;

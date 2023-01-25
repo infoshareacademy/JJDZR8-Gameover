@@ -71,11 +71,12 @@ public class Coin implements Comparable<Coin> {
     @Expose
     private Integer count;
 
-    public Coin() {
+  /*  public Coin() {
         Map<String, String> coinsNames = Endpoints.getCoinsNames();
         this.symbol = getSymbol().replace("BUSD", "");
         this.name = coinsNames.get(symbol);
     }
+*/
 
     public String getSymbol() {
         return symbol;

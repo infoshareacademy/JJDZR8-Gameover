@@ -20,20 +20,29 @@ public class Favourite extends CoinsList {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz szukaną frazę");
         String string = scanner.nextLine().toUpperCase();
-        List<Coin> temporaryList = Arrays.stream(Data.deserializeCoin()).toList()
-                .stream().takeWhile(n -> n.getSymbol().contains(string))
-                .collect(Collectors.toList());
+        List<Coin> list = Arrays.stream(Data.deserializeCoin()).collect(Collectors.toList());
+        List<Coin> temporaryList = new ArrayList<>();
+        list.forEach(a->{
+            if (a.getSymbol().contains(string)) temporaryList.add(a);
+                });
 
         if (!temporaryList.isEmpty()){
-            temporaryList.forEach(n-> System.out.println(n.getSymbol() + " - " + n.getLastPrice() + " USD"));
-            System.out.println("czy chcesz dodać wybrane coiny do ulubionych? [Y/N]");
-            char[] choice = scanner.nextLine().toUpperCase().toCharArray();
-            if (choice[0] == 'Y') {
-                coins.addAll(temporaryList);
-                Collections.sort(coins);
-                Data.serializer(coins,"favourite.json");
-            }
-        }
+            temporaryList.forEach(n-> {
+                System.out.println(n.getSymbol() + " - " + n.getLastPrice() + " USD");
+                if(coins.stream().anyMatch(a-> a.getSymbol().equals(n.getSymbol()))) {
+                    System.out.println("szukany token jest już na liście ulubione");
+                }else {
+                    System.out.println("czy chcesz dodać wybrane coiny do ulubionych? [Y/N]");
+                    char choice = scanner.nextLine().toUpperCase().charAt(0);
+                    if (choice == 'Y') {
+                        coins.addAll(temporaryList);
+                        Collections.sort(coins);
+                        Data.serializer(coins,"favourite.json");
+                    }
+                }
+            });
+
+        }else System.out.println("Nie znaleziono tokenu o takiej nazwie");
 
     }
 }
