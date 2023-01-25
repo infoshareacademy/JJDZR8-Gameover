@@ -43,6 +43,30 @@ public class Favourite extends CoinsList {
             });
 
         }else System.out.println("Nie znaleziono tokenu o takiej nazwie");
+    }
 
+    public void removeTokenFromFavouriteList() {
+        Scanner scanner = new Scanner(System.in);
+        coins.forEach(n -> {
+            System.out.println(n.getSymbol() + " - " + n.getLastPrice() + " USD");
+            System.out.println("aby usunąć token wpisz 0");
+            String flag = scanner.nextLine();
+            if (flag.charAt(0) == 0){
+                coins.remove(n);
+                System.out.println("token został usuniety");
+            }
+        });
+        Data.serializer(coins, "favourite.json");
+    }
+
+    public static List<Coin> invocationFavouriteList(){
+        List<Coin> favCoinsList;
+        try {
+            favCoinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin("favourite.json")));
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            favCoinsList = new ArrayList<>();
+        }
+        return favCoinsList;
     }
 }

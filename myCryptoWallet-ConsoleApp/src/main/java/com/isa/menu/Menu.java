@@ -84,13 +84,7 @@ public enum Menu {
                         break;
                     case 5:
                         System.out.println(Menu.ADD_FAVOURITE_COIN);
-                        List<Coin> favCoinsList;
-                        try {
-                            favCoinsList = new ArrayList<>(Arrays.asList(Data.deserializeCoin("favourite.json")));
-                        }catch (NullPointerException e){
-                            e.printStackTrace();
-                            favCoinsList = new ArrayList<>();
-                        }
+                        List<Coin> favCoinsList = Favourite.invocationFavouriteList();
                         Favourite favourite = new Favourite(favCoinsList, 2);
                         favourite.AddYourFavouriteToken();
                         favourite.pagesCreator();
