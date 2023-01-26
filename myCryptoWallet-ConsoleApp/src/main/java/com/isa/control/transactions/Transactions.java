@@ -3,14 +3,31 @@ package com.isa.control.transactions;
 import com.isa.control.Coin;
 
 public class Transactions {
-    private Integer idTransaction;
+    private final long idTransaction;
     private final Coin coin;
-    private boolean isActive;
-    private double volume;
+    private final boolean isActive;
+    private final double volume;
 
-    public Transactions(Coin coin, boolean isActive, double volume) {
+    public Transactions(Coin coin, boolean isActive, double volume, long idTransaction) {
         this.coin = coin;
         this.isActive = isActive;
         this.volume = volume;
+        this.idTransaction = idTransaction;
+    }
+
+    public long getIdTransaction() {
+        return idTransaction;
+    }
+
+    public Coin getCoin() {
+        return coin;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public double getVolume() {
+        return volume;
     }
 }
