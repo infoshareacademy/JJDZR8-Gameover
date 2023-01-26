@@ -17,8 +17,16 @@ public class ClosedTransaction extends Transactions implements Transaction{
 
     public ClosedTransaction(ActiveTransaction activeTransaction) {
         super(activeTransaction.getCoin(), false, activeTransaction.getVolume(), activeTransaction.getIdTransaction());
-        setCloseTransactionDate();
+        this.closeTransactionDate = setCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
+    }
+
+    public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
+        super(activeTransaction.getCoin(), false,volume, activeTransaction.getIdTransaction() );
+        this.closeTransactionDate = setCloseTransactionDate();
+        this.openPrice = activeTransaction.getOpenPrice();
+
+        new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }
 
     @Override

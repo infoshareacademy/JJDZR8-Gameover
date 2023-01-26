@@ -16,10 +16,17 @@ public class ActiveTransaction extends Transactions implements Transaction{
     private double currentPrice;
 
     public ActiveTransaction(Coin coin, double volume) {
-        super(coin, true, volume, Transaction.newDate.getTime() );
+        super(coin, true, volume, Transaction.newDate.getTime());
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.currentPrice = Double.parseDouble(coin.getLastPrice());
         this.openTransactionDate = setOpenTransactionDate();
+    }
+
+    public ActiveTransaction(ActiveTransaction activeTransaction, double volume){
+        super(activeTransaction.getCoin(), true, volume, Transaction.newDate.getTime());
+        this.openPrice = activeTransaction.getOpenPrice();
+        this.openTransactionDate = activeTransaction.getOpenTransactionDate();
+        this.currentPrice = activeTransaction.getCurrentPrice();
     }
 
     @Override
