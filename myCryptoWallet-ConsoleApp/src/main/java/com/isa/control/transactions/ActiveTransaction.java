@@ -1,6 +1,9 @@
 package com.isa.control.transactions;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.isa.control.Coin;
+import com.isa.control.Data;
 import com.isa.control.Endpoints;
 
 import java.text.SimpleDateFormat;
@@ -23,9 +26,18 @@ public class ActiveTransaction extends Transactions implements Transaction{
     public double countProfit() {
         return (currentPrice - openPrice) * getVolume();
     }
-    public void  refreshCurrentPrice(){
-       if(Endpoints.getCoinsNames().containsKey(getCoin().getSymbol())){
-
+    @Override
+    public void  refreshPrice(){ // #TODO - sprawdzić czy to działa?
+       if(Endpoints.getCoinsNames().containsKey(getCoin().getShortSymbol())){
+           String request = Endpoints.buildRequest(getCoin().getShortSymbol());
+           String response = Data.sendHttpRequest(request);
+           if(response.contains("\"code\":-1100")) {
+               System.out.println("cena nie została zaktualizowana");
+           }else {
+               Gson gson = new GsonBuilder().setPrettyPrinting().create();
+               Coin coin = gson.fromJson(response, Coin.class);
+                currentPrice = Double.parseDouble(coin.getLastPrice());
+           }
        }
     }
 

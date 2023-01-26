@@ -45,6 +45,12 @@ public class Endpoints {
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
         return sBuilder.toString();
     }
+    public static String buildRequest(String string){
+        sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
+        sBuilder.append("%22" + string + "BUSD%22,");
+        sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
+        return sBuilder.toString();
+    }
 
     public static Map<String, String> getCoinsNames() {
         return coinsNames;
