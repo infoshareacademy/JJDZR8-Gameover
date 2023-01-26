@@ -1,6 +1,7 @@
 package com.isa.control.transactions;
 
 import com.isa.control.Coin;
+import com.isa.control.Endpoints;
 
 public class Transactions {
     private final long idTransaction;
@@ -29,5 +30,8 @@ public class Transactions {
 
     public double getVolume() {
         return volume;
+    }
+    public boolean checkEndpointsName(){
+        return Endpoints.getCoinsNames().containsKey(coin.getShortSymbol());
     }
 }

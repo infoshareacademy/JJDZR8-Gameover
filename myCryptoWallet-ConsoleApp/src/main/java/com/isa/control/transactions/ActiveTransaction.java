@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class ActiveTransaction extends Transactions implements Transaction{
 
-    private String openTransactionDate;
+    private final String openTransactionDate;
     private final double openPrice;
     private double currentPrice;
 
@@ -19,7 +19,7 @@ public class ActiveTransaction extends Transactions implements Transaction{
         super(coin, true, volume, Transaction.newDate.getTime() );
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.currentPrice = Double.parseDouble(coin.getLastPrice());
-        setOpenTransactionDate();
+        this.openTransactionDate = setOpenTransactionDate();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ActiveTransaction extends Transactions implements Transaction{
     }
     @Override
     public void  refreshPrice(){ // #TODO - sprawdzić czy to działa?
-       if(Endpoints.getCoinsNames().containsKey(getCoin().getShortSymbol())){
+       if(checkEndpointsName()){
            String request = Endpoints.buildRequest(getCoin().getShortSymbol());
            String response = Data.sendHttpRequest(request);
            if(response.contains("\"code\":-1100")) {
