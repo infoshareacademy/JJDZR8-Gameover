@@ -1,12 +1,12 @@
 package com.isa.menu;
 
-import com.isa.CoinSearch;
-import com.isa.CoinsList;
-import com.isa.Endpoints;
+import com.isa.*;
 import com.isa.control.Data;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
@@ -16,9 +16,11 @@ public enum Menu {
     ADD_FAVOURITE_COIN (5, "Dodaj coin-a do listy ulubionych"),
     EXPORT_FILE (6, "Exportuj bibliotekę do pliku"),
     IMPORT_FILE (7, "Importuj bibliotekę z pliku"),
-    EXIT (8, "Zakończ działanie programu \n  Wybierz opcję");
+    USER_WALLET(8, "Portfel użytkownika"),
+    EXIT (9, "Zakończ działanie programu \n  Wybierz opcję");
 
-
+    static User user1 = new User("Bogus");
+    static Coin coin1 = new Coin();
 
     private final int position;
 
@@ -96,6 +98,12 @@ public enum Menu {
                         Endpoints.setEndpoints();
                         break;
                     case 8:
+                        System.out.println(Menu.USER_WALLET);
+                        //wyswietla portfel uzytkownika
+                        Wallet.userWallet(user1, coin1);
+                        System.out.println(Wallet.getAllTransactionForUser(user1));
+                        break;
+                    case 9:
                         flag = false;
                         break;
                     default:

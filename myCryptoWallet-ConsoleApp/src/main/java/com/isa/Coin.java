@@ -72,9 +72,10 @@ public class Coin {
     private Integer count;
 
     public Coin() {
-        Map<String, String> coinsNames = Endpoints.getCoinsNames();
-        this.symbol = getSymbol().replace("BUSD", "");
-        this.name = coinsNames.get(symbol);
+//        Map<String, String> coinsNames = Endpoints.getCoinsNames();
+//        this.symbol = getSymbol().replace("BUSD", "");
+//        this.name = coinsNames.get(symbol);
+        this.symbol = "KPW";
     }
 
     public String getSymbol() {
@@ -245,4 +246,10 @@ public class Coin {
         this.count = count;
     }
 
+    @Override
+    public String toString() {
+        return "Coin{" +
+                "symbol='" + symbol + '\'' +
+                '}';
+    }
 }
