@@ -19,12 +19,14 @@ public class ClosedTransaction extends Transactions implements Transaction{
         super(activeTransaction.getCoin(), false, activeTransaction.getVolume(), activeTransaction.getIdTransaction());
         this.closeTransactionDate = setCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
+        refreshPrice();
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
         super(activeTransaction.getCoin(), false,volume, activeTransaction.getIdTransaction() );
         this.closeTransactionDate = setCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
+        refreshPrice();
 
         new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }
@@ -53,7 +55,7 @@ public class ClosedTransaction extends Transactions implements Transaction{
             }else {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 Coin coin = gson.fromJson(response, Coin.class);
-                closePrice = Double.parseDouble(coin.getLastPrice());
+                this.closePrice = Double.parseDouble(coin.getLastPrice());
             }
         }
 
