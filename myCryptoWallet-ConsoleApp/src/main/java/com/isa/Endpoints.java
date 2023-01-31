@@ -32,8 +32,8 @@ public class Endpoints {
 
     public static String buildRequest() {
         sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
-        for (String endpoint : coinsNames.keySet()) {
-            sBuilder.append("%22" + endpoint + "BUSD%22,");
+        for (String endpoint : endpoints) {
+            sBuilder.append("%22").append(endpoint).append("BUSD%22,");
         }
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
         return sBuilder.toString();
@@ -41,6 +41,7 @@ public class Endpoints {
     public static String buildRequest(Map<String, String> map) {
         sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
         for (String value : map.keySet()) {
+            System.out.println(value);
             sBuilder.append("%22" + value + "BUSD%22,");
         }
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");

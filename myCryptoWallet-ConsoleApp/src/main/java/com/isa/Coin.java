@@ -9,6 +9,7 @@ public class Coin {
     @SerializedName("symbol")
     @Expose
     private String symbol;
+    private String shortSymbol;
     private String name;
     @SerializedName("priceChange")
     @Expose
@@ -71,10 +72,40 @@ public class Coin {
     @Expose
     private Integer count;
 
+
     public Coin() {
-        Map<String, String> coinsNames = Endpoints.getCoinsNames();
-        this.symbol = getSymbol().replace("BUSD", "");
-        this.name = coinsNames.get(symbol);
+        System.out.println("konstruktor1");
+        setShortSymbol(getSymbol().replace("BUSD", ""));
+        setName(Endpoints.getCoinsNames().get(getShortSymbol()));
+    }
+
+
+
+    public Coin(String symbol, String priceChange, String priceChangePercent, String weightedAvgPrice, String prevClosePrice, String lastPrice, String lastQty, String bidPrice, String bidQty, String askPrice, String askQty, String openPrice, String highPrice, String lowPrice, String volume, String quoteVolume, Long openTime, Long closeTime, long firstId, long lastId, Integer count) {
+        System.out.println("konstruktor2");
+        this.symbol = symbol;
+        setShortSymbol(symbol.replace("BUSD", ""));
+        setName(Endpoints.getCoinsNames().get(shortSymbol));
+        this.priceChange = priceChange;
+        this.priceChangePercent = priceChangePercent;
+        this.weightedAvgPrice = weightedAvgPrice;
+        this.prevClosePrice = prevClosePrice;
+        this.lastPrice = lastPrice;
+        this.lastQty = lastQty;
+        this.bidPrice = bidPrice;
+        this.bidQty = bidQty;
+        this.askPrice = askPrice;
+        this.askQty = askQty;
+        this.openPrice = openPrice;
+        this.highPrice = highPrice;
+        this.lowPrice = lowPrice;
+        this.volume = volume;
+        this.quoteVolume = quoteVolume;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.firstId = firstId;
+        this.lastId = lastId;
+        this.count = count;
     }
 
     public String getSymbol() {
@@ -83,6 +114,22 @@ public class Coin {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getShortSymbol() {
+        return shortSymbol;
+    }
+
+    public void setShortSymbol(String shortSymbol) {
+        this.shortSymbol = shortSymbol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPriceChange() {
