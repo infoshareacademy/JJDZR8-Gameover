@@ -1,0 +1,45 @@
+.mainheader{
+    text-align: center;
+    z-index: 100;
+    top: 0px;
+    position: sticky;
+    background-image: url("gold.jpg");
+    height: 70px;
+}
+.first-div{
+    z-index: 100;
+    top: 70px;
+    position: sticky;
+}
+.div-table{
+    height: 400px;
+    width: 50%;
+    position: relative;
+    left: 500px;
+    border: red solid 2px;
+}
+
+.div-investing{
+    height: 400px;
+    width: 100%;
+    margin-left: 10px;
+    border: red solid 2px;
+}
+.poweredBy{
+    height: 400px;
+}
+.forbuttons{
+    text-align: center;
+}
+
+
+.traidingview-widget-copyright{
+    height: 600px;
+}
+.tradingview-widget-container{
+    height: 600px;
+}
+#tradingview_7b397{
+    height: 590px;
+}
+
