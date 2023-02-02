@@ -25,14 +25,17 @@
     margin-left: 10px;
     border: red solid 2px;
 }
+iframe {
+    display:block;
+    height: 100%;
+    width:100%;
+}
 .poweredBy{
     height: 400px;
 }
 .forbuttons{
     text-align: center;
 }
-
-
 .traidingview-widget-copyright{
     height: 600px;
 }
@@ -42,4 +45,5 @@
 #tradingview_7b397{
     height: 590px;
 }
+
 

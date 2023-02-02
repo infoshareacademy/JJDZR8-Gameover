@@ -33,11 +33,13 @@
                 <div class="btn-group btn-group-lg ">
                     <a href="crypto_app.html" class="btn btn-primary" aria-current="page">Lista Coinów</a>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chartBackdrop">
                         Wykres
                     </button>
                     <a href="#" class="btn btn-success active">ulubione</a>
-                    <a href="#" class="btn btn-primary">Moj portfel</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#walletBackdrop">
+                        Mój Portfel
+                    </button>
                     <a href="#" class="btn btn-primary">Link</a>
                 </div>
             </div>
@@ -56,12 +58,12 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal for chart-->
+    <div class="modal fade" id="chartBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="chartBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Wykresy</h1>
+                    <h1 class="modal-title fs-5" id="chartBackdropLabel">Wykresy</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -91,6 +93,23 @@
                         </div>
                         <!-- TradingView Widget END -->
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for wallet-->
+    <div class="modal fade" id="walletBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="walletBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="walletBackdropLabel">Moj Portfel</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="wallet.html"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
