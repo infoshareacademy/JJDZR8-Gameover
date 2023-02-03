@@ -4,7 +4,15 @@
     top: 0px;
     position: sticky;
     background-image: url("gold.jpg");
-    height: 70px;
+    height: 110px;
+}
+.walletheader{
+    text-align: center;
+    z-index: 100;
+    top: 0px;
+    position: sticky;
+    background-image: url("gold.jpg");
+    height: 60px;
 }
 .first-div{
     z-index: 100;
