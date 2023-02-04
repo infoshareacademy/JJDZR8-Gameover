@@ -44,7 +44,7 @@ public class ActiveTransaction extends Transactions implements Transaction{
            }else {
                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                Coin coin = gson.fromJson(response, Coin.class);
-                currentPrice = Double.parseDouble(coin.getLastPrice());
+                this.currentPrice = Double.parseDouble(coin.getLastPrice());
            }
        }
     }
