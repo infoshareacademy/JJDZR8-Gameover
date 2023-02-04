@@ -8,6 +8,7 @@ import com.isa.control.Endpoints;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class ActiveTransaction extends Transactions implements Transaction{
 
@@ -73,5 +74,17 @@ public class ActiveTransaction extends Transactions implements Transaction{
         return currentPrice;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ActiveTransaction that = (ActiveTransaction) o;
+        return Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Objects.equals(openTransactionDate, that.openTransactionDate);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), openTransactionDate, openPrice, currentPrice);
+    }
 }
