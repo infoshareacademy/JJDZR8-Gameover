@@ -1,9 +1,7 @@
 package com.isa.control;
 
-import com.isa.control.Coin;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
-import com.isa.control.transactions.Transactions;
 import com.isa.control.transactions.TransactionsHistory;
 
 import java.util.Set;
@@ -11,33 +9,36 @@ import java.util.Set;
 public class Wallet {
     private Integer walletId;
     private Integer coinValue;
-    private Integer walletSum;
+    private double walletSum;
     private Coin coin;
     private Set<TransactionsHistory> transactionsHistory;
-    private Set<Transactions> activeTransactions;
+    private Set<ActiveTransaction> activeTransactions;
 
     public void buyNewToken(Coin coin, double volume){
         activeTransactions.add(new ActiveTransaction(coin, volume));
     }
-    public void closeActiveTransaction(Transactions transactions, double volume){
-        if (!transactions.isActive()) System.out.println("Transakcja jest już zamknięta");
-        else {
-            if(transactions.getVolume()<=volume){
-                ClosedTransaction closed = new ClosedTransaction((ActiveTransaction) transactions);
-                TransactionsHistory history = new TransactionsHistory(walletId, closed);
-                transactionsHistory.add(history);
-                activeTransactions.remove(transactions);
+    public void closeActiveTransaction(ActiveTransaction transaction, double volume){
+        if(transaction.getVolume()<=volume){
+            ClosedTransaction closed = new ClosedTransaction(transaction);
+            TransactionsHistory history = new TransactionsHistory(walletId, closed);
+            transactionsHistory.add(history);
+            activeTransactions.remove(transaction);
 
-            } else if (transactions.getVolume()>volume && volume>0) {
-                ClosedTransaction closed = new ClosedTransaction((ActiveTransaction) transactions, volume);
-                TransactionsHistory history = new TransactionsHistory(walletId, closed);
-                transactionsHistory.add(history);
-                activeTransactions.remove(transactions);
-                activeTransactions.add(closed.getActivePartOfClosedTransaction());
-            }
-            else System.out.println("volumen musi być liczbą dodatnią");
+        } else if (transaction.getVolume()>volume && volume>0) {
+            ClosedTransaction closed = new ClosedTransaction(transaction, volume);
+            TransactionsHistory history = new TransactionsHistory(walletId, closed);
+            transactionsHistory.add(history);
+            activeTransactions.remove(transaction);
+            activeTransactions.add(closed.getActivePartOfClosedTransaction());
         }
+        else System.out.println("volumen musi być liczbą dodatnią");
 
+    }
+    public void currentProfitCount(){
+        this.walletSum = activeTransactions.stream().mapToDouble(n ->{
+            n.refreshPrice();
+            return n.countProfit();
+        }).sum();
     }
 
     public Integer getWalletId() {
@@ -56,7 +57,7 @@ public class Wallet {
         this.coinValue = coinValue;
     }
 
-    public Integer getWalletSum() {
+    public double getWalletSum() {
         return walletSum;
     }
 
