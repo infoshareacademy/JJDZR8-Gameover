@@ -3,18 +3,24 @@ package com.isa.control;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
 import com.isa.control.transactions.WalletTransactions;
+import com.isa.menu.Balance;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Wallet {
-    private Integer walletId;
+    private String walletId;
+    private Balance startBalance;
     private Integer coinValue;
     private double walletSum;
     private Coin coin;
     private Set<ClosedTransaction> transactionsHistory;
     private Set<ActiveTransaction> activeTransactions;
+
+    public Wallet(String walletId, Balance startBalance){
+        setWalletTransactions(Data.deserializeWalletTransactions());
+    }
 
     public void buyNewToken(Coin coin, double volume){
         activeTransactions.add(new ActiveTransaction(coin, volume));
@@ -45,13 +51,10 @@ public class Wallet {
         return transactionsHistory.stream().mapToDouble(ClosedTransaction::countProfit).sum();
     }
 
-    public Integer getWalletId() {
+    public String getWalletId() {
         return walletId;
     }
 
-    public void setWalletId(Integer walletId) {
-        this.walletId = walletId;
-    }
 
     public Integer getCoinValue() {
         return coinValue;
@@ -77,7 +80,8 @@ public class Wallet {
         this.coin = coin;
     }
     public void setWalletTransactions(Set<WalletTransactions> transactionsList){
-        transactionsList.forEach(n->{
+        transactionsList.stream().filter(n->n.walletId().equals(walletId))
+                .forEach(n->{
             if (n.transactions().isActive()) this.activeTransactions.add((ActiveTransaction) n.transactions());
             else this.transactionsHistory.add((ClosedTransaction) n.transactions());
         });
