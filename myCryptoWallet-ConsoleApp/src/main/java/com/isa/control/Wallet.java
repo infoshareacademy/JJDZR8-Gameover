@@ -2,8 +2,10 @@ package com.isa.control;
 
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
-import com.isa.control.transactions.TransactionsHistory;
+import com.isa.control.transactions.WalletTransactions;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Wallet {
@@ -11,7 +13,7 @@ public class Wallet {
     private Integer coinValue;
     private double walletSum;
     private Coin coin;
-    private Set<TransactionsHistory> transactionsHistory;
+    private Set<ClosedTransaction> transactionsHistory;
     private Set<ActiveTransaction> activeTransactions;
 
     public void buyNewToken(Coin coin, double volume){
@@ -20,14 +22,12 @@ public class Wallet {
     public void closeActiveTransaction(ActiveTransaction transaction, double volume){
         if(transaction.getVolume()<=volume){
             ClosedTransaction closed = new ClosedTransaction(transaction);
-            TransactionsHistory history = new TransactionsHistory(walletId, closed);
-            transactionsHistory.add(history);
+            transactionsHistory.add(closed);
             activeTransactions.remove(transaction);
 
         } else if (transaction.getVolume()>volume && volume>0) {
             ClosedTransaction closed = new ClosedTransaction(transaction, volume);
-            TransactionsHistory history = new TransactionsHistory(walletId, closed);
-            transactionsHistory.add(history);
+            transactionsHistory.add(closed);
             activeTransactions.remove(transaction);
             activeTransactions.add(closed.getActivePartOfClosedTransaction());
         }
@@ -39,6 +39,10 @@ public class Wallet {
             n.refreshPrice();
             return n.countProfit();
         }).sum();
+    }
+
+    public double historyProfitCount(){
+        return transactionsHistory.stream().mapToDouble(ClosedTransaction::countProfit).sum();
     }
 
     public Integer getWalletId() {
@@ -71,5 +75,17 @@ public class Wallet {
 
     public void setCoin(Coin coin) {
         this.coin = coin;
+    }
+    public void setWalletTransactions(Set<WalletTransactions> transactionsList){
+        transactionsList.forEach(n->{
+            if (n.transactions().isActive()) this.activeTransactions.add((ActiveTransaction) n.transactions());
+            else this.transactionsHistory.add((ClosedTransaction) n.transactions());
+        });
+    }
+    public Set<WalletTransactions> addTransactionsToRecord(){
+        Set<WalletTransactions> records = new HashSet<>();
+         transactionsHistory.forEach(n->records.add(new WalletTransactions(walletId, n)));
+         activeTransactions.forEach(n->records.add(new WalletTransactions(walletId, n)));
+         return records;
     }
 }
