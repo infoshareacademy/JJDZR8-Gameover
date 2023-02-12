@@ -18,6 +18,8 @@
 
 
 
+
+
   <modules>
     <module>myCryptoWallet-ConsoleApp</module>
     <module>myCryptoWallet-WebApp</module>

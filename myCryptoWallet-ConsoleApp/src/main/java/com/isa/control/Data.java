@@ -23,6 +23,7 @@ import java.util.Set;
 
 public class Data {
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    static final String pathToFile = System.getenv("FILE_PATH");
 
     public static void serializer(Object object, String file){
         saveToFile(gson.toJson(object), file);
@@ -48,7 +49,7 @@ public class Data {
         return new Gson().fromJson(loadFile(file), (Type) object.getClass());
     }
     public static Set<WalletTransactions> deserializeWalletTransactions(){
-        Path path = Path.of("src", "main", "resources","wallet.json");
+        Path path = Path.of( pathToFile,"wallet.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(path.toFile(), new TypeReference<>() {});
@@ -61,7 +62,7 @@ public class Data {
         return new Gson().fromJson(response, (Type) object.getClass());
     }
     public static String loadFile(String file){
-        Path path = Path.of("src", "main", "resources", file);
+        Path path = Path.of(pathToFile, file);
         String fromFile = null;
         try {
             fromFile = Files.readString(path);
@@ -71,7 +72,7 @@ public class Data {
         return fromFile;
     }
     public static void saveToFile(String data, String file){
-        Path path = Path.of("src", "main", "resources", file);
+        Path path = Path.of(pathToFile, file);
         try {
             Files.writeString(path, data);
         } catch (IOException e) {
