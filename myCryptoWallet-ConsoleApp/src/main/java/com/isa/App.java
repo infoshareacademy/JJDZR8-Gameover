@@ -10,22 +10,25 @@ public class App {
     public static void main(String[] args) {
         new Endpoints();
         //Menu.getMenu();
-        /*
-        for (String symbol : Endpoints.getEndpoints()){
-            System.out.println(symbol);
-            String url = "https://api.binance.com/api/v3/ticker/24hr?symbols=[%22" + symbol + "BUSD%22]";
-            String request = Data.sendHttpRequest(url);
-            System.out.println(request);
-        }
-        */
+
+        Gson gson = new Gson();
         String url = Endpoints.buildRequest();
+        long startTime = System.currentTimeMillis();
         String request = Data.sendHttpRequest(url);
-        Coin[] coins = new Gson().fromJson(request, Coin[].class);
+        long endTime = System.currentTimeMillis();
+        Coin[] coins = gson.fromJson(request, Coin[].class);
+
+        System.out.println(endTime-startTime);
+        for (Coin coin : coins) {
+            coin.setShortSymbol();
+            coin.setName();
+        }
 
         for (Coin coin : coins) {
-            System.out.println(coin.getSymbol() + " " + coin.getShortSymbol() + " " + coin.getName());
+            System.out.println(coin.getShortSymbol() + " " + coin.getName() + " Last Price: " + coin.getLastPrice());
         }
+        long afterLoopsTime = System.currentTimeMillis();
+        System.out.println(afterLoopsTime-endTime);
     }
-
 }
 

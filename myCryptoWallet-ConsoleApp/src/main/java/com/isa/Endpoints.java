@@ -5,7 +5,7 @@ import com.isa.control.Data;
 import java.util.*;
 
 public class Endpoints {
-    private static Map<String, String> coinsNames = new LinkedHashMap<>();
+    private static Map<String, String> coinsNames = new HashMap<>();
     private static List<String>endpoints = new ArrayList<>();
     private static StringBuilder sBuilder = new StringBuilder();
 
