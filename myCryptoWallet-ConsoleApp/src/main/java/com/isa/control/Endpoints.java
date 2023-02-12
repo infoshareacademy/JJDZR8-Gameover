@@ -1,11 +1,9 @@
-package com.isa;
-
-import com.isa.control.Data;
+package com.isa.control;
 
 import java.util.*;
 
 public class Endpoints {
-    private static Map<String, String> coinsNames = new LinkedHashMap<>();
+    private static Map<String, String> coinsNames = new HashMap<>();
     private static List<String>endpoints = new ArrayList<>();
     private static StringBuilder sBuilder = new StringBuilder();
 
@@ -15,9 +13,9 @@ public class Endpoints {
     }
 
     public static void addCoin(){
-        Scanner sc = new Scanner(System.in);;
+        Scanner sc = new Scanner(System.in);
         System.out.println("Podaj symbol kryptowaluty");
-        String userInput = sc.nextLine();
+        String userInput = sc.nextLine().toUpperCase();
         if (endpoints.contains(userInput)){
             System.out.println("Ta kryptowaluta znajduje się już na liście");
         }else{
@@ -28,12 +26,13 @@ public class Endpoints {
             endpoints.remove(userInput);
             System.out.println("Kryptowaluta o takim symbolu nie istnieje");
         }
+       // Data.serializer(endpoints,"endpoints.json");
     }
 
     public static String buildRequest() {
         sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
-        for (String endpoint : coinsNames.keySet()) {
-            sBuilder.append("%22" + endpoint + "BUSD%22,");
+        for (String endpoint : endpoints) {
+            sBuilder.append("%22").append(endpoint).append("BUSD%22,");
         }
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
         return sBuilder.toString();
@@ -41,8 +40,15 @@ public class Endpoints {
     public static String buildRequest(Map<String, String> map) {
         sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
         for (String value : map.keySet()) {
+            System.out.println(value);
             sBuilder.append("%22" + value + "BUSD%22,");
         }
+        sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
+        return sBuilder.toString();
+    }
+    public static String buildRequest(String string){
+        sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
+        sBuilder.append("%22" + string + "BUSD%22,");
         sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
         return sBuilder.toString();
     }

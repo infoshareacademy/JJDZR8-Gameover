@@ -1,14 +1,16 @@
-package com.isa;
+package com.isa.control;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;
+import java.util.Objects;
 
-public class Coin {
+public class Coin implements Comparable<Coin> {
     @SerializedName("symbol")
     @Expose
     private String symbol;
+    private String shortSymbol;
     private String name;
     @SerializedName("priceChange")
     @Expose
@@ -71,11 +73,7 @@ public class Coin {
     @Expose
     private Integer count;
 
-    public Coin() {
-        Map<String, String> coinsNames = Endpoints.getCoinsNames();
-        this.symbol = getSymbol().replace("BUSD", "");
-        this.name = coinsNames.get(symbol);
-    }
+
 
     public String getSymbol() {
         return symbol;
@@ -83,6 +81,22 @@ public class Coin {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getShortSymbol() {
+        return shortSymbol;
+    }
+
+    public void setShortSymbol() {
+        this.shortSymbol = getSymbol().replace("BUSD", "");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName() {
+        this.name = Endpoints.getCoinsNames().get(getShortSymbol());
     }
 
     public String getPriceChange() {
@@ -244,5 +258,55 @@ public class Coin {
     public void setCount(Integer count) {
         this.count = count;
     }
+    public void creatNameAndShortSymbolForCoin(){
+        setShortSymbol();
+        setName();
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coin coin = (Coin) o;
+        return firstId == coin.firstId && lastId == coin.lastId && Objects.equals(symbol, coin.symbol) && Objects.equals(shortSymbol, coin.shortSymbol) && Objects.equals(name, coin.name) && Objects.equals(priceChange, coin.priceChange) && Objects.equals(priceChangePercent, coin.priceChangePercent) && Objects.equals(weightedAvgPrice, coin.weightedAvgPrice) && Objects.equals(prevClosePrice, coin.prevClosePrice) && Objects.equals(lastPrice, coin.lastPrice) && Objects.equals(lastQty, coin.lastQty) && Objects.equals(bidPrice, coin.bidPrice) && Objects.equals(bidQty, coin.bidQty) && Objects.equals(askPrice, coin.askPrice) && Objects.equals(askQty, coin.askQty) && Objects.equals(openPrice, coin.openPrice) && Objects.equals(highPrice, coin.highPrice) && Objects.equals(lowPrice, coin.lowPrice) && Objects.equals(volume, coin.volume) && Objects.equals(quoteVolume, coin.quoteVolume) && Objects.equals(openTime, coin.openTime) && Objects.equals(closeTime, coin.closeTime) && Objects.equals(count, coin.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(symbol, shortSymbol, name, priceChange, priceChangePercent, weightedAvgPrice, prevClosePrice, lastPrice, lastQty, bidPrice, bidQty, askPrice, askQty, openPrice, highPrice, lowPrice, volume, quoteVolume, openTime, closeTime, firstId, lastId, count);
+    }
+
+    @Override
+    public int compareTo(Coin coin) {
+        return this.symbol.compareTo(coin.getSymbol());
+    }
+
+    @Override
+    public String toString() {
+        return "Coin{" +
+                "symbol='" + symbol + '\'' +
+                ", shortSymbol='" + shortSymbol + '\'' +
+                ", name='" + name + '\'' +
+                ", priceChange='" + priceChange + '\'' +
+                ", priceChangePercent='" + priceChangePercent + '\'' +
+                ", weightedAvgPrice='" + weightedAvgPrice + '\'' +
+                ", prevClosePrice='" + prevClosePrice + '\'' +
+                ", lastPrice='" + lastPrice + '\'' +
+                ", lastQty='" + lastQty + '\'' +
+                ", bidPrice='" + bidPrice + '\'' +
+                ", bidQty='" + bidQty + '\'' +
+                ", askPrice='" + askPrice + '\'' +
+                ", askQty='" + askQty + '\'' +
+                ", openPrice='" + openPrice + '\'' +
+                ", highPrice='" + highPrice + '\'' +
+                ", lowPrice='" + lowPrice + '\'' +
+                ", volume='" + volume + '\'' +
+                ", quoteVolume='" + quoteVolume + '\'' +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
+                ", firstId=" + firstId +
+                ", lastId=" + lastId +
+                ", count=" + count +
+                '}';
+    }
 }
