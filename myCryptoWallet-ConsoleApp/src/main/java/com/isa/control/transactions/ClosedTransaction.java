@@ -56,8 +56,8 @@ public class ClosedTransaction extends Transactions implements Transaction{
                 System.out.println("Nieprawidłowa cena transakcji spróbuj jeszcze raz");
             }else {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                Coin coin = gson.fromJson(response, Coin.class);
-                this.closePrice = Double.parseDouble(coin.getLastPrice());
+                Coin[] coin = gson.fromJson(response, Coin[].class);
+                this.closePrice = Double.parseDouble(coin[0].getLastPrice());
             }
         }
 

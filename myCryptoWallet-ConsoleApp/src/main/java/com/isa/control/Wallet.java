@@ -14,6 +14,10 @@ public class Wallet {
     private Balance startBalance;
     private Integer coinValue;
     private double walletSum;
+    private double profitLoss;
+    private double historicalProfitLoss;
+    private double availableFunds;
+    private double walletBalance;
     private Coin coin;
     private Set<ClosedTransaction> transactionsHistory;
     private Set<ActiveTransaction> activeTransactions;
@@ -41,7 +45,7 @@ public class Wallet {
 
     }
     public void currentProfitCount(){
-        this.walletSum = activeTransactions.stream().mapToDouble(n ->{
+        this.profitLoss = activeTransactions.stream().mapToDouble(n ->{
             n.refreshPrice();
             return n.countProfit();
         }).sum();
@@ -68,7 +72,7 @@ public class Wallet {
         return walletSum;
     }
 
-    public void setWalletSum(Integer walletSum) {
+    public void setWalletSum(double walletSum) {
         this.walletSum = walletSum;
     }
 

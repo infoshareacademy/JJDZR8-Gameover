@@ -43,8 +43,8 @@ public class ActiveTransaction extends Transactions implements Transaction{
                System.out.println("cena nie została zaktualizowana");
            }else {
                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-               Coin coin = gson.fromJson(response, Coin.class);
-                this.currentPrice = Double.parseDouble(coin.getLastPrice());
+               Coin[] coin = gson.fromJson(response, Coin[].class);
+                this.currentPrice = Double.parseDouble(coin[0].getLastPrice());
            }
        }
     }
