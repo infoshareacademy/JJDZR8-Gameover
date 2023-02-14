@@ -12,35 +12,89 @@
 <body>
     <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
     <h2></h2>
-    <div class="container text-center">
+    <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="row">
-            <div class="col-3">
+            <div class="col-2">
+                [nazwa portfela] <!-- #TODO dodać rozwijalną listę umożliwiającą wybór portfela -->
+            </div>
+            <div class="col">
                 Balance
             </div>
             <div class="col">
-                column
+                [wartość balance]
             </div>
             <div class="col">
-                Column
+                Wartość portfela
             </div>
             <div class="col">
-                Column
+                [wartość portfela]
             </div>
             <div class="col">
-                Column
+                Zysk/Strata
             </div>
             <div class="col">
-                Column
+                [wartość zysk/strata]
             </div>
             <div class="col">
-                Column
+                Zysk/strata pozycje zamknięte
             </div>
             <div class="col">
-                Column
+                [wartość z/s dla poz zamkn]
+            </div>
+        </div>
+    </div>
+    <div class="container" style="width: 100%">
+        <h2 class="text-center">Pozycje otwarte</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">nazwa</th>
+                <th scope="col">symbol</th>
+                <th scope="col">cena otwarcia</th>
+                <th scope="col">cena aktualna</th>
+                <th scope="col">volumen</th>
+                <th scope="col">Z/S</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+                <td>
+                    <button type="button" class="btn btn-light">zamknij</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-light ">SL</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-light ">TP</button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="container text-center" style="width: 100%">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-lg" type="submit">Historia Transakcji</button>
             </div>
             <div class="col">
-                Column
+                <button class="btn btn-primary btn-lg" type="submit">jeszcze nie wiem co</button>
             </div>
+            <div class="col">
+                <button class="btn btn-primary btn-lg" type="submit">odśwież cenę</button>
+            </div>
+
         </div>
     </div>
 
