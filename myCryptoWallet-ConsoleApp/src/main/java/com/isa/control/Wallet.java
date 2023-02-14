@@ -75,6 +75,16 @@ public class Wallet {
             this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
         }else this.transactionsCosts = 0;
     }
+    public void setStopLossAlarm(ActiveTransaction activeTransaction, double price){
+        if(activeTransaction.getCurrentPrice() <= price){
+            closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
+        }
+    }
+    public void setTakeProfitAlarm(ActiveTransaction activeTransaction, double price){
+        if(activeTransaction.getCurrentPrice() >= price){
+            closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
