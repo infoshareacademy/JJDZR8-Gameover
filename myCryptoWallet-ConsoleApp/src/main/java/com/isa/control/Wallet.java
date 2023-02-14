@@ -50,6 +50,7 @@ public class Wallet {
         currentProfitCount();
         countActiveTransactionsCosts();
         countWalletBalance();
+        countWalletSum();
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
@@ -68,7 +69,11 @@ public class Wallet {
 
 
     public void countWalletBalance(){
-        this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
+        this.walletBalance = startBalance.getWorth() + historicalProfitLoss;
+    }
+
+    public void countWalletSum(){
+        this.walletSum = walletBalance - transactionsCosts + profitLoss;
     }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
