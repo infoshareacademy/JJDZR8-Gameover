@@ -10,7 +10,7 @@ public interface Transaction {
 
     double countProfit();
     void printDetails();
-    void refreshPrice(); // #TODO - sprawdzić czy to działa.
+    void refreshPrice();
     default String setCloseTransactionDate(){
         return dateFormat.format(new Date().getTime());
     }

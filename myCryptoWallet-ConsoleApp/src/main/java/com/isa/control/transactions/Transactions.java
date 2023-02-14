@@ -37,6 +37,7 @@ public class Transactions implements Comparable<Transactions>{
         return Endpoints.getCoinsNames().containsKey(coin.getShortSymbol());
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

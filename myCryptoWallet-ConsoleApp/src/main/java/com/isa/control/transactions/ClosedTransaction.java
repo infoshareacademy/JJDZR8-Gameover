@@ -96,4 +96,16 @@ public class ClosedTransaction extends Transactions implements Transaction{
     public int hashCode() {
         return Objects.hash(closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
     }
+
+    public void setCloseTransactionDate(String closeTransactionDate) {
+        this.closeTransactionDate = closeTransactionDate;
+    }
+
+    public void setClosePrice(double closePrice) {
+        this.closePrice = closePrice;
+    }
+
+    public void setActivePartOfClosedTransaction(ActiveTransaction activePartOfClosedTransaction) {
+        this.activePartOfClosedTransaction = activePartOfClosedTransaction;
+    }
 }

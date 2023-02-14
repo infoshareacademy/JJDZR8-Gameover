@@ -35,7 +35,7 @@ public class ActiveTransaction extends Transactions implements Transaction{
         return (currentPrice - openPrice) * getVolume();
     }
     @Override
-    public void  refreshPrice(){ // #TODO - sprawdzić czy to działa?
+    public void  refreshPrice(){
        if(checkEndpointsName()){
            String request = Endpoints.buildRequest(getCoin().getShortSymbol());
            String response = Data.sendHttpRequest(request);
@@ -56,6 +56,9 @@ public class ActiveTransaction extends Transactions implements Transaction{
                 "cena zakupu " + openPrice + "cena aktualna " + currentPrice + "ilość: " + getVolume());
         System.out.println("Zysk/Strata: " + countProfit());
 
+    }
+    public double countTransactionCost(){
+        return openPrice * getVolume();
     }
 
     public String getOpenTransactionDate() {
@@ -87,4 +90,9 @@ public class ActiveTransaction extends Transactions implements Transaction{
     public int hashCode() {
         return Objects.hash(super.hashCode(), openTransactionDate, openPrice, currentPrice);
     }
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
 }
+
