@@ -6,21 +6,21 @@ import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 public class ActiveTransaction extends Transactions implements Transaction{
 
-    private final String openTransactionDate;
-    private final double openPrice;
+    private String openTransactionDate;
+    private double openPrice;
     private double currentPrice;
+
+    public ActiveTransaction(){}
 
     public ActiveTransaction(Coin coin, double volume) {
         super(coin, true, volume, Transaction.newDate.getTime());
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.currentPrice = Double.parseDouble(coin.getLastPrice());
-        this.openTransactionDate = setOpenTransactionDate();
+        this.openTransactionDate = establishOpenTransactionDate();
     }
 
     public ActiveTransaction(ActiveTransaction activeTransaction, double volume){
@@ -66,8 +66,8 @@ public class ActiveTransaction extends Transactions implements Transaction{
     }
 
     @Override
-    public String setOpenTransactionDate() {
-        return Transaction.super.setOpenTransactionDate();
+    public String establishOpenTransactionDate() {
+        return Transaction.super.establishOpenTransactionDate();
     }
 
     public double getOpenPrice() {
@@ -93,6 +93,14 @@ public class ActiveTransaction extends Transactions implements Transaction{
 
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public void setOpenTransactionDate(String openTransactionDate) {
+        this.openTransactionDate = openTransactionDate;
+    }
+
+    public void setOpenPrice(double openPrice) {
+        this.openPrice = openPrice;
     }
 }
 

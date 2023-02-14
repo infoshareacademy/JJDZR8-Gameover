@@ -6,27 +6,26 @@ import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 public class ClosedTransaction extends Transactions implements Transaction{
     private String closeTransactionDate;
     private double closePrice;
-    private final double openPrice;
+    private double openPrice;
     private ActiveTransaction activePartOfClosedTransaction;
 
+    public ClosedTransaction(){}
 
     public ClosedTransaction(ActiveTransaction activeTransaction) {
         super(activeTransaction.getCoin(), false, activeTransaction.getVolume(), activeTransaction.getIdTransaction());
-        this.closeTransactionDate = setCloseTransactionDate();
+        this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         refreshPrice();
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
         super(activeTransaction.getCoin(), false,volume, activeTransaction.getIdTransaction() );
-        this.closeTransactionDate = setCloseTransactionDate();
+        this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         refreshPrice();
 
@@ -64,8 +63,8 @@ public class ClosedTransaction extends Transactions implements Transaction{
     }
 
     @Override
-    public String setCloseTransactionDate() {
-        return Transaction.super.setCloseTransactionDate();
+    public String establishCloseTransactionDate() {
+        return Transaction.super.establishCloseTransactionDate();
     }
 
     public String getCloseTransactionDate() {
@@ -107,5 +106,9 @@ public class ClosedTransaction extends Transactions implements Transaction{
 
     public void setActivePartOfClosedTransaction(ActiveTransaction activePartOfClosedTransaction) {
         this.activePartOfClosedTransaction = activePartOfClosedTransaction;
+    }
+
+    public void setOpenPrice(double openPrice) {
+        this.openPrice = openPrice;
     }
 }

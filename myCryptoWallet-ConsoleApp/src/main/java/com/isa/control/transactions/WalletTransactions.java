@@ -6,7 +6,7 @@ public class WalletTransactions {
 
    private String walletId;
    private Transactions transactions;
-   
+   public WalletTransactions(){}
    public WalletTransactions(String walletId, Transactions transactions){
         this.walletId = walletId;
         this.transactions  = transactions;

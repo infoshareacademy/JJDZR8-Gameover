@@ -2,10 +2,10 @@
   {
     "walletId": "mojWallet",
     "transactions": {
-      "openTransactionDate": "2023-02-14 02:27:21",
+      "openTransactionDate": "2023-02-14 18:24:55",
       "openPrice": 307.2,
       "currentPrice": 307.2,
-      "idTransaction": 1676337919666,
+      "idTransaction": 1676394766256,
       "coin": {
         "symbol": "BNBBUSD",
         "shortSymbol": "BNB",

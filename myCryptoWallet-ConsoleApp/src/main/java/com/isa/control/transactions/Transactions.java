@@ -1,35 +1,43 @@
 package com.isa.control.transactions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.isa.control.Coin;
 import com.isa.control.Endpoints;
 
 import java.util.Objects;
 
 public class Transactions implements Comparable<Transactions>{
-    private final long idTransaction;
-    private final Coin coin;
-    private final boolean isActive;
-    private final double volume;
+    private long idTransaction;
+    private Coin coin;
+    private boolean isActive;
+    private double volume;
 
-    public Transactions(Coin coin, boolean isActive, double volume, long idTransaction) {
+    public Transactions(){}
+    public Transactions( Coin coin, boolean isActive, double volume, long idTransaction) {
         this.coin = coin;
         this.isActive = isActive;
         this.volume = volume;
         this.idTransaction = idTransaction;
     }
-
+    @JsonGetter("idTransaction")
     public long getIdTransaction() {
         return idTransaction;
     }
 
+    @JsonGetter("coin")
     public Coin getCoin() {
         return coin;
     }
 
+    @JsonGetter("isActive")
     public boolean isActive() {
         return isActive;
     }
 
+    @JsonGetter("volume")
     public double getVolume() {
         return volume;
     }
@@ -57,5 +65,24 @@ public class Transactions implements Comparable<Transactions>{
         else if (idTransaction>transactions.getIdTransaction()) return -1;
         else return 0;
 
+    }
+
+    @JsonSetter("idTransaction")
+    public void setIdTransaction(long idTransaction) {
+        this.idTransaction = idTransaction;
+    }
+
+    @JsonSetter("coin")
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    @JsonSetter("active")
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+    @JsonSetter("volume")
+    public void setVolume(double volume) {
+        this.volume = volume;
     }
 }

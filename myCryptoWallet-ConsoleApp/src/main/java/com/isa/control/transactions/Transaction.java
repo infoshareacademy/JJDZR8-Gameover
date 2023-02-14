@@ -11,10 +11,10 @@ public interface Transaction {
     double countProfit();
     void printDetails();
     void refreshPrice();
-    default String setCloseTransactionDate(){
+    default String establishCloseTransactionDate(){
         return dateFormat.format(new Date().getTime());
     }
-    default String setOpenTransactionDate(){
+    default String establishOpenTransactionDate(){
         return dateFormat.format(new Date().getTime());
     };
 
