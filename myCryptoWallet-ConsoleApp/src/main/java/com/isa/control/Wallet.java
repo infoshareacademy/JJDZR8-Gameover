@@ -5,6 +5,7 @@ import com.isa.control.transactions.ClosedTransaction;
 import com.isa.menu.Balance;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Wallet {
@@ -44,11 +45,19 @@ public class Wallet {
         else System.out.println("volumen musi być liczbą dodatnią");
 
     }
+    public void updateWallet(){
+        historyProfitCount();
+        currentProfitCount();
+        countActiveTransactionsCosts();
+        countWalletBalance();
+    }
     public void currentProfitCount(){
-        this.profitLoss = activeTransactions.stream().mapToDouble(n ->{
-            n.refreshPrice();
-            return n.countProfit();
-        }).sum();
+        if(!activeTransactions.isEmpty()) {
+            this.profitLoss = activeTransactions.stream().mapToDouble(n -> {
+                n.refreshPrice();
+                return n.countProfit();
+            }).sum();
+        }else this.profitLoss = 0;
     }
 
     public void historyProfitCount(){
@@ -61,8 +70,23 @@ public class Wallet {
     public void countWalletBalance(){
         this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
     }
-    public void countActiveTransactionsCosts(){
-       this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
+    public void countActiveTransactionsCosts() {
+        if (!activeTransactions.isEmpty()) {
+            this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
+        }else this.transactionsCosts = 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Wallet wallet = (Wallet) o;
+        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && startBalance == wallet.startBalance && Objects.equals(coin, wallet.coin) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(walletId, startBalance, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, coin, transactionsHistory, activeTransactions);
     }
 
     public String getWalletId() {

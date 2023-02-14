@@ -23,17 +23,18 @@ public class App {
         Coin[] coins = Data.deserializeCoin();
         System.out.println("długość list " + coins.length);
 
-        Coin coin = coins[0];
+        Coin coin = coins[10];
 
         System.out.println(coin.getName() + coin.getLastPrice());
         ActiveTransaction at  = new ActiveTransaction(coin, 1.0);
 
         at.printDetails();
-        at.refreshPrice();
+      //  at.refreshPrice();
         at.printDetails();
         Wallet wallet = new Wallet("mojWallet", Balance.THOUSAND);
 
         wallet.buyNewToken(coin,0.5);
+        wallet.updateWallet();
         Set<Wallet> mySet = new HashSet<>();
         mySet.add(wallet);
 
