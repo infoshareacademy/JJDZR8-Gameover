@@ -1,38 +1,47 @@
 [
   {
     "walletId": "mojWallet",
-    "transactions": {
-      "openTransactionDate": "2023-02-14 18:24:55",
-      "openPrice": 307.2,
-      "currentPrice": 307.2,
-      "idTransaction": 1676394766256,
-      "coin": {
-        "symbol": "BNBBUSD",
-        "shortSymbol": "BNB",
-        "name": "Binance Coin",
-        "priceChange": "-1.00000000",
-        "priceChangePercent": "-0.324",
-        "weightedAvgPrice": "308.70390574",
-        "prevClosePrice": "308.20000000",
-        "lastPrice": "307.20000000",
-        "lastQty": "0.06500000",
-        "bidPrice": "307.20000000",
-        "bidQty": "69.50200000",
-        "askPrice": "307.30000000",
-        "askQty": "117.01700000",
-        "openPrice": "308.20000000",
-        "highPrice": "311.40000000",
-        "lowPrice": "306.30000000",
-        "volume": "114171.63100000",
-        "quoteVolume": "35245228.41450000",
-        "openTime": 1676103857727,
-        "closeTime": 1676190257727,
-        "firstId": 196523829,
-        "lastId": 196586390,
-        "count": 62562
-      },
-      "isActive": true,
-      "volume": 0.5
-    }
+    "startBalance": "THOUSAND",
+    "walletSum": 0.0,
+    "profitLoss": 0.0,
+    "historicalProfitLoss": 0.0,
+    "transactionsCosts": 0.0,
+    "walletBalance": 0.0,
+    "transactionsHistory": [],
+    "activeTransactions": [
+      {
+        "idTransaction": 1676404634247,
+        "coin": {
+          "symbol": "BNBBUSD",
+          "shortSymbol": "BNB",
+          "name": "Binance Coin",
+          "priceChange": "-1.00000000",
+          "priceChangePercent": "-0.324",
+          "weightedAvgPrice": "308.70390574",
+          "prevClosePrice": "308.20000000",
+          "lastPrice": "307.20000000",
+          "lastQty": "0.06500000",
+          "bidPrice": "307.20000000",
+          "bidQty": "69.50200000",
+          "askPrice": "307.30000000",
+          "askQty": "117.01700000",
+          "openPrice": "308.20000000",
+          "highPrice": "311.40000000",
+          "lowPrice": "306.30000000",
+          "volume": "114171.63100000",
+          "quoteVolume": "35245228.41450000",
+          "openTime": 1676103857727,
+          "closeTime": 1676190257727,
+          "firstId": 196523829,
+          "lastId": 196586390,
+          "count": 62562
+        },
+        "isActive": true,
+        "volume": 0.5,
+        "openTransactionDate": "2023-02-14 20:57:15",
+        "openPrice": 307.2,
+        "currentPrice": 307.2
+      }
+    ]
   }
 ]

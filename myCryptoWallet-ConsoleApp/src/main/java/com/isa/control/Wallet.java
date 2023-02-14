@@ -2,26 +2,23 @@ package com.isa.control;
 
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
-import com.isa.control.transactions.WalletTransactions;
 import com.isa.menu.Balance;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class Wallet {
     private String walletId;
     private Balance startBalance;
-    private Integer coinValue;
     private double walletSum;
     private double profitLoss;
     private double historicalProfitLoss;
     private double transactionsCosts;
     private double walletBalance;
     private Coin coin;
-    private Set<ClosedTransaction> transactionsHistory;
-    private Set<ActiveTransaction> activeTransactions;
+    private Set<ClosedTransaction> transactionsHistory = new HashSet<>();
+    private Set<ActiveTransaction> activeTransactions = new HashSet<>();
+    public Wallet(){}
 
     public Wallet(String walletId, Balance startBalance){
         this.walletId = walletId;
@@ -60,17 +57,28 @@ public class Wallet {
         }else this.historicalProfitLoss = 0;
     }
 
+
+    public void countWalletBalance(){
+        this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
+    }
+    public void countActiveTransactionsCosts(){
+       this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
+    }
+
     public String getWalletId() {
         return walletId;
     }
 
-
-    public Integer getCoinValue() {
-        return coinValue;
+    public void setWalletId(String walletId) {
+        this.walletId = walletId;
     }
 
-    public void setCoinValue(Integer coinValue) {
-        this.coinValue = coinValue;
+    public Balance getStartBalance() {
+        return startBalance;
+    }
+
+    public void setStartBalance(Balance startBalance) {
+        this.startBalance = startBalance;
     }
 
     public double getWalletSum() {
@@ -81,6 +89,38 @@ public class Wallet {
         this.walletSum = walletSum;
     }
 
+    public double getProfitLoss() {
+        return profitLoss;
+    }
+
+    public void setProfitLoss(double profitLoss) {
+        this.profitLoss = profitLoss;
+    }
+
+    public double getHistoricalProfitLoss() {
+        return historicalProfitLoss;
+    }
+
+    public void setHistoricalProfitLoss(double historicalProfitLoss) {
+        this.historicalProfitLoss = historicalProfitLoss;
+    }
+
+    public double getTransactionsCosts() {
+        return transactionsCosts;
+    }
+
+    public void setTransactionsCosts(double transactionsCosts) {
+        this.transactionsCosts = transactionsCosts;
+    }
+
+    public double getWalletBalance() {
+        return walletBalance;
+    }
+
+    public void setWalletBalance(double walletBalance) {
+        this.walletBalance = walletBalance;
+    }
+
     public Coin getCoin() {
         return coin;
     }
@@ -88,26 +128,20 @@ public class Wallet {
     public void setCoin(Coin coin) {
         this.coin = coin;
     }
-    public void setWalletTransactions(Set<WalletTransactions> transactionsList){
-        this.activeTransactions = new HashSet<>();
-        this.transactionsHistory = new HashSet<>();
-        transactionsList.stream().filter(n->n.getWalletId().equals(walletId))
-                .forEach(n->{
-            if (n.getTransactions().isActive()) this.activeTransactions.add((ActiveTransaction) n.getTransactions());
-            else this.transactionsHistory.add((ClosedTransaction) n.getTransactions());
-        });
-    }
-    public Set<WalletTransactions> addTransactionsToRecord(){
-        Set<WalletTransactions> records = new HashSet<>();
-         transactionsHistory.forEach(n->records.add(new WalletTransactions(walletId, n)));
-         activeTransactions.forEach(n->records.add(new WalletTransactions(walletId, n)));
-         return records;
-    }
-    public void countWalletBalance(){
-        this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
-    }
-    public void countActiveTransactionsCosts(){
-       this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
+
+    public Set<ClosedTransaction> getTransactionsHistory() {
+        return transactionsHistory;
     }
 
+    public void setTransactionsHistory(Set<ClosedTransaction> transactionsHistory) {
+        this.transactionsHistory = transactionsHistory;
+    }
+
+    public Set<ActiveTransaction> getActiveTransactions() {
+        return activeTransactions;
+    }
+
+    public void setActiveTransactions(Set<ActiveTransaction> activeTransactions) {
+        this.activeTransactions = activeTransactions;
+    }
 }

@@ -2,12 +2,9 @@ package com.isa.boundary;
 
 import com.isa.control.*;
 import com.isa.control.transactions.ActiveTransaction;
-import com.isa.control.transactions.WalletTransactions;
 import com.isa.menu.Balance;
-import com.isa.menu.Menu;
 
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -36,10 +33,13 @@ public class App {
         at.printDetails();
         Wallet wallet = new Wallet("mojWallet", Balance.THOUSAND);
 
-        wallet.setWalletTransactions(Data.deserializeWalletTransactions());
         wallet.buyNewToken(coin,0.5);
-        Set<WalletTransactions> walletTransactions = wallet.addTransactionsToRecord();
-        Data.serializer(walletTransactions, "wallet.json");
+        Set<Wallet> mySet = new HashSet<>();
+        mySet.add(wallet);
+
+        Data.serializer(mySet, "wallet.json");
+        HashSet<Wallet> wallets = Data.deserializeWallet();
+        System.out.println(wallets.isEmpty());
 
         /*Coin[] coinList = Data.deserializeCoin("availableCoins.json");
 

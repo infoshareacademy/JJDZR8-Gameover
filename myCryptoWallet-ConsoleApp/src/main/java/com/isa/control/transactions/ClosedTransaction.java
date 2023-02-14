@@ -8,23 +8,31 @@ import com.isa.control.Endpoints;
 
 import java.util.Objects;
 
-public class ClosedTransaction extends Transactions implements Transaction{
+public class ClosedTransaction implements Transaction, Comparable<ClosedTransaction>{
+
+    private long idTransaction;
+    private Coin coin;
+    private boolean isActive;
+    private double volume;
     private String closeTransactionDate;
     private double closePrice;
     private double openPrice;
     private ActiveTransaction activePartOfClosedTransaction;
 
     public ClosedTransaction(){}
-
     public ClosedTransaction(ActiveTransaction activeTransaction) {
-        super(activeTransaction.getCoin(), false, activeTransaction.getVolume(), activeTransaction.getIdTransaction());
+        this.idTransaction = activeTransaction.getIdTransaction();
+        this.isActive = false;
+        this.volume = activeTransaction.getVolume();
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         refreshPrice();
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
-        super(activeTransaction.getCoin(), false,volume, activeTransaction.getIdTransaction() );
+        this.idTransaction = activeTransaction.getIdTransaction();
+        this.isActive = false;
+        this.volume = volume;
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         refreshPrice();
@@ -34,14 +42,14 @@ public class ClosedTransaction extends Transactions implements Transaction{
 
     @Override
     public double countProfit() {
-        return (closePrice - openPrice) * getVolume();
+        return (closePrice - openPrice) * volume;
     }
 
     @Override
     public void printDetails() {
-        System.out.println("id Transakcji" + getIdTransaction());
-        System.out.println(getCoin().getName() + " " + getCoin().getShortSymbol() +
-                "cena zakupu " + openPrice + "cena aktualna " + closePrice + "ilość: " + getVolume());
+        System.out.println("id Transakcji" + idTransaction);
+        System.out.println(coin.getName() + " " + coin.getShortSymbol() +
+                "cena zakupu " + openPrice + "cena aktualna " + closePrice + "ilość: " + volume);
         System.out.println("Zysk/Strata: " + countProfit());
 
     }
@@ -49,7 +57,7 @@ public class ClosedTransaction extends Transactions implements Transaction{
     @Override
     public void refreshPrice() {
         if(checkEndpointsName()){
-            String request = Endpoints.buildRequest(getCoin().getShortSymbol());
+            String request = Endpoints.buildRequest(coin.getShortSymbol());
             String response = Data.sendHttpRequest(request);
             if(response.contains("\"code\":-1100")) {
                 System.out.println("Nieprawidłowa cena transakcji spróbuj jeszcze raz");
@@ -67,20 +75,11 @@ public class ClosedTransaction extends Transactions implements Transaction{
         return Transaction.super.establishCloseTransactionDate();
     }
 
-    public String getCloseTransactionDate() {
-        return closeTransactionDate;
-    }
 
-    public double getClosePrice() {
-        return closePrice;
-    }
 
-    public double getOpenPrice() {
-        return openPrice;
-    }
-
-    public ActiveTransaction getActivePartOfClosedTransaction() {
-        return activePartOfClosedTransaction;
+    @Override
+    public boolean checkEndpointsName() {
+        return Endpoints.getCoinsNames().containsKey(coin.getShortSymbol());
     }
 
     @Override
@@ -88,27 +87,82 @@ public class ClosedTransaction extends Transactions implements Transaction{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClosedTransaction that = (ClosedTransaction) o;
-        return Double.compare(that.closePrice, closePrice) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Objects.equals(closeTransactionDate, that.closeTransactionDate) && Objects.equals(activePartOfClosedTransaction, that.activePartOfClosedTransaction);
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.closePrice, closePrice) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Objects.equals(coin, that.coin) && Objects.equals(closeTransactionDate, that.closeTransactionDate) && Objects.equals(activePartOfClosedTransaction, that.activePartOfClosedTransaction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
+        return Objects.hash(idTransaction, coin, isActive, volume, closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
+    }
+
+    public long getIdTransaction() {
+        return idTransaction;
+    }
+
+    public void setIdTransaction(long idTransaction) {
+        this.idTransaction = idTransaction;
+    }
+
+    public Coin getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    public String getCloseTransactionDate() {
+        return closeTransactionDate;
     }
 
     public void setCloseTransactionDate(String closeTransactionDate) {
         this.closeTransactionDate = closeTransactionDate;
     }
 
+    public double getClosePrice() {
+        return closePrice;
+    }
+
     public void setClosePrice(double closePrice) {
         this.closePrice = closePrice;
+    }
+
+    public double getOpenPrice() {
+        return openPrice;
+    }
+
+    public void setOpenPrice(double openPrice) {
+        this.openPrice = openPrice;
+    }
+
+    public ActiveTransaction getActivePartOfClosedTransaction() {
+        return activePartOfClosedTransaction;
     }
 
     public void setActivePartOfClosedTransaction(ActiveTransaction activePartOfClosedTransaction) {
         this.activePartOfClosedTransaction = activePartOfClosedTransaction;
     }
 
-    public void setOpenPrice(double openPrice) {
-        this.openPrice = openPrice;
+    @Override
+    public int compareTo(ClosedTransaction closedTransaction) {
+        if(idTransaction<closedTransaction.getIdTransaction()) return 1;
+        else if (idTransaction>closedTransaction.getIdTransaction()) return -1;
+        else return 0;
     }
 }

@@ -11,6 +11,7 @@ public interface Transaction {
     double countProfit();
     void printDetails();
     void refreshPrice();
+    boolean checkEndpointsName();
     default String establishCloseTransactionDate(){
         return dateFormat.format(new Date().getTime());
     }
