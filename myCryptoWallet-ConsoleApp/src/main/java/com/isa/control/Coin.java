@@ -87,8 +87,8 @@ public class Coin implements Comparable<Coin> {
         return shortSymbol;
     }
 
-    public void setShortSymbol(){
-        this.shortSymbol = symbol.replace("BUSD", "");
+    public void setShortSymbol() {
+        this.shortSymbol = getSymbol().replace("BUSD", "");
     }
 
     public String getName() {
@@ -96,8 +96,7 @@ public class Coin implements Comparable<Coin> {
     }
 
     public void setName() {
-        Map<String, String> coinsNames = Endpoints.getCoinsNames();
-        this.name = coinsNames.getOrDefault(shortSymbol, "Invalid name");
+        this.name = Endpoints.getCoinsNames().get(getShortSymbol());
     }
 
     public String getPriceChange() {

@@ -8,11 +8,13 @@ import com.isa.control.Endpoints;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class ClosedTransaction extends Transactions implements Transaction{
     private String closeTransactionDate;
     private double closePrice;
-    private final double openPrice ;
+    private final double openPrice;
+    private ActiveTransaction activePartOfClosedTransaction;
 
 
     public ClosedTransaction(ActiveTransaction activeTransaction) {
@@ -28,7 +30,7 @@ public class ClosedTransaction extends Transactions implements Transaction{
         this.openPrice = activeTransaction.getOpenPrice();
         refreshPrice();
 
-        new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
+        this.activePartOfClosedTransaction = new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }
 
     @Override
@@ -64,5 +66,34 @@ public class ClosedTransaction extends Transactions implements Transaction{
     @Override
     public String setCloseTransactionDate() {
         return Transaction.super.setCloseTransactionDate();
+    }
+
+    public String getCloseTransactionDate() {
+        return closeTransactionDate;
+    }
+
+    public double getClosePrice() {
+        return closePrice;
+    }
+
+    public double getOpenPrice() {
+        return openPrice;
+    }
+
+    public ActiveTransaction getActivePartOfClosedTransaction() {
+        return activePartOfClosedTransaction;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClosedTransaction that = (ClosedTransaction) o;
+        return Double.compare(that.closePrice, closePrice) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Objects.equals(closeTransactionDate, that.closeTransactionDate) && Objects.equals(activePartOfClosedTransaction, that.activePartOfClosedTransaction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
     }
 }
