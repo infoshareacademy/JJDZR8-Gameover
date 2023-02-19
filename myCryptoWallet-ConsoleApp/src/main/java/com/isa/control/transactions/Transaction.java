@@ -10,11 +10,12 @@ public interface Transaction {
 
     double countProfit();
     void printDetails();
-    void refreshPrice(); // #TODO - sprawdzić czy to działa.
-    default String setCloseTransactionDate(){
+    void refreshPrice();
+    boolean checkEndpointsName();
+    default String establishCloseTransactionDate(){
         return dateFormat.format(new Date().getTime());
     }
-    default String setOpenTransactionDate(){
+    default String establishOpenTransactionDate(){
         return dateFormat.format(new Date().getTime());
     };
 

@@ -1,12 +1,9 @@
 package com.isa.control;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.isa.control.transactions.WalletTransactions;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -16,10 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Data {
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -48,15 +42,9 @@ public class Data {
     public static Map<String,String> deserialize(String file, Object object){
         return new Gson().fromJson(loadFile(file), (Type) object.getClass());
     }
-    public static Set<WalletTransactions> deserializeWalletTransactions(){
-        Path path = Path.of( pathToFile,"wallet.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(path.toFile(), new TypeReference<>() {});
-        } catch (IOException e) {
-            System.out.println("Niezgodny typ obiektu");
-            return null;
-        }
+    public static HashSet<Wallet> deserializeWallet(){
+        Type listType = new TypeToken<HashSet<Wallet>>(){}.getType();
+        return new Gson().fromJson(loadFile("wallet.json"), listType);
     }
     public static Map<String,String> deserializeRequest(String response, Object object){
         return new Gson().fromJson(response, (Type) object.getClass());

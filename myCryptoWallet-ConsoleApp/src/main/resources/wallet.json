@@ -1,0 +1,47 @@
+[
+  {
+    "walletId": "mojWallet",
+    "startBalance": "THOUSAND",
+    "walletSum": 0.0,
+    "profitLoss": 0.010149999999999992,
+    "historicalProfitLoss": 0.0,
+    "transactionsCosts": 0.1834,
+    "walletBalance": 999.82675,
+    "transactionsHistory": [],
+    "activeTransactions": [
+      {
+        "idTransaction": 1676410051132,
+        "coin": {
+          "symbol": "ADABUSD",
+          "shortSymbol": "ADA",
+          "name": "Cardano",
+          "priceChange": "0.00760000",
+          "priceChangePercent": "2.116",
+          "weightedAvgPrice": "0.36359228",
+          "prevClosePrice": "0.35920000",
+          "lastPrice": "0.36680000",
+          "lastQty": "331.20000000",
+          "bidPrice": "0.36680000",
+          "bidQty": "73051.50000000",
+          "askPrice": "0.36690000",
+          "askQty": "688.50000000",
+          "openPrice": "0.35920000",
+          "highPrice": "0.37030000",
+          "lowPrice": "0.35900000",
+          "volume": "33374755.10000000",
+          "quoteVolume": "12134803.23765000",
+          "openTime": 1676103854189,
+          "closeTime": 1676190254189,
+          "firstId": 98099469,
+          "lastId": 98137070,
+          "count": 37602
+        },
+        "isActive": true,
+        "volume": 0.5,
+        "openTransactionDate": "2023-02-14 22:27:31",
+        "openPrice": 0.3668,
+        "currentPrice": 0.3871
+      }
+    ]
+  }
+]

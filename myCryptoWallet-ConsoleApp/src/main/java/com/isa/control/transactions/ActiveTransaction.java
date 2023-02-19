@@ -6,25 +6,35 @@ import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
-public class ActiveTransaction extends Transactions implements Transaction{
+public class ActiveTransaction implements Transaction, Comparable<ActiveTransaction>{
 
-    private final String openTransactionDate;
-    private final double openPrice;
+    private long idTransaction;
+    private Coin coin;
+    private boolean isActive;
+    private double volume;
+    private String openTransactionDate;
+    private double openPrice;
     private double currentPrice;
 
+    public ActiveTransaction(){}
+
     public ActiveTransaction(Coin coin, double volume) {
-        super(coin, true, volume, Transaction.newDate.getTime());
+        this.idTransaction = Transaction.newDate.getTime();
+        this.isActive = true;
+        this.coin = coin;
+        this.volume = volume;
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.currentPrice = Double.parseDouble(coin.getLastPrice());
-        this.openTransactionDate = setOpenTransactionDate();
+        this.openTransactionDate = establishOpenTransactionDate();
     }
 
     public ActiveTransaction(ActiveTransaction activeTransaction, double volume){
-        super(activeTransaction.getCoin(), true, volume, Transaction.newDate.getTime());
+        this.idTransaction = Transaction.newDate.getTime();
+        this.isActive = true;
+        this.coin = activeTransaction.getCoin();
+        this.volume = volume;
         this.openPrice = activeTransaction.getOpenPrice();
         this.openTransactionDate = activeTransaction.getOpenTransactionDate();
         this.currentPrice = activeTransaction.getCurrentPrice();
@@ -32,59 +42,122 @@ public class ActiveTransaction extends Transactions implements Transaction{
 
     @Override
     public double countProfit() {
-        return (currentPrice - openPrice) * getVolume();
+        return (currentPrice - openPrice) * volume;
     }
     @Override
-    public void  refreshPrice(){ // #TODO - sprawdzić czy to działa?
+    public void  refreshPrice(){
        if(checkEndpointsName()){
-           String request = Endpoints.buildRequest(getCoin().getShortSymbol());
+           String request = Endpoints.buildRequest(coin.getShortSymbol());
            String response = Data.sendHttpRequest(request);
            if(response.contains("\"code\":-1100")) {
                System.out.println("cena nie została zaktualizowana");
            }else {
                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-               Coin coin = gson.fromJson(response, Coin.class);
-                this.currentPrice = Double.parseDouble(coin.getLastPrice());
+               Coin[] coin = gson.fromJson(response, Coin[].class);
+                this.currentPrice = Double.parseDouble(coin[0].getLastPrice());
            }
        }
     }
 
     @Override
     public void printDetails() {
-        System.out.println("id Transakcji" + getIdTransaction());
-        System.out.println(getCoin().getName() + " " + getCoin().getShortSymbol() +
-                "cena zakupu " + openPrice + "cena aktualna " + currentPrice + "ilość: " + getVolume());
+        System.out.println("id Transakcji" + idTransaction);
+        System.out.println(coin.getName() + " " + coin.getShortSymbol() +
+                "cena zakupu " + openPrice + "cena aktualna " + currentPrice + "ilość: " + volume);
         System.out.println("Zysk/Strata: " + countProfit());
 
+    }
+    public double countTransactionCost(){
+        return openPrice * volume;
+    }
+
+
+
+    @Override
+    public String establishOpenTransactionDate() {
+        return Transaction.super.establishOpenTransactionDate();
+    }
+
+    @Override
+    public boolean checkEndpointsName() {
+        return Endpoints.getCoinsNames().containsKey(coin.getShortSymbol());
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActiveTransaction that = (ActiveTransaction) o;
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice);
+    }
+
+    @Override
+    public int compareTo(ActiveTransaction activeTransaction) {
+        if(idTransaction<activeTransaction.getIdTransaction()) return 1;
+        else if (idTransaction>activeTransaction.getIdTransaction()) return -1;
+        else return 0;
+    }
+
+    public long getIdTransaction() {
+        return idTransaction;
+    }
+
+    public void setIdTransaction(long idTransaction) {
+        this.idTransaction = idTransaction;
+    }
+
+    public Coin getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
     }
 
     public String getOpenTransactionDate() {
         return openTransactionDate;
     }
 
-    @Override
-    public String setOpenTransactionDate() {
-        return Transaction.super.setOpenTransactionDate();
+    public void setOpenTransactionDate(String openTransactionDate) {
+        this.openTransactionDate = openTransactionDate;
     }
 
     public double getOpenPrice() {
         return openPrice;
     }
+
+    public void setOpenPrice(double openPrice) {
+        this.openPrice = openPrice;
+    }
+
     public double getCurrentPrice() {
         return currentPrice;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        ActiveTransaction that = (ActiveTransaction) o;
-        return Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Objects.equals(openTransactionDate, that.openTransactionDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), openTransactionDate, openPrice, currentPrice);
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }
+
