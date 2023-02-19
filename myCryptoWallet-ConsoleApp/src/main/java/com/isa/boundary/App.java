@@ -3,6 +3,7 @@ package com.isa.boundary;
 import com.isa.control.*;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.menu.Balance;
+import com.isa.menu.Menu;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,14 +14,13 @@ public class App {
 
     public static void main(String[] args) {
 
-        new Endpoints();
-       // new Coins();
+        Coins.getInstance();
 
 
 
-      //  Menu.getMenu();
+        Menu.getMenu();
 
-        Coin[] coins = Data.deserializeCoin();
+        /*Coin[] coins = Data.deserializeCoin();
         System.out.println("długość list " + coins.length);
 
         Coin coin = coins[10];
@@ -41,7 +41,7 @@ public class App {
         Data.serializer(mySet, "wallet.json");
         HashSet<Wallet> wallets = Data.deserializeWallet();
         System.out.println(wallets.isEmpty());
-
+*/
         /*Coin[] coinList = Data.deserializeCoin("availableCoins.json");
 
         for (Coin coin : coinList) {

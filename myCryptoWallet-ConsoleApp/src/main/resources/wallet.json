@@ -3,14 +3,14 @@
     "walletId": "mojWallet",
     "startBalance": "THOUSAND",
     "walletSum": 0.0,
-    "profitLoss": 0.010149999999999992,
+    "profitLoss": 0.019199999999999995,
     "historicalProfitLoss": 0.0,
     "transactionsCosts": 0.1834,
-    "walletBalance": 999.82675,
+    "walletBalance": 999.8358,
     "transactionsHistory": [],
     "activeTransactions": [
       {
-        "idTransaction": 1676410051132,
+        "idTransaction": 1676807641909,
         "coin": {
           "symbol": "ADABUSD",
           "shortSymbol": "ADA",
@@ -38,9 +38,9 @@
         },
         "isActive": true,
         "volume": 0.5,
-        "openTransactionDate": "2023-02-14 22:27:31",
+        "openTransactionDate": "2023-02-19 12:54:01",
         "openPrice": 0.3668,
-        "currentPrice": 0.3871
+        "currentPrice": 0.4052
       }
     ]
   }
