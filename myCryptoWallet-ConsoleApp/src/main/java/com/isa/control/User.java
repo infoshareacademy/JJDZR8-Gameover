@@ -7,6 +7,10 @@ public class User {
     Wallet wallet;
     Coin coin;
 
+    public User(String userName) {
+        this.userName = userName;
+    }
+
     public Integer getIdUser() {
         return idUser;
     }
