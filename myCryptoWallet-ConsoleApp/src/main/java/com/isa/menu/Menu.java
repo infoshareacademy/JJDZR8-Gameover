@@ -73,7 +73,7 @@ public enum Menu {
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        List<Coin> coinsList = Coins.getCoinList();
+                        List<Coin> coinsList = Coins.getInstance().getCoinList();
                         CoinsList cL  = new CoinsList(coinsList, 10);
                         cL.pagesCreator();
                         cL.openPageFromKeyboard();
@@ -105,8 +105,7 @@ public enum Menu {
                     case 8:
                         System.out.println(Menu.USER_WALLET);
                         //wyswietla portfel uzytkownika
-                        Wallet.userWallet(user1, coin1);
-                        System.out.println(Wallet.getAllTransactionForUser(user1));
+
                         break;
                     case 9:
                         flag = false;
