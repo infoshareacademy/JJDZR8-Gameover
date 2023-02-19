@@ -1,12 +1,8 @@
 package com.isa.menu;
 
-import com.isa.*;
-import com.isa.control.Data;
+import com.isa.control.*;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-
+import java.util.*;
 
 public enum Menu {
     ADD_COIN(1, "Dodaj nowy coin"),
@@ -72,11 +68,15 @@ public enum Menu {
                         break;
                     case 2:
                         System.out.println(Menu.SEARCH_COIN);
-                        CoinSearch.findYourToken();
+                        CoinSearch coinSearch = new CoinSearch();
+                        coinSearch.findYourToken();
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        CoinsList cL  = new CoinsList(10);
+                        List<Coin> coinsList = Coins.getCoinList();
+                        CoinsList cL  = new CoinsList(coinsList, 10);
+                        cL.pagesCreator();
+                        cL.openPageFromKeyboard();
                         break;
                     case 4:
                         //System.out.println(Menu.UPDATE_COIN_LIST);
@@ -86,15 +86,20 @@ public enum Menu {
                         break;
                     case 5:
                         System.out.println(Menu.ADD_FAVOURITE_COIN);
+                        List<Coin> favCoinsList = Favourite.invocationFavouriteList();
+                        Favourite favourite = new Favourite(favCoinsList, 2);
+                        favourite.AddYourFavouriteToken();
+                        favourite.pagesCreator();
+                        favourite.openPageFromKeyboard();
                         break;
                     case 6:
                         System.out.println(Menu.EXPORT_FILE);
-                        //wczytuje zapisane wcześniej endpointy z pliku endpoints.json
+                        //zapisuje endpointsy do pliku
                         Data.serializer(Endpoints.getEndpoints(), "endpoints.json");
                         break;
                     case 7:
                         System.out.println(Menu.IMPORT_FILE);
-                        //importuje listę endpoints do pliku endpoints.json
+                        //importuje listę endpoints z pliku endpoints.json
                         Endpoints.setEndpoints();
                         break;
                     case 8:

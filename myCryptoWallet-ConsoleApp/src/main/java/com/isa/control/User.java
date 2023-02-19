@@ -1,4 +1,4 @@
-package com.isa;
+package com.isa.control;
 
 public class User {
     Integer idUser;

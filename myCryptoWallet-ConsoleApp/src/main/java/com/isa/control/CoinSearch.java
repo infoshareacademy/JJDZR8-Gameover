@@ -1,9 +1,8 @@
-package com.isa;
+package com.isa.control;
 
-
-import com.isa.control.Data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,17 +10,22 @@ import java.util.Scanner;
 
 public class CoinSearch {
 
-    public static Coin[] readCoinsFromJson() {
+    private Coin[] coins;
+
+    public CoinSearch() {
+        readCoinsFromJson();
+    }
+
+    public void readCoinsFromJson() {
         try {
-            Coin[] coins = Data.deserializeCoin();
-            return coins;
+            this.coins = Data.deserializeCoin();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            this.coins = null;
         }
     }
 
-    public static List<Coin> search(Coin[] coins, String searchCriteria) {
+    public List<Coin> search(String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
             if (coin.getSymbol().contains(searchCriteria)){
@@ -31,15 +35,27 @@ public class CoinSearch {
         return results;
     }
 
-    public static void findYourToken() {
+    public void findYourToken() {
         Scanner sc = new Scanner(System.in);
-        Coin[] coinList = readCoinsFromJson();
         System.out.println("Podaj kryterium wyszukiwania (symbol):");
         String searchCriteria = sc.nextLine().toUpperCase();
-        List<Coin> searchResults = CoinSearch.search(coinList, searchCriteria);
+        List<Coin> searchResults = search(searchCriteria);
         System.out.println("Wynik wyszukiwania:");
         for (Coin coin : searchResults) {
             System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + "USD");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CoinSearch that = (CoinSearch) o;
+        return Arrays.equals(coins, that.coins);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(coins);
     }
 }
