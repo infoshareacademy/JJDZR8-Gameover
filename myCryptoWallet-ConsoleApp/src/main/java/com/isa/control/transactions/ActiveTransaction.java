@@ -17,6 +17,8 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
     private String openTransactionDate;
     private double openPrice;
     private double currentPrice;
+    private double stopLoss;
+    private double takeProfit;
 
     public ActiveTransaction(){}
 
@@ -89,12 +91,12 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActiveTransaction that = (ActiveTransaction) o;
-        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Double.compare(that.stopLoss, stopLoss) == 0 && Double.compare(that.takeProfit, takeProfit) == 0 && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice);
+        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice, stopLoss, takeProfit);
     }
 
     @Override
@@ -158,6 +160,22 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
 
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public double getStopLoss() {
+        return stopLoss;
+    }
+
+    public void setStopLoss(double stopLoss) {
+        this.stopLoss = stopLoss;
+    }
+
+    public double getTakeProfit() {
+        return takeProfit;
+    }
+
+    public void setTakeProfit(double takeProfit) {
+        this.takeProfit = takeProfit;
     }
 }
 

@@ -4,9 +4,8 @@ import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
 import com.isa.menu.Balance;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Wallet {
     private String walletId;
@@ -28,7 +27,11 @@ public class Wallet {
     }
 
     public void buyNewToken(Coin coin, double volume){
-        activeTransactions.add(new ActiveTransaction(coin, volume));
+        ActiveTransaction activeTransaction = new ActiveTransaction(coin, volume);
+        if(activeTransaction.countTransactionCost() < walletBalance) {
+            activeTransactions.add(new ActiveTransaction(coin, volume));
+            System.out.println("transakcja zawarta pomyślnie");
+        }else System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
     }
     public void closeActiveTransaction(ActiveTransaction transaction, double volume){
         if(transaction.getVolume()<=volume){
@@ -50,6 +53,7 @@ public class Wallet {
         currentProfitCount();
         countActiveTransactionsCosts();
         countWalletBalance();
+        countWalletSum();
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
@@ -70,20 +74,56 @@ public class Wallet {
     public void countWalletBalance(){
         this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
     }
+
+    public void countWalletSum(){
+        this.walletSum = walletBalance + historicalProfitLoss + profitLoss;
+    }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
             this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
         }else this.transactionsCosts = 0;
     }
-    public void setStopLossAlarm(ActiveTransaction activeTransaction, double price){
-        if(activeTransaction.getCurrentPrice() <= price){
+    public void setStopLossAlarm(ActiveTransaction activeTransaction){
+        if(activeTransaction.getCurrentPrice() <= activeTransaction.getStopLoss()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
     }
-    public void setTakeProfitAlarm(ActiveTransaction activeTransaction, double price){
-        if(activeTransaction.getCurrentPrice() >= price){
+    public void setTakeProfitAlarm(ActiveTransaction activeTransaction){
+        if(activeTransaction.getCurrentPrice() >= activeTransaction.getTakeProfit()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
+    }
+    public static Wallet createNewWalletFromKeyboard(Scanner scanner){
+        System.out.println("podaj unikatową nazwę portfela");
+        String idForNewWallet = scanner.nextLine();
+        System.out.println("wybierz początkową wartość portfela:");
+        Balance.printBalance();
+        double walletBalance = scanner.nextDouble();
+        Balance balance = Balance.getBalance(walletBalance);
+        return new Wallet(idForNewWallet,balance);
+    }
+    public static Coin searchCoinForBuying(){
+        System.out.println("wybierz token który chcesz kupić");
+        CoinSearch coinSearch = new CoinSearch();
+        List<Coin> yourToken = new ArrayList<>();
+        while (yourToken.isEmpty()) {
+            yourToken = coinSearch.findYourToken();
+        }
+        return yourToken.get(0);
+    }
+    public ActiveTransaction searchActiveTransactionForSelling(Scanner scanner){
+        activeTransactions.forEach(ActiveTransaction::printDetails);
+        List<Long> idTransactionList = new ArrayList<>();
+        activeTransactions.forEach(n -> idTransactionList.add(n.getIdTransaction()));
+        System.out.println("aby sprzedać token podaj id transakcji");
+        long idActiveTransaction = 0;
+        while (!idTransactionList.contains(idActiveTransaction)) {
+            idActiveTransaction = scanner.nextLong();
+        }
+        long finalIdActiveTransaction = idActiveTransaction;
+        List<ActiveTransaction> activeTransactionList = activeTransactions.stream()
+                .filter(n -> n.getIdTransaction() == finalIdActiveTransaction).collect(Collectors.toList());
+        return activeTransactionList.get(0);
     }
 
     @Override
