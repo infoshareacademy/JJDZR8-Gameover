@@ -23,18 +23,22 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
     public ClosedTransaction(ActiveTransaction activeTransaction) {
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = activeTransaction.getVolume();
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
         refreshPrice();
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = volume;
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
         refreshPrice();
 
         this.activePartOfClosedTransaction = new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);

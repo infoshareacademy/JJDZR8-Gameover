@@ -124,13 +124,7 @@ public enum Menu {
     //wybierz portfel lub skonfiguruj nowy portfel
     public static Wallet choiceWallet(){
         HashSet<Wallet> wallets = Data.deserializeWallet();
-        Set<String> walletIdSet = new HashSet<>();
-        wallets.forEach(n->walletIdSet.add(n.getWalletId()));
-
-        System.out.println("Lista twoich portfeli:");
-        System.out.println("*********************");
-        walletIdSet.forEach(System.out::println);
-        System.out.println("*********************");
+        Set<String> walletIdSet = getAllWalletsIdSet(wallets);
 
         System.out.println("czy chcesz utworzyć nowy portfel? [Y = yes/ N = no");
         Scanner scanner = new Scanner(System.in);
@@ -141,7 +135,7 @@ public enum Menu {
             System.out.println("wpisz nazwę portfela z listy powyżej:");
             String walletId = scanner.nextLine();
             if (walletIdSet.contains(walletId)) {
-                return wallets.stream().filter(n -> n.getWalletId() == walletId).findFirst().get();
+                return wallets.stream().filter(n -> Objects.equals(n.getWalletId(), walletId)).findFirst().get();
             }else {
                 System.out.println("podałeś złą nazwę portfela");
                 return choiceWallet();
@@ -150,19 +144,21 @@ public enum Menu {
     }
     public static void walletService(Wallet wallet){
         wallet.updateWallet();
+        printWalletServiceInstruction();
         boolean flag = true;
         while (flag) {
             try {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("wybierz opcję dla portfela:");
                 int option = scanner.nextInt();
+                scanner.nextLine();
                 switch (option) {
                     case 1:
                         //kup nowy token
                         Coin coin = Wallet.searchCoinForBuying();
                         System.out.println("czy jesteś pewien, że chcesz zakupić tego coina? [Y = yes/ N = no]");
-                        String guard = scanner.nextLine().toUpperCase();
-                        if(guard == "Y"){
+                        char guard = scanner.nextLine().toUpperCase().charAt(0);
+                        if(guard == 'Y'){
                             System.out.println("podaj ilość którą chcesz zakupić(volumen):");
                             double volume = 0;
                             while (volume <= 0) {
@@ -177,7 +173,7 @@ public enum Menu {
                         if (wallet.getActiveTransactions().isEmpty()) {
                             System.out.println("nie masz otwartych transakcji");
                         } else {
-                            ActiveTransaction activeTransaction = wallet.searchActiveTransactionForSelling(scanner);
+                            ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner);
                             System.out.println("podaj volumen sprzedaży:");
                             double trVolume = 0;
                             while (trVolume <= 0) {
@@ -200,18 +196,62 @@ public enum Menu {
                         break;
                     case 5:
                         //ustaw SL dla wybranej transakcji
+                        System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie stop loss");
+                        ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner);
+                        if (!(activeTransaction == null)){
+                            System.out.println("podaj wartość stop loss");
+                            long price = scanner.nextLong();
+                            activeTransaction.setSLAlarm(price, true);
+                        }
+                        wallet.updateWallet();
+                        break;
                     case 6:
                         // ustaw TP dla wybranej transakcji
+                        System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie take profit");
+                        ActiveTransaction activeTrans = wallet.searchActiveTransaction(scanner);
+                        if (!(activeTrans == null)){
+                            System.out.println("podaj wartość take profit");
+                            long price = scanner.nextLong();
+                            activeTrans.setTPAlarm(price, true);
+                        }
+                        wallet.updateWallet();
+                        break;
                     case 7:
                         flag = false;
+                        break;
                     default:
                         System.out.println("Nie ma takiej opcji, spróbuj ponownie");
+                        break;
 
                 }
             }catch (InputMismatchException e) {
                 System.out.println("Podaj liczbę całkowitą");
             }
         }
+    }
+
+    public static void printWalletServiceInstruction(){
+        System.out.println("""
+                Aby skorzystać z opcji portfela wybierz:
+                1 - kup nowy token
+                2 - sprzedaj token
+                3 - wyświetl wartość portfela
+                4 - wyświetl historię portfela
+                5 - ustaw zlecenie stop loss
+                6 - ustaw zlecenie take profit
+                7 - wyjście
+                """);
+    }
+    public static Set<String> getAllWalletsIdSet(HashSet<Wallet> wallets){
+
+        Set<String> walletIdSet = new HashSet<>();
+        wallets.forEach(n->walletIdSet.add(n.getWalletId()));
+
+        System.out.println("Lista twoich portfeli:");
+        System.out.println("*********************");
+        walletIdSet.forEach(System.out::println);
+        System.out.println("*********************");
+        return walletIdSet;
     }
 
     @Override

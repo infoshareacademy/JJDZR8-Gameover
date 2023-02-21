@@ -18,7 +18,9 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
     private double openPrice;
     private double currentPrice;
     private double stopLoss;
+    private boolean isSLOn;
     private double takeProfit;
+    private boolean isTPOn;
 
     public ActiveTransaction(){}
 
@@ -73,7 +75,15 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         return openPrice * volume;
     }
 
+    public void setSLAlarm(double price, boolean active){
+        setStopLoss(price);
+        setSLOn(active);
+    }
 
+    public void setTPAlarm(double price, boolean active){
+        setTakeProfit(price);
+        setTPOn(active);
+    }
 
     @Override
     public String establishOpenTransactionDate() {
@@ -91,12 +101,12 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActiveTransaction that = (ActiveTransaction) o;
-        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Double.compare(that.stopLoss, stopLoss) == 0 && Double.compare(that.takeProfit, takeProfit) == 0 && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Double.compare(that.stopLoss, stopLoss) == 0 && isSLOn == that.isSLOn && Double.compare(that.takeProfit, takeProfit) == 0 && isTPOn == that.isTPOn && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice, stopLoss, takeProfit);
+        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice, stopLoss, isSLOn, takeProfit, isTPOn);
     }
 
     @Override
@@ -176,6 +186,22 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
 
     public void setTakeProfit(double takeProfit) {
         this.takeProfit = takeProfit;
+    }
+
+    public boolean isSLOn() {
+        return isSLOn;
+    }
+
+    public void setSLOn(boolean SLOn) {
+        isSLOn = SLOn;
+    }
+
+    public boolean isTPOn() {
+        return isTPOn;
+    }
+
+    public void setTPOn(boolean TPOn) {
+        isTPOn = TPOn;
     }
 }
 

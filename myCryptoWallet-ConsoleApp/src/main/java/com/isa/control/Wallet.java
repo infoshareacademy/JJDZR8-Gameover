@@ -15,7 +15,6 @@ public class Wallet {
     private double historicalProfitLoss;
     private double transactionsCosts;
     private double walletBalance;
-    private Coin coin;
     private Set<ClosedTransaction> transactionsHistory = new HashSet<>();
     private Set<ActiveTransaction> activeTransactions = new HashSet<>();
     public Wallet(){}
@@ -49,6 +48,13 @@ public class Wallet {
 
     }
     public void updateWallet(){
+        if (!activeTransactions.isEmpty()){
+            activeTransactions.forEach(n->{
+                n.refreshPrice();
+                executeStopLossAlarm(n);
+                executeTakeProfitAlarm(n);
+            });
+        }
         historyProfitCount();
         currentProfitCount();
         countActiveTransactionsCosts();
@@ -58,7 +64,7 @@ public class Wallet {
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
             this.profitLoss = activeTransactions.stream().mapToDouble(n -> {
-                n.refreshPrice();
+               // n.refreshPrice();
                 return n.countProfit();
             }).sum();
         }else this.profitLoss = 0;
@@ -76,20 +82,20 @@ public class Wallet {
     }
 
     public void countWalletSum(){
-        this.walletSum = walletBalance + historicalProfitLoss + profitLoss;
+        this.walletSum = startBalance.getWorth() + historicalProfitLoss + profitLoss;
     }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
             this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
         }else this.transactionsCosts = 0;
     }
-    public void setStopLossAlarm(ActiveTransaction activeTransaction){
-        if(activeTransaction.getCurrentPrice() <= activeTransaction.getStopLoss()){
+    public void executeStopLossAlarm(ActiveTransaction activeTransaction){
+        if(activeTransaction.isSLOn() && activeTransaction.getCurrentPrice() <= activeTransaction.getStopLoss()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
     }
-    public void setTakeProfitAlarm(ActiveTransaction activeTransaction){
-        if(activeTransaction.getCurrentPrice() >= activeTransaction.getTakeProfit()){
+    public void executeTakeProfitAlarm(ActiveTransaction activeTransaction){
+        if(activeTransaction.isTPOn() && activeTransaction.getCurrentPrice() >= activeTransaction.getTakeProfit()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
     }
@@ -111,11 +117,11 @@ public class Wallet {
         }
         return yourToken.get(0);
     }
-    public ActiveTransaction searchActiveTransactionForSelling(Scanner scanner){
+    public ActiveTransaction searchActiveTransaction(Scanner scanner){
         activeTransactions.forEach(ActiveTransaction::printDetails);
         List<Long> idTransactionList = new ArrayList<>();
         activeTransactions.forEach(n -> idTransactionList.add(n.getIdTransaction()));
-        System.out.println("aby sprzedać token podaj id transakcji");
+        System.out.println("wpisz ID aby wybrać pozycję");
         long idActiveTransaction = 0;
         while (!idTransactionList.contains(idActiveTransaction)) {
             idActiveTransaction = scanner.nextLong();
@@ -131,12 +137,12 @@ public class Wallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Wallet wallet = (Wallet) o;
-        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && startBalance == wallet.startBalance && Objects.equals(coin, wallet.coin) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
+        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && startBalance == wallet.startBalance && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletId, startBalance, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, coin, transactionsHistory, activeTransactions);
+        return Objects.hash(walletId, startBalance, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, transactionsHistory, activeTransactions);
     }
 
     public String getWalletId() {
@@ -193,14 +199,6 @@ public class Wallet {
 
     public void setWalletBalance(double walletBalance) {
         this.walletBalance = walletBalance;
-    }
-
-    public Coin getCoin() {
-        return coin;
-    }
-
-    public void setCoin(Coin coin) {
-        this.coin = coin;
     }
 
     public Set<ClosedTransaction> getTransactionsHistory() {
