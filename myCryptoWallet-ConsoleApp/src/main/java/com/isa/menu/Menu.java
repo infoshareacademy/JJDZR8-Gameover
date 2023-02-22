@@ -106,9 +106,10 @@ public enum Menu {
                     case 8:
                         System.out.println(Menu.USER_WALLET);
                         //wyswietla portfel uzytkownika
-                        Wallet wallet = choiceWallet();
-                        walletService(wallet);
-
+                        Map<String, Wallet> wallets = Data.deserializeWallet();
+                        Wallet wallet = choiceWallet(wallets);
+                        Wallet changedWallet = walletService(wallet);
+                        saveWalletsToFile(wallets,changedWallet);
                         break;
                     case 9:
                         flag = false;
@@ -121,28 +122,26 @@ public enum Menu {
             }
 
     }
-    //wybierz portfel lub skonfiguruj nowy portfel
-    public static Wallet choiceWallet(){
-        HashSet<Wallet> wallets = Data.deserializeWallet();
-        Set<String> walletIdSet = getAllWalletsIdSet(wallets);
+
+    public static Wallet choiceWallet(Map<String, Wallet> wallets){
 
         System.out.println("czy chcesz utworzyć nowy portfel? [Y = yes/ N = no");
         Scanner scanner = new Scanner(System.in);
-        String yourChoice = scanner.nextLine().toUpperCase();
-        if(yourChoice == "Y"){
+        char yourChoice = scanner.nextLine().toUpperCase().charAt(0);
+        if(yourChoice == 'Y'){
            return Wallet.createNewWalletFromKeyboard(scanner);
         }else {
+            System.out.println("***********");
+            wallets.keySet().forEach(System.out::println);
+            System.out.println("***********");
             System.out.println("wpisz nazwę portfela z listy powyżej:");
-            String walletId = scanner.nextLine();
-            if (walletIdSet.contains(walletId)) {
-                return wallets.stream().filter(n -> Objects.equals(n.getWalletId(), walletId)).findFirst().get();
-            }else {
-                System.out.println("podałeś złą nazwę portfela");
-                return choiceWallet();
-            }
-        }
+            Scanner sc = new Scanner(System.in);
+            String walletId = sc.nextLine().trim();
+            if (wallets.containsKey(walletId)) return wallets.get(walletId);
+            else return choiceWallet(wallets);
+           }
     }
-    public static void walletService(Wallet wallet){
+    public static Wallet walletService(Wallet wallet){
         wallet.updateWallet();
         printWalletServiceInstruction();
         boolean flag = true;
@@ -191,10 +190,14 @@ public enum Menu {
                         System.out.println("zysk na pozycjach zamkniętych: " + wallet.getHistoricalProfitLoss());
                         break;
                     case 4:
+                        //wyświetl otwarte pozycje
+                        wallet.getActiveTransactions().forEach(ActiveTransaction::printDetails);
+                        break;
+                    case 5:
                         //wyświetl transakcje historyczne
                         wallet.getTransactionsHistory().forEach(ClosedTransaction::printDetails);
                         break;
-                    case 5:
+                    case 6:
                         //ustaw SL dla wybranej transakcji
                         System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie stop loss");
                         ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner);
@@ -205,7 +208,7 @@ public enum Menu {
                         }
                         wallet.updateWallet();
                         break;
-                    case 6:
+                    case 7:
                         // ustaw TP dla wybranej transakcji
                         System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie take profit");
                         ActiveTransaction activeTrans = wallet.searchActiveTransaction(scanner);
@@ -216,7 +219,7 @@ public enum Menu {
                         }
                         wallet.updateWallet();
                         break;
-                    case 7:
+                    case 8:
                         flag = false;
                         break;
                     default:
@@ -228,6 +231,7 @@ public enum Menu {
                 System.out.println("Podaj liczbę całkowitą");
             }
         }
+        return wallet;
     }
 
     public static void printWalletServiceInstruction(){
@@ -236,22 +240,26 @@ public enum Menu {
                 1 - kup nowy token
                 2 - sprzedaj token
                 3 - wyświetl wartość portfela
-                4 - wyświetl historię portfela
-                5 - ustaw zlecenie stop loss
-                6 - ustaw zlecenie take profit
-                7 - wyjście
+                4 - wyświetl otwarte pozycje
+                5 - wyświetl historię portfela
+                6 - ustaw zlecenie stop loss
+                7 - ustaw zlecenie take profit
+                8 - wyjście
                 """);
     }
-    public static Set<String> getAllWalletsIdSet(HashSet<Wallet> wallets){
 
-        Set<String> walletIdSet = new HashSet<>();
-        wallets.forEach(n->walletIdSet.add(n.getWalletId()));
-
-        System.out.println("Lista twoich portfeli:");
-        System.out.println("*********************");
-        walletIdSet.forEach(System.out::println);
-        System.out.println("*********************");
-        return walletIdSet;
+    public static void saveWalletsToFile(Map<String, Wallet> wallets, Wallet wallet){
+        if(wallets == null){
+            wallets = new HashMap<>();
+            wallets.put(wallet.getWalletId(), wallet);
+            Data.serializer(wallets, "wallet.json");
+        } else if (!wallets.containsKey(wallet.getWalletId())){
+            wallets.put(wallet.getWalletId(), wallet);
+            Data.serializer(wallets, "wallet.json");
+        } else{
+            wallets.replace(wallet.getWalletId(), wallet);
+            Data.serializer(wallets, "wallet.json");
+        }
     }
 
     @Override

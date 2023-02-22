@@ -1,47 +1,51 @@
-[
-  {
+{
+  "mojWallet": {
     "walletId": "mojWallet",
-    "startBalance": "THOUSAND",
-    "walletSum": 0.0,
-    "profitLoss": 0.019199999999999995,
+    "startBalance": "TEN_THOUSAND",
+    "walletSum": 9995.61,
+    "profitLoss": -4.390000000000145,
     "historicalProfitLoss": 0.0,
-    "transactionsCosts": 0.1834,
-    "walletBalance": 999.8358,
+    "transactionsCosts": 4762.026000000001,
+    "walletBalance": 5233.583999999999,
     "transactionsHistory": [],
     "activeTransactions": [
       {
-        "idTransaction": 1676807641909,
+        "idTransaction": 1677097905135,
         "coin": {
-          "symbol": "ADABUSD",
-          "shortSymbol": "ADA",
-          "name": "Cardano",
-          "priceChange": "0.00760000",
-          "priceChangePercent": "2.116",
-          "weightedAvgPrice": "0.36359228",
-          "prevClosePrice": "0.35920000",
-          "lastPrice": "0.36680000",
-          "lastQty": "331.20000000",
-          "bidPrice": "0.36680000",
-          "bidQty": "73051.50000000",
-          "askPrice": "0.36690000",
-          "askQty": "688.50000000",
-          "openPrice": "0.35920000",
-          "highPrice": "0.37030000",
-          "lowPrice": "0.35900000",
-          "volume": "33374755.10000000",
-          "quoteVolume": "12134803.23765000",
-          "openTime": 1676103854189,
-          "closeTime": 1676190254189,
-          "firstId": 98099469,
-          "lastId": 98137070,
-          "count": 37602
+          "symbol": "BTCBUSD",
+          "shortSymbol": "BTC",
+          "name": "Bitcoin",
+          "priceChange": "-674.39000000",
+          "priceChangePercent": "-2.754",
+          "weightedAvgPrice": "24031.60730285",
+          "prevClosePrice": "24483.59000000",
+          "lastPrice": "23810.13000000",
+          "lastQty": "0.10199000",
+          "bidPrice": "23810.12000000",
+          "bidQty": "0.04283000",
+          "askPrice": "23811.33000000",
+          "askQty": "0.00063000",
+          "openPrice": "24484.52000000",
+          "highPrice": "24538.61000000",
+          "lowPrice": "23584.77000000",
+          "volume": "143611.49091000",
+          "quoteVolume": "3451214953.72549210",
+          "openTime": 1677011447344,
+          "closeTime": 1677097847344,
+          "firstId": 890746613,
+          "lastId": 894773661,
+          "count": 4027049
         },
         "isActive": true,
-        "volume": 0.5,
-        "openTransactionDate": "2023-02-19 12:54:01",
-        "openPrice": 0.3668,
-        "currentPrice": 0.4052
+        "volume": 0.2,
+        "openTransactionDate": "2023-02-22 21:31:45",
+        "openPrice": 23810.13,
+        "currentPrice": 23788.18,
+        "stopLoss": 0.0,
+        "isSLOn": false,
+        "takeProfit": 0.0,
+        "isTPOn": false
       }
     ]
   }
-]
+}

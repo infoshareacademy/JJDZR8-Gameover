@@ -42,8 +42,8 @@ public class Data {
     public static Map<String,String> deserialize(String file, Object object){
         return new Gson().fromJson(loadFile(file), (Type) object.getClass());
     }
-    public static HashSet<Wallet> deserializeWallet(){
-        Type listType = new TypeToken<HashSet<Wallet>>(){}.getType();
+    public static Map<String, Wallet> deserializeWallet(){
+        Type listType = new TypeToken<Map<String, Wallet>>(){}.getType();
         return new Gson().fromJson(loadFile("wallet.json"), listType);
     }
     public static Map<String,String> deserializeRequest(String response, Object object){
