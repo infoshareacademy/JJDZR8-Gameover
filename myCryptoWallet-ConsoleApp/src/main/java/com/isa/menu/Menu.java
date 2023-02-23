@@ -143,9 +143,9 @@ public enum Menu {
     }
     public static Wallet walletService(Wallet wallet){
         wallet.updateWallet();
-        printWalletServiceInstruction();
         boolean flag = true;
         while (flag) {
+            printWalletServiceInstruction();
             try {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("wybierz opcję dla portfela:");
@@ -172,7 +172,8 @@ public enum Menu {
                         if (wallet.getActiveTransactions().isEmpty()) {
                             System.out.println("nie masz otwartych transakcji");
                         } else {
-                            ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner);
+                            Scanner scanner1 = new Scanner(System.in);
+                            ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner1);
                             System.out.println("podaj volumen sprzedaży:");
                             double trVolume = 0;
                             while (trVolume <= 0) {
@@ -202,7 +203,8 @@ public enum Menu {
                         System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie stop loss");
                         ActiveTransaction activeTransaction = wallet.searchActiveTransaction(scanner);
                         if (!(activeTransaction == null)){
-                            System.out.println("podaj wartość stop loss");
+                            System.out.println("podaj wartość stop loss dla poniższej transakcji");
+                            activeTransaction.printDetails();
                             long price = scanner.nextLong();
                             activeTransaction.setSLAlarm(price, true);
                         }
@@ -213,13 +215,17 @@ public enum Menu {
                         System.out.println("wyszukaj transakcję dla której chcesz ustawić zlecenie take profit");
                         ActiveTransaction activeTrans = wallet.searchActiveTransaction(scanner);
                         if (!(activeTrans == null)){
-                            System.out.println("podaj wartość take profit");
+                            System.out.println("podaj wartość take profit dla poniższej transakcji:");
+                            activeTrans.printDetails();
                             long price = scanner.nextLong();
                             activeTrans.setTPAlarm(price, true);
                         }
                         wallet.updateWallet();
                         break;
                     case 8:
+                        wallet.updateWallet();
+                        break;
+                    case 9:
                         flag = false;
                         break;
                     default:
@@ -244,7 +250,8 @@ public enum Menu {
                 5 - wyświetl historię portfela
                 6 - ustaw zlecenie stop loss
                 7 - ustaw zlecenie take profit
-                8 - wyjście
+                8 - odśwież portfel
+                9 - wyjście
                 """);
     }
 

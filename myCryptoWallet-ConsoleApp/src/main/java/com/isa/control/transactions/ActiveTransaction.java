@@ -65,10 +65,11 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
 
     @Override
     public void printDetails() {
-        System.out.println("id Transakcji" + idTransaction);
+        System.out.println("id Transakcji: " + idTransaction);
         System.out.println(coin.getName() + " " + coin.getShortSymbol() +
-                "cena zakupu " + openPrice + "cena aktualna " + currentPrice + "ilość: " + volume);
+                " cena zakupu: " + openPrice + " cena aktualna: " + currentPrice + " ilość: " + volume);
         System.out.println("Zysk/Strata: " + countProfit());
+        System.out.println();
 
     }
     public double countTransactionCost(){

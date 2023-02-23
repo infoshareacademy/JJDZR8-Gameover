@@ -6,6 +6,7 @@ import com.isa.menu.Balance;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Wallet {
     private String walletId;
@@ -22,7 +23,6 @@ public class Wallet {
     public Wallet(String walletId, Balance startBalance){
         this.walletId = walletId;
         this.startBalance = startBalance;
-       // setWalletTransactions(Data.deserializeWalletTransactions());
     }
 
     public void buyNewToken(Coin coin, double volume){
@@ -33,27 +33,30 @@ public class Wallet {
         }else System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
     }
     public void closeActiveTransaction(ActiveTransaction transaction, double volume){
+        long idTransaction = transaction.getIdTransaction();
+
         if(transaction.getVolume()<=volume){
             ClosedTransaction closed = new ClosedTransaction(transaction);
             transactionsHistory.add(closed);
-            activeTransactions.remove(transaction);
+            activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
 
         } else if (transaction.getVolume()>volume && volume>0) {
             ClosedTransaction closed = new ClosedTransaction(transaction, volume);
             transactionsHistory.add(closed);
-            activeTransactions.remove(transaction);
-            activeTransactions.add(closed.getActivePartOfClosedTransaction());
+                activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
         }
         else System.out.println("volumen musi być liczbą dodatnią");
 
     }
     public void updateWallet(){
         if (!activeTransactions.isEmpty()){
-            activeTransactions.forEach(n->{
-                n.refreshPrice();
-                executeStopLossAlarm(n);
-                executeTakeProfitAlarm(n);
-            });
+            activeTransactions.forEach(ActiveTransaction::refreshPrice);
+
+            List<ActiveTransaction> slList = activeTransactions.stream().filter(n -> shouldStopLossExecute()).toList();
+            if(!slList.isEmpty()) slList.forEach(this::executeStopLossAlarm);
+
+            List<ActiveTransaction> tpList = activeTransactions.stream().filter(n -> shouldTakeProfitExecute()).toList();
+            if(!tpList.isEmpty()) tpList.forEach(this::executeTakeProfitAlarm);
         }
         historyProfitCount();
         currentProfitCount();
@@ -63,10 +66,7 @@ public class Wallet {
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
-            this.profitLoss = activeTransactions.stream().mapToDouble(n -> {
-               // n.refreshPrice();
-                return n.countProfit();
-            }).sum();
+            this.profitLoss = activeTransactions.stream().mapToDouble(ActiveTransaction::countProfit).sum();
         }else this.profitLoss = 0;
     }
 
@@ -94,11 +94,21 @@ public class Wallet {
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
     }
+
+    public boolean shouldStopLossExecute(){
+       return activeTransactions.stream().anyMatch(n-> n.isSLOn() && n.getCurrentPrice() <= n.getStopLoss());
+    }
+
     public void executeTakeProfitAlarm(ActiveTransaction activeTransaction){
         if(activeTransaction.isTPOn() && activeTransaction.getCurrentPrice() >= activeTransaction.getTakeProfit()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
         }
     }
+
+    public boolean shouldTakeProfitExecute(){
+        return activeTransactions.stream().anyMatch(n-> n.isTPOn() && n.getCurrentPrice() >= n.getTakeProfit());
+    }
+
     public static Wallet createNewWalletFromKeyboard(Scanner scanner){
         System.out.println("podaj unikatową nazwę portfela");
         String idForNewWallet = scanner.nextLine();
@@ -130,6 +140,13 @@ public class Wallet {
         List<ActiveTransaction> activeTransactionList = activeTransactions.stream()
                 .filter(n -> n.getIdTransaction() == finalIdActiveTransaction).collect(Collectors.toList());
         return activeTransactionList.get(0);
+    }
+
+    public boolean isActiveTransactionsContainsId(long idTransaction){
+        Set<Long> idTransactionsSet = new HashSet<>();
+        activeTransactions.forEach(n->idTransactionsSet.add(n.getIdTransaction()));
+        if(idTransactionsSet.contains(idTransaction)) return true;
+        else return false;
     }
 
     @Override
