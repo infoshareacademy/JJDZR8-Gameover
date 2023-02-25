@@ -1,41 +1,30 @@
 package com.isa.control;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
+import java.util.*;
 
 
 public class CoinSearch {
 
-    private Coin[] coins;
+    private List<Coin> coins;
 
     public CoinSearch() {
-        readCoinsFromJson();
-    }
+        // readCoinsFromJson();
+        this.coins = Coins.getInstance().getCoinList();
 
-    public void readCoinsFromJson() {
-        try {
-            this.coins = Data.deserializeCoin();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.coins = null;
-        }
     }
 
     public List<Coin> search(String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
-            if (coin.getSymbol().contains(searchCriteria)){
+            if (coin.getSymbol().contains(searchCriteria)) {
                 results.add(coin);
             }
         }
         return results;
     }
 
-    public void findYourToken() {
+    public List<Coin> findYourToken() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Podaj kryterium wyszukiwania (symbol):");
         String searchCriteria = sc.nextLine().toUpperCase();
@@ -44,6 +33,7 @@ public class CoinSearch {
         for (Coin coin : searchResults) {
             System.out.println(coin.getSymbol() + " - " + coin.getOpenPrice() + "USD");
         }
+        return searchResults;
     }
 
     @Override
@@ -51,11 +41,11 @@ public class CoinSearch {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CoinSearch that = (CoinSearch) o;
-        return Arrays.equals(coins, that.coins);
+        return Objects.equals(coins, that.coins);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(coins);
+        return Objects.hash(coins);
     }
 }

@@ -23,19 +23,22 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
     public ClosedTransaction(ActiveTransaction activeTransaction) {
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = activeTransaction.getVolume();
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
-        refreshPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
+
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = volume;
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
-        refreshPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
 
         this.activePartOfClosedTransaction = new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }
@@ -47,10 +50,11 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
 
     @Override
     public void printDetails() {
-        System.out.println("id Transakcji" + idTransaction);
+        System.out.println("id Transakcji: " + idTransaction);
         System.out.println(coin.getName() + " " + coin.getShortSymbol() +
-                "cena zakupu " + openPrice + "cena aktualna " + closePrice + "ilość: " + volume);
+                " cena zakupu " + openPrice + " cena aktualna " + closePrice + " ilość: " + volume);
         System.out.println("Zysk/Strata: " + countProfit());
+        System.out.println();
 
     }
 

@@ -47,10 +47,11 @@ public class Endpoints {
         return sBuilder.toString();
     }
     public static String buildRequest(String string){
-        sBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
-        sBuilder.append("%22" + string + "BUSD%22,");
-        sBuilder.replace(sBuilder.length() - 1, sBuilder.length(), "]");
-        return sBuilder.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("https://api.binance.com/api/v3/ticker/24hr?symbols=[");
+        stringBuilder.append("%22" + string + "BUSD%22,");
+        stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), "]");
+        return stringBuilder.toString();
     }
 
     public static Map<String, String> getCoinsNames() {
