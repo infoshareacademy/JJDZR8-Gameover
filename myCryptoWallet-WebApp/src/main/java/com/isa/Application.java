@@ -15,7 +15,7 @@ public class Application {
 
 	public static void main(String[] args) {
 
-		List<Coin> coinList = CoinService.getCoinList();
+		//List<Coin> coinList = CoinService.getCoinList();
 		//coinList.forEach(System.out::println);
 
 		SpringApplication.run(Application.class, args);
