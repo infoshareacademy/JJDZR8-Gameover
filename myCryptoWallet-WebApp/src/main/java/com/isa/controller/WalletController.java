@@ -52,7 +52,7 @@ public class WalletController {
 
     }
 
-    @PostMapping("/wallet/{id}")
+    @GetMapping("/wallet/{id}")
     public String getWalletById(@PathVariable("id") String walletId, Model model){
         Wallet walletById = walletService.findWalletById(walletId);
         Set<ActiveTransaction> activeTransactions = walletById.getActiveTransactions();

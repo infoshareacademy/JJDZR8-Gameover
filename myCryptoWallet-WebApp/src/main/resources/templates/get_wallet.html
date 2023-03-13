@@ -9,12 +9,16 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/wallet/{id}(id=${emptyWallet.walletId})}" th:object="${emptyWallet}" method="post">
-    <select th:field="*{walletId}">
-        <option th:each="walletId : ${allWalletsId}" th:value="${walletId}" th:text="${walletId}"/>
-    </select>
-    <p><input type="submit" value="Submit"/></p>
-</form>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Select wallet
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li th:each="walletId : ${allWalletsId}">
+                <a class="dropdown-item" th:href="@{/wallet/{id}(id = ${walletId})}"><span th:text="${walletId}"></span></a>
+            </li>
+        </ul>
+    </div>
 
 <h1></h1>
 <h1></h1>
