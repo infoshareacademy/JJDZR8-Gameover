@@ -6,6 +6,7 @@ import com.isa.control.Endpoints;
 import com.isa.service.CoinService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Application {
 
 	public static void main(String[] args) {
 
-		List<Coin> coinList = CoinService.getCoinList();
+		//List<Coin> coinList = CoinService.getCoinList();
 		//coinList.forEach(System.out::println);
 
 		SpringApplication.run(Application.class, args);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>MyCryptoWalletApp-Wallet</title>
@@ -15,31 +15,39 @@
     <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="row">
             <div class="col-2">
-                [nazwa portfela] <!-- #TODO dodać rozwijalną listę umożliwiającą wybór portfela -->
+                [nazwa portfela] <!-- #TODO dodać rozwijalną listę umożliwiającą wybór portfela
+                <form action="#" th:action="@{/wallet/{id}}" th:object="${emptyWallet}" method="post">
+                    <select th:field="*{walletId}">
+                        <option th:each="walletId : ${walletId}" th:value="${walletId}" th:text="${walletId}"/>
+                    </select>
+                </form>
+                -->
+                <div th:text="${walletById.walletId}"></div>
             </div>
             <div class="col">
                 Balance
             </div>
             <div class="col">
                 [wartość balance]
+                <div th:text="${walletById.startBalance}"></div>
             </div>
             <div class="col">
                 Wartość portfela
             </div>
             <div class="col">
-                [wartość portfela]
+                <div th:text="${walletById.walletBalance}"></div>
             </div>
             <div class="col">
                 Zysk/Strata
             </div>
             <div class="col">
-                [wartość zysk/strata]
+                <div th:text="${walletById.profitLoss}"></div>
             </div>
             <div class="col">
                 Zysk/strata pozycje zamknięte
             </div>
             <div class="col">
-                [wartość z/s dla poz zamkn]
+                <div th:text="${walletById.historicalProfitLoss}"></div>
             </div>
         </div>
     </div>
@@ -61,14 +69,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+            <tr th:each="activeTransaction,iterStat: ${activeTransactions}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${activeTransaction.getCoin().getName()}"></td>
+                <td th:text="${activeTransaction.getCoin().getShortSymbol}"></td>
+                <td th:text="${activeTransaction.openPrice}"></td>
+                <td th:text="${activeTransaction.currentPrice}"></td>
+                <td th:text="${activeTransaction.volume}"></td>
+                <td th:text="${activeTransaction.countProfit()}"></td>
+
                 <td>
                     <button type="button" class="btn btn-light">zamknij</button>
                 </td>

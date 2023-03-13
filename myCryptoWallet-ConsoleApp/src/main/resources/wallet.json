@@ -2,11 +2,11 @@
   "mojWallet": {
     "walletId": "mojWallet",
     "startBalance": "TEN_THOUSAND",
-    "walletSum": 10079.707999999999,
-    "profitLoss": 1.4000000000000123,
+    "walletSum": 10057.857999999998,
+    "profitLoss": -20.449999999999996,
     "historicalProfitLoss": 78.30799999999945,
     "transactionsCosts": 99.1,
-    "walletBalance": 9980.607999999998,
+    "walletBalance": 9958.757999999998,
     "transactionsHistory": [
       {
         "idTransaction": 1677100840326,
@@ -144,7 +144,7 @@
         "volume": 500.0,
         "openTransactionDate": "2023-02-22 22:25:25",
         "openPrice": 0.1982,
-        "currentPrice": 0.201,
+        "currentPrice": 0.1573,
         "stopLoss": 0.0,
         "isSLOn": false,
         "takeProfit": 0.0,
