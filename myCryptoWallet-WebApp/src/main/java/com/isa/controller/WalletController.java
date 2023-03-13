@@ -33,9 +33,22 @@ public class WalletController {
         Set<String> allWalletsId = walletService.getAllWalletsId();
         // #TODO odświezyć ceny
         model.addAttribute("emptyWallet", emptyWallet);
-        model.addAttribute("walletId", allWalletsId);
+        model.addAttribute("allWalletsId", allWalletsId);
         // #TODO jeśli mamy jeden wallet id w set to dodać if() i przekierować odrazu na "wallet"
         return "get_wallet";
+
+    }
+    @PostMapping("/new_wallet")
+    public String createNewWallet(@ModelAttribute Wallet wallet, Model model){       // #TODO dodać walidację
+        String id = wallet.getWalletId();
+        if (walletService.isNewWalletIdExist(id)) return "redirect:/show_wallets";
+        else{
+            wallet.updateWallet();
+            walletService.addWalletToWalletsMap(wallet);
+            Wallet newWallet = walletService.findWalletById(id);
+            model.addAttribute("walletById", newWallet);
+            return "wallet";
+        }
 
     }
 

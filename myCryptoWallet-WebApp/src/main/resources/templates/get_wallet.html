@@ -9,11 +9,25 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/wallet/{id} (id=${walletId})}" th:object="${emptyWallet}" method="post">
+<form action="#" th:action="@{/wallet/{id}(id=${emptyWallet.walletId})}" th:object="${emptyWallet}" method="post">
     <select th:field="*{walletId}">
-        <option th:each="walletId : ${walletId}" th:value="${walletId}" th:text="${walletId}"/>
+        <option th:each="walletId : ${allWalletsId}" th:value="${walletId}" th:text="${walletId}"/>
     </select>
     <p><input type="submit" value="Submit"/></p>
+</form>
+
+<h1></h1>
+<h1></h1>
+
+
+<form action="#" th:action="@{/new_wallet}" th:object="${emptyWallet}" method="post">
+    <p>Nazwa Portfela:  <input type="text" th:field="*{walletId}"/></p>
+<select th:field="*{startBalance}">
+    <option th:each="balance : ${T(com.isa.menu.Balance).values()}" th:value="${balance}" th:text="${balance}"/>
+</select>
+<p><input type="submit" value="Submit"/></p>
+
+    <!-- #TODO dodać walidację -->
 </form>
 
 
