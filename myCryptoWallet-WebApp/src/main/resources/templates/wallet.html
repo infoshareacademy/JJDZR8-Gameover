@@ -14,6 +14,18 @@
     <h2></h2>
     <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="row">
+            <div class="col">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select wallet
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li th:each="walletId : ${allWalletsId}">
+                            <a class="dropdown-item" th:href="@{/wallet/{id}(id = ${walletId})}"><span th:text="${walletId}"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="col-2">
                 [nazwa portfela] <!-- #TODO dodać rozwijalną listę umożliwiającą wybór portfela
                 <form action="#" th:action="@{/wallet/{id}}" th:object="${emptyWallet}" method="post">
@@ -37,6 +49,10 @@
             <div class="col">
                 <div th:text="${walletById.walletBalance}"></div>
             </div>
+
+        </div>
+        <h1></h1>
+        <div class = "row">
             <div class="col">
                 Zysk/Strata
             </div>
@@ -98,7 +114,7 @@
                 <button class="btn btn-primary btn-lg" type="submit">Historia Transakcji</button>
             </div>
             <div class="col">
-                <button class="btn btn-primary btn-lg" type="submit">jeszcze nie wiem co</button>
+                <a th:href="@{/add_new_wallet}" class="btn btn-primary btn-lg" type="submit">Dodaj nowy portfel</a>
             </div>
             <div class="col">
                 <button class="btn btn-primary btn-lg" type="submit">odśwież cenę</button>
