@@ -2,6 +2,7 @@ package com.isa.controller;
 
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
+import com.isa.control.transactions.ClosedTransaction;
 import com.isa.service.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +59,7 @@ public class WalletController {
             Wallet newWallet = walletService.findWalletById(id);
             model.addAttribute("walletById", newWallet);
             model.addAttribute("allWalletsId", allWalletsId);
-            return "wallet";
+            return "new_wallet";
         }
 
     }
@@ -71,5 +72,12 @@ public class WalletController {
         model.addAttribute("activeTransactions", activeTransactions);
         model.addAttribute("allWalletsId", allWalletsId);
         return "wallet";
+    }
+    @GetMapping("/history/transactions/{id}")
+    public String showTransactionsHistory(@PathVariable("id") String walletId, Model model){
+        Wallet walletById = walletService.findWalletById(walletId);
+        Set<ClosedTransaction> transactionsHistory = walletById.getTransactionsHistory();
+        model.addAttribute("history",transactionsHistory);
+        return "transaction_history";
     }
 }
