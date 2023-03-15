@@ -15,6 +15,6 @@ docker build -t mycryptowallet .
 
 #### To create container use bellow script
 ````
-docker run -d --name MyCryptoWallet -p 5000:8080 mycryptowallet
+docker run -d --name MyCryptoWallet -p 8080:8080 mycryptowallet
 ````
 
