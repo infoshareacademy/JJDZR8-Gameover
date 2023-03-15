@@ -51,6 +51,7 @@ public class Data {
     }
     public static String loadFile(String file){
         Path path = Path.of(pathToFile, file);
+        System.out.println(path);
         String fromFile = null;
         try {
             fromFile = Files.readString(path);
