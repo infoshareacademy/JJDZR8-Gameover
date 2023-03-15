@@ -1,9 +1,6 @@
 package com.isa.config;
 
-import com.isa.control.Coin;
-import com.isa.control.Coins;
-import com.isa.control.Data;
-import com.isa.control.Wallet;
+import com.isa.control.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,5 +17,7 @@ public class CryptoWalletConfig {
 
     @Bean
     public Coin coin(){return  new Coin();}
+
+
 
 }

@@ -24,6 +24,7 @@ public class WalletController {
     private List<Coin> coinsList= Coins.getInstance().getCoinList();
     private Wallet walletById1 = new Wallet();
     private  List<Coin> searchResult = new ArrayList<>();
+    private Coin coinForBuy = new Coin();
 
     public WalletController(WalletService walletService, Wallet wallet){
 
@@ -47,14 +48,14 @@ public class WalletController {
         }
     }
 
-    @GetMapping("/add_new_wallet")
+    @GetMapping("/add_new_wallet")      // z wallet   i z new wallet    , wallet first view
     public String showCreateWalletForm(Model model){
         Wallet emptyWallet = new Wallet();
         model.addAttribute("emptyWallet", emptyWallet);
         return "wallet/create_wallet";
     }
 
-    @PostMapping("/new_wallet")
+    @PostMapping("/new_wallet")             // z create wallet
     public String createNewWallet(@ModelAttribute Wallet wallet, Model model){       // #TODO dodać walidację
         String id = wallet.getWalletId();
         if (walletService.isNewWalletIdExist(id)) return "redirect:/show_wallets";
@@ -69,7 +70,7 @@ public class WalletController {
 
     }
 
-    @GetMapping("/wallet/{id}")
+    @GetMapping("/wallet/{id}")             // z wallet   ;   z new wallet   , wall first view
     public String getWalletById(@PathVariable("id") String walletId, Model model){
         Wallet walletById = walletService.findWalletById(walletId);
         Set<ActiveTransaction> activeTransactions = walletById.getActiveTransactions();
@@ -78,7 +79,12 @@ public class WalletController {
         model.addAttribute("allWalletsId", allWalletsId);
         return "wallet/wallet";
     }
-    @GetMapping("/history/transactions/{id}")
+
+    @GetMapping("/wallet/form")
+    public String redirectToWalletForm(){
+        return "wallet/wallet";
+    }
+    @GetMapping("/history/transactions/{id}")       // z wallet.html
     public String showTransactionsHistory(@PathVariable("id") String walletId, Model model){
         Wallet walletById = walletService.findWalletById(walletId);
         Set<ClosedTransaction> transactionsHistory = walletById.getTransactionsHistory();
@@ -86,14 +92,14 @@ public class WalletController {
         return "wallet/transaction_history";
     }
 
-    @GetMapping("/buy/coin/{walletId}")     //wallet.html
+    @GetMapping("/buy/coin/{walletId}")     // z wallet.html
     public String showBuyNewCoinForm(@PathVariable("walletId") String walletId){
         walletById1 = walletService.findWalletById(walletId);
 
         return "redirect:/buy/coin/form";
     }
 
-    @RequestMapping(value = "/search/coin", method = RequestMethod.POST)
+    @RequestMapping(value = "/search/coin", method = RequestMethod.POST)        // z choice coin to buy
     public String searchCoinForBuy(@ModelAttribute("emptyCoin") Coin coin){
         CoinSearch coinSearch = new CoinSearch();
         searchResult = coinSearch.search(coin.getSymbol());
@@ -107,7 +113,40 @@ public class WalletController {
         model.addAttribute("wallet", walletById1);
         model.addAttribute("result", searchResult);
 
-        return "/wallet/buy_coin";
+        return "wallet/choice_coin_to_buy";
+    }
+
+    @GetMapping("/buy/{coinSymbol}")                // z choice coin to buy
+    public String establishCoinForBuy(@PathVariable("coinSymbol") String coinSymbol, Model model){
+        // #TODO zastąpić metodę wyszukiwania odpowiednim DI
+        CoinSearch coinSearch = new CoinSearch();
+        List<Coin> search = coinSearch.search(coinSymbol);
+        if (search.isEmpty()){
+            return "redirect:/buy/coin/form";
+        }else {
+            coinForBuy = search.get(0);
+            ActiveTransaction activeTransaction = new ActiveTransaction();
+            model.addAttribute("coinForBuy", coinForBuy);
+            model.addAttribute("emptyTransaction", activeTransaction);
+            return "wallet/new_transaction";
+        }
+    }
+
+    @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
+    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction, Model model){
+        double volume = activeTransaction.getVolume();
+        double stopLoss = activeTransaction.getStopLoss();
+        double takeProfit = activeTransaction.getTakeProfit();
+
+        walletById1.buyNewToken(coinForBuy, volume);
+        Set<ActiveTransaction> activeTransactions = walletById1.getActiveTransactions();
+        model.addAttribute("walletById", walletById1);
+        model.addAttribute("activeTransactions", activeTransactions);
+        model.addAttribute("allWalletsId", allWalletsId);
+
+
+
+        return "wallet/wallet";
     }
 
 

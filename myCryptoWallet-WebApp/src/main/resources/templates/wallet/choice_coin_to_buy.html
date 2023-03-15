@@ -14,7 +14,7 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                column
+
             </div>
             <div class="col-6">
                 <h1></h1>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="container" style="width: 100%">
-        <h2 class="text-center">Pozycje otwarte</h2>
+        <h2 class="text-center">Wybierz Coina</h2>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -59,7 +59,11 @@
                 <td th:text="${coin.lastPrice}"></td>
                 <td th:text="${coin.priceChangePercent}"></td>
                 <td th:text="${coin.volume}"></td>
-                <td>KUP</td>
+                <td>
+                    <a th:href="@{/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light ">
+                        KUP
+                    </a>
+                </td>
 
             </tr>
 
@@ -67,13 +71,6 @@
         </table>
     </div>
 </div>
-
-
-
-
-
-
-
 
 
 
