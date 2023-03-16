@@ -72,16 +72,18 @@ public class WalletController {
 
     @GetMapping("/wallet/{id}")             // z wallet   ;   z new wallet   , wall first view
     public String getWalletById(@PathVariable("id") String walletId, Model model){
-        Wallet walletById = walletService.findWalletById(walletId);
-        Set<ActiveTransaction> activeTransactions = walletById.getActiveTransactions();
-        model.addAttribute("walletById", walletById);
-        model.addAttribute("activeTransactions", activeTransactions);
-        model.addAttribute("allWalletsId", allWalletsId);
-        return "wallet/wallet";
+        walletById1 = walletService.findWalletById(walletId);
+
+        return "redirect:/wallet/form";
     }
 
     @GetMapping("/wallet/form")
-    public String redirectToWalletForm(){
+    public String redirectToWalletForm(Model model){
+        coinForBuy = new Coin();
+        Set<ActiveTransaction> activeTransactions = walletById1.getActiveTransactions();
+        model.addAttribute("walletById", walletById1);
+        model.addAttribute("activeTransactions", activeTransactions);
+        model.addAttribute("allWalletsId", allWalletsId);
         return "wallet/wallet";
     }
     @GetMapping("/history/transactions/{id}")       // z wallet.html
@@ -116,15 +118,16 @@ public class WalletController {
         return "wallet/choice_coin_to_buy";
     }
 
-    @GetMapping("/buy/{coinSymbol}")                // z choice coin to buy
-    public String establishCoinForBuy(@PathVariable("coinSymbol") String coinSymbol, Model model){
-        // #TODO zastąpić metodę wyszukiwania odpowiednim DI
-        CoinSearch coinSearch = new CoinSearch();
-        List<Coin> search = coinSearch.search(coinSymbol);
-        if (search.isEmpty()){
+    @GetMapping("/buy/coinSymbol")                // z choice coin to buy
+    public String establishCoinForBuy(Model model){
+
+
+
+        if (searchResult.isEmpty()){
             return "redirect:/buy/coin/form";
         }else {
-            coinForBuy = search.get(0);
+            coinForBuy = searchResult.get(0);
+            searchResult = new ArrayList<>();
             ActiveTransaction activeTransaction = new ActiveTransaction();
             model.addAttribute("coinForBuy", coinForBuy);
             model.addAttribute("emptyTransaction", activeTransaction);
@@ -133,20 +136,13 @@ public class WalletController {
     }
 
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
-    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction, Model model){
+    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction){
         double volume = activeTransaction.getVolume();
         double stopLoss = activeTransaction.getStopLoss();
         double takeProfit = activeTransaction.getTakeProfit();
 
         walletById1.buyNewToken(coinForBuy, volume);
-        Set<ActiveTransaction> activeTransactions = walletById1.getActiveTransactions();
-        model.addAttribute("walletById", walletById1);
-        model.addAttribute("activeTransactions", activeTransactions);
-        model.addAttribute("allWalletsId", allWalletsId);
-
-
-
-        return "wallet/wallet";
+        return "redirect:/wallet/form";
     }
 
 

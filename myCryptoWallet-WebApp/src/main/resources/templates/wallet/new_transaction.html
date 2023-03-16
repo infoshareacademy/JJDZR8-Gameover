@@ -45,13 +45,13 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <p><input type="number" th:field="*{volume}"/></p>
+                    <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
                 </div>
                 <div class="col">
-                    <p><input type="number" th:field="*{stopLoss}"/></p>
+                    <p><input type="number" step="any" min="0" th:field="*{stopLoss}"/></p>
                 </div>
                 <div class="col">
-                    <p><input type="number" th:field="*{takeProfit}"/></p>
+                    <p><input type="number" step="any" min="0" th:field="*{takeProfit}"/></p>
                 </div>
 
             </div>
