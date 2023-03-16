@@ -79,8 +79,9 @@
                 <th scope="col">cena otwarcia</th>
                 <th scope="col">cena aktualna</th>
                 <th scope="col">volumen</th>
+                <th scope="col">SL</th>
+                <th scope="col">TP</th>
                 <th scope="col">Z/S</th>
-                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -93,17 +94,21 @@
                 <td th:text="${activeTransaction.openPrice}"></td>
                 <td th:text="${activeTransaction.currentPrice}"></td>
                 <td th:text="${activeTransaction.volume}"></td>
+                <td th:text="${activeTransaction.stopLoss}"></td>
+                <td th:text="${activeTransaction.takeProfit}"></td>
                 <td th:text="${activeTransaction.countProfit()}"></td>
 
                 <td>
-                    <button type="button" class="btn btn-light">zamknij</button>
+
+                    <a th:href="@{/close/transaction{transactionId}(transactionId=${activeTransaction.idTransaction})}"
+                       class="btn btn-primary btn-light" type="submit">zamknij
+
+                    </a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-light ">SL</button>
+                    <button type="button" class="btn btn-light ">SL/TP</button>
                 </td>
-                <td>
-                    <button type="button" class="btn btn-light ">TP</button>
-                </td>
+
             </tr>
 
             </tbody>

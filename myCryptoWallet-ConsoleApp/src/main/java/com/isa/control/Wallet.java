@@ -6,7 +6,6 @@ import com.isa.menu.Balance;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Wallet {
     private String walletId;
@@ -140,6 +139,12 @@ public class Wallet {
         List<ActiveTransaction> activeTransactionList = activeTransactions.stream()
                 .filter(n -> n.getIdTransaction() == finalIdActiveTransaction).collect(Collectors.toList());
         return activeTransactionList.get(0);
+    }
+
+    public ActiveTransaction searchActiveTransaction(long id){
+        return activeTransactions.stream()
+                .filter(n -> n.getIdTransaction() == id)
+                .findFirst().orElse(new ActiveTransaction());
     }
 
     public boolean isActiveTransactionsContainsId(long idTransaction){
