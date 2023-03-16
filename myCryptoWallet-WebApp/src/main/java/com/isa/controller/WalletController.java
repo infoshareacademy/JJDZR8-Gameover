@@ -58,14 +58,12 @@ public class WalletController {
     @PostMapping("/new_wallet")             // z create wallet
     public String createNewWallet(@ModelAttribute Wallet wallet, Model model){       // #TODO dodać walidację
         String id = wallet.getWalletId();
-        if (walletService.isNewWalletIdExist(id)) return "redirect:/show_wallets";
+        if (walletService.isNewWalletIdExist(id)) return "wallet/create_wallet";
         else{
             wallet.updateWallet();
             walletService.addWalletToWalletsMap(wallet);
-            Wallet newWallet = walletService.findWalletById(id);
-            model.addAttribute("walletById", newWallet);
-            model.addAttribute("allWalletsId", allWalletsId);
-            return "wallet/new_wallet";
+            walletById1 = walletService.findWalletById(id);
+            return "redirect:/wallet/form";
         }
 
     }
@@ -118,10 +116,11 @@ public class WalletController {
         return "wallet/choice_coin_to_buy";
     }
 
-    @GetMapping("/buy/coinSymbol")                // z choice coin to buy
-    public String establishCoinForBuy(Model model){
-
-
+    @GetMapping("/buy/{coinSymbol}")                // z choice coin to buy
+    public String establishCoinForBuy(@PathVariable("coinSymbol") String coinSymbol, Model model){
+        // #TODO zastąpić metodę wyszukiwania odpowiednim DI
+        CoinSearch coinSearch = new CoinSearch();
+        searchResult = coinSearch.search(coinSymbol);
 
         if (searchResult.isEmpty()){
             return "redirect:/buy/coin/form";
@@ -138,9 +137,6 @@ public class WalletController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction){
         double volume = activeTransaction.getVolume();
-        double stopLoss = activeTransaction.getStopLoss();
-        double takeProfit = activeTransaction.getTakeProfit();
-
         walletById1.buyNewToken(coinForBuy, volume);
         return "redirect:/wallet/form";
     }
