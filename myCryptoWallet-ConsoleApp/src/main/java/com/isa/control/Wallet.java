@@ -43,6 +43,8 @@ public class Wallet {
             ClosedTransaction closed = new ClosedTransaction(transaction, volume);
             transactionsHistory.add(closed);
                 activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
+            ActiveTransaction newActiveTransaction = closed.getActivePartOfClosedTransaction();
+            activeTransactions.add(newActiveTransaction);
         }
         else System.out.println("volumen musi być liczbą dodatnią");
 

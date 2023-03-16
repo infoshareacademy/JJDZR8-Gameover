@@ -70,7 +70,7 @@ public class WalletController {
     }
 
     @GetMapping("/wallet/{id}")             // z wallet   , wall first view
-    public String getWalletById(@PathVariable("id") String walletId, Model model){
+    public String getWalletById(@PathVariable("id") String walletId){
         walletById = walletService.findWalletById(walletId);
 
         return "redirect:/wallet/form";
