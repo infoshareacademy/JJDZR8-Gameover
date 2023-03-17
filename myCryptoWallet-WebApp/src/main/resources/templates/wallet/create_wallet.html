@@ -3,39 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Wallet</title>
-    <link href="../.. static/styleformyhtml.css" th:href="@{/styleformyhtml.css}" rel="stylesheet" type="text/css" />
+    <link href="../../static/styleformyhtml.css" th:href="@{/styleformyhtml.css}" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
-<h2></h2>
-<!--
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Select wallet
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li th:each="walletId : ${allWalletsId}">
-                <a class="dropdown-item" th:href="@{/wallet/{id}(id = ${walletId})}"><span th:text="${walletId}"></span></a>
-            </li>
-        </ul>
-    </div>
--->
-<h1></h1>
-<h1></h1>
 
 
-<form action="#" th:action="@{/new_wallet}" th:object="${emptyWallet}" method="post">
-    <p>Nazwa Portfela:  <input type="text" th:field="*{walletId}"/></p>
-<select th:field="*{startBalance}">
-    <option th:each="balance : ${T(com.isa.menu.Balance).values()}" th:value="${balance}" th:text="${balance}"/>
-</select>
-<p><input type="submit" value="Submit"/></p>
+<div class="container text-center">
+    <h2 class="text-center">stwórz swój własny unikatowy portfel</h2>
 
-    <!-- #TODO dodać walidację -->
-</form>
+    <form action="#" th:action="@{/new_wallet}" th:object="${emptyWallet}" method="post">
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <p>Nazwa portfela</p>
+                </div>
+                <div class="col">
+                    <p>Początkowa wartość portfela</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                    <div class="input-group mb-3">
+                        <input type="text" th:field="*{walletId}" class="form-control" placeholder="Nazwa portfela"
+                               aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+
+                    </div>
+
+
+
+                </div>
+                <div class="col">
+                    <select th:field="*{startBalance}" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+
+                        <option th:each="balance : ${T(com.isa.menu.Balance).values()}" th:value="${balance}" th:text="${balance.worth}"/>
+                    </select>
+                </div>
+            </div>
+            <div style="height: 50px"></div>
+                <p><input class="btn btn-primary btn-lg" type="submit" value="Submit"/></p>
+        </div>
+
+        <!-- #TODO dodać walidację -->
+    </form>
+</div>
+
 
 
 

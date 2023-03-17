@@ -17,7 +17,7 @@
             <div class="col">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select wallet
+                        wybierz portfel
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li th:each="walletId : ${allWalletsId}">
@@ -27,27 +27,20 @@
                 </div>
             </div>
             <div class="col-2">
-                [nazwa portfela] <!-- #TODO dodać rozwijalną listę umożliwiającą wybór portfela
-                <form action="#" th:action="@{/wallet/{id}}" th:object="${emptyWallet}" method="post">
-                    <select th:field="*{walletId}">
-                        <option th:each="walletId : ${walletId}" th:value="${walletId}" th:text="${walletId}"/>
-                    </select>
-                </form>
-                -->
-                <div th:text="${walletById.walletId}"></div>
+
+                <div th:text="${walletById.walletId}" th:classappend="${'font-bold'}"></div>
             </div>
             <div class="col">
-                Balance
+               wolne środki
             </div>
             <div class="col">
-                [wartość balance]
-                <div th:text="${walletById.startBalance}"></div>
+                <div th:text="${walletById.walletBalance}"></div>
             </div>
             <div class="col">
                 Wartość portfela
             </div>
             <div class="col">
-                <div th:text="${walletById.walletBalance}"></div>
+                <div th:text="${walletById.walletSum}"></div>
             </div>
 
         </div>
@@ -57,7 +50,7 @@
                 Zysk/Strata
             </div>
             <div class="col">
-                <div th:text="${walletById.profitLoss}"></div>
+                <div th:text="${walletById.profitLoss}" ></div>
             </div>
             <div class="col">
                 Zysk/strata pozycje zamknięte
