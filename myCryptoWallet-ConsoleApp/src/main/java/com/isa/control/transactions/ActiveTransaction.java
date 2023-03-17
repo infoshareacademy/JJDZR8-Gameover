@@ -6,6 +6,7 @@ import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class ActiveTransaction implements Transaction, Comparable<ActiveTransaction>{
@@ -25,7 +26,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
     public ActiveTransaction(){}
 
     public ActiveTransaction(Coin coin, double volume) {
-        this.idTransaction = Transaction.newDate.getTime();
+        this.idTransaction = new Date().getTime();
         this.isActive = true;
         this.coin = coin;
         this.volume = volume;
@@ -35,7 +36,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
     }
 
     public ActiveTransaction(ActiveTransaction activeTransaction, double volume){
-        this.idTransaction = Transaction.newDate.getTime();
+        this.idTransaction = new Date().getTime();
         this.isActive = true;
         this.coin = activeTransaction.getCoin();
         this.volume = volume;

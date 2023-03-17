@@ -27,7 +27,7 @@ public class Wallet {
     public void buyNewToken(Coin coin, double volume){
         ActiveTransaction activeTransaction = new ActiveTransaction(coin, volume);
         if(activeTransaction.countTransactionCost() < walletBalance) {
-            activeTransactions.add(new ActiveTransaction(coin, volume));
+            activeTransactions.add(activeTransaction);
             System.out.println("transakcja zawarta pomyślnie");
         }else System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
     }
