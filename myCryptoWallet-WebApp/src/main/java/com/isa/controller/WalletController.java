@@ -136,7 +136,7 @@ public class WalletController {
         }
     }
 
-    @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)            // z new wallet
+    @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)            // z new transaction
     public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction){
         double volume = activeTransaction.getVolume();
         walletById.buyNewToken(coinForBuy, volume);
@@ -171,7 +171,7 @@ public class WalletController {
         return "wallet/sl_tp";
     }
 
-    @RequestMapping(value = "/transaction/set/sl/tp", method = RequestMethod.POST)
+    @RequestMapping(value = "/transaction/set/sl/tp", method = RequestMethod.POST)              // z sl_tp
     public String setSlAndTP(@ModelAttribute("slTpTransaction") ActiveTransaction slTpTransaction){
         double stopLoss = slTpTransaction.getStopLoss();
         double takeProfit = slTpTransaction.getTakeProfit();
@@ -182,6 +182,12 @@ public class WalletController {
         walletById.getActiveTransactions().add(transactionForChangeAttributes);
         transactionForChangeAttributes = new ActiveTransaction();
 
+        return "redirect:/wallet/form";
+    }
+
+    @GetMapping("/wallet/refresh")                          // z wallet
+    public String refreshWallet(){
+        walletById.updateWallet();
         return "redirect:/wallet/form";
     }
 
