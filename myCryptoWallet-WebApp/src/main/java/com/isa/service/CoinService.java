@@ -1,5 +1,7 @@
 package com.isa.service;
 
+import com.isa.control.Coin;
+import com.isa.control.Coins;
 import com.isa.model.CoinDto;
 
 import org.springframework.data.domain.Page;
@@ -28,6 +30,13 @@ public class CoinService {
         }
         Page<CoinDto> coinDtoPage = new PageImpl<CoinDto>(list, PageRequest.of(currentPage, pageSize), coinDtoList.size());
         return coinDtoPage;
+    }
+
+    public static List<Coin> getCoinList() {
+        List<Coin> coinList = Coins.getInstance().getCoinList();
+        System.out.println(coinList.get(2));
+
+        return coinList;
     }
 
 

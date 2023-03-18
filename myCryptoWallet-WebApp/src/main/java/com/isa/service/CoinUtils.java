@@ -12,11 +12,7 @@ public class CoinUtils {
     private static final List<CoinDto> coinDtoList = new ArrayList<>();
 
     public static List<CoinDto> buildCoins() {
-        new Endpoints();
-        new Coins();
-
-        //Coins.setCoins();
-        List<Coin> coinList = Coins.getCoinList();
+        List<Coin> coinList = Coins.getInstance().getCoinList();
 
         coinList.stream().forEach(coin -> {
             CoinDto coinDto = new CoinDto(coin.getShortSymbol(), coin.getName(), coin.getLastPrice(), coin.getVolume(), coin.getPriceChange());
