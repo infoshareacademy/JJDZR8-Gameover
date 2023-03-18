@@ -14,9 +14,8 @@ public class App {
 
     public static void main(String[] args) {
 
-        Coins.getInstance();
-
-
+        new Endpoints();
+        new Coins();
 
         Menu.getMenu();
 

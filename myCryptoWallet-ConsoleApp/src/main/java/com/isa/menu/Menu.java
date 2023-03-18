@@ -73,7 +73,7 @@ public enum Menu {
                         break;
                     case 3:
                         // System.out.println(Menu.LIST_COINS);
-                        List<Coin> coinsList = Coins.getInstance().getCoinList();
+                        List<Coin> coinsList = Coins.getCoinList();
                         CoinsList cL  = new CoinsList(coinsList, 10);
                         cL.pagesCreator();
                         cL.openPageFromKeyboard();
