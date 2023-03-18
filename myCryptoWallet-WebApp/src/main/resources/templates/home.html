@@ -42,14 +42,11 @@
                             data-bs-target="#chartBackdrop">
                         Wykres
                     </button>
+                    <a href="favourite.html" target="_blank" class="btn btn-primary">Ulubione</a>
 
-
-                    <a href="favourite.html" target="_blank" class="btn btn-primary">ulubione</a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#walletBackdrop">
-                        Mój Portfel
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal">
+                        <a th:href="@{/show_wallets}" class="btn btn-primary">Moje portfele</a>
                     </button>
-                    <a href="#" class="btn btn-primary">Link</a>
                 </div>
             </div>
             <div class="col">
@@ -124,7 +121,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <iframe src="wallet.html"></iframe>
+                <iframe src="wallet/wallet.html"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -135,21 +132,22 @@
 <div class="container text-center">
     <div class="row">
         <div class="col">
-            column
+            <!--            column-->
         </div>
         <div class="col-6">
-            <h1></h1>
-            <div class="input-group mb-3">
-                <input type="text" id="inputCoin" class="form-control" placeholder="Search Coin"
-                       aria-label="Search Coin" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Szukaj</button>
-                <div id="SearchCoinFromHere" class="form-text input-group mb-3">
-                    poszukaj swojego coina
+            <form action="#" th:action="@{/search/coin}" th:object="${emptyCoin}" method="post"
+                  class="input-group mb-3">
+                <div class="input-group mb-3">
+                    <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control"
+                           placeholder="Wpisz symbol szukanej kryptowaluty" aria-label="Search Coin" aria-describedby="button-addon2"/>
+                    <input class="btn btn-secondary" type="submit" id="button-addon2" value="Szukaj"/>
+                    <div id="SearchCoinFromHere" class="form-text input-group mb-3">
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="col">
-            Column
+            <!--            Column-->
         </div>
     </div>
 </div>
@@ -173,7 +171,7 @@
             <td th:text="${coin.name}"></td>
             <td th:text="${coin.symbol}"></td>
             <td th:text="${coin.lastPrice}"></td>
-            <td th:text="${coin.priceChange}"></td>
+            <td th:text="${coin.getPriceChangePercent}"></td>
             <td th:text="${coin.volume}"></td>
 
             <td>
@@ -196,19 +194,22 @@
             </li>
 
             <th:block th:if="${totalPages <= 10}">
-                <li th:each="i: ${pageNumbers}" th:class="${currentPage != i ? 'page-item': 'page-item disabled'}" >
+                <li th:each="i: ${pageNumbers}" th:class="${currentPage != i ? 'page-item': 'page-item disabled'}">
                     <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}" class="page-link"></a>
                 </li>
             </th:block>
             <th:block th:if="${totalPages > 10}">
                 <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
-                    <li th:each="i: ${#numbers.sequence(1,5)}" th:class="${currentPage != i ? 'page-item': 'page-item disabled'}" >
-                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}" class="page-link"></a>
+                    <li th:each="i: ${#numbers.sequence(1,5)}"
+                        th:class="${currentPage != i ? 'page-item': 'page-item disabled'}">
+                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}"
+                           class="page-link"></a>
                     </li>
                     <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + 6}" class="page-link">...</a>
                     <li th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}"
                         th:class="${currentPage != i ? 'page-item': 'page-item disabled'}">
-                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}" class="page-link"></a>
+                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}"
+                           class="page-link"></a>
                     </li>
                 </th:block>
                 <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
@@ -216,7 +217,8 @@
 
                     <li th:each="i: ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
                         th:class="${currentPage != i ? 'page-item': 'page-item disabled'}">
-                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}" class="page-link"></a>
+                        <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${i}}" th:text="${i}"
+                           class="page-link"></a>
                     </li>
 
                     <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${currentPage + 5}}" class="page-link">...</a>
@@ -224,7 +226,8 @@
             </th:block>
 
             <li>
-                <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${currentPage + 1}}" class="page-link">Następny</a>
+                <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${currentPage + 1}}"
+                   class="page-link">Następny</a>
             </li>
             <li>
                 <a th:href="@{'?pageSize=' + ${pageSize} + '&page=' + ${totalPages}}" class="page-link">Ostatni</a>

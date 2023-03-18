@@ -1,6 +1,6 @@
 package com.isa.controller;
 
-
+import com.isa.control.Coin;
 import com.isa.model.CoinDto;
 import com.isa.service.CoinService;
 
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-
 
 @Controller
 public class HomeController {
@@ -48,6 +47,10 @@ public class HomeController {
                     .toList();
             model.addAttribute("pageNumbers", pageNumbers);
         }
+
+        CoinDto coin = new CoinDto();
+        model.addAttribute("emptyCoin", coin);
+
         return "home";
     }
 }

@@ -6,6 +6,7 @@ import com.isa.control.Coins;
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
+import com.isa.service.CoinUtils;
 import com.isa.service.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

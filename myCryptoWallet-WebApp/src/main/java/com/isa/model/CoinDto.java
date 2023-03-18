@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 public class CoinDto {
     private String symbol;
     private String name;
-    private String lastPrice;
-    private String priceChange;
-    private String volume;
+    private double lastPrice;
+    private double priceChangePercent;
+    private double volume;
 
-    public CoinDto(String symbol, String name, String lastPrice, String priceChange, String volume) {
+    public CoinDto(String symbol, String name, double lastPrice, double priceChangePercent, double volume) {
         this.symbol = symbol;
         this.name = name;
         this.lastPrice = lastPrice;
-        this.priceChange = priceChange;
+        this.priceChangePercent = priceChangePercent;
         this.volume = volume;
     }
 }
