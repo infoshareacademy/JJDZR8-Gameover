@@ -20,7 +20,7 @@
     position: sticky;
 }
 .div-table{
-    height: 400px;
+    height: fit-content;
     width: 50%;
     position: relative;
     left: 500px;

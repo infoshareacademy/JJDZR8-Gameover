@@ -34,13 +34,13 @@
                wolne środki
             </div>
             <div class="col">
-                <div th:text="${walletById.walletBalance}"></div>
+                <div th:text="${#numbers.formatDecimal(walletById.walletBalance,1,2)}"></div>
             </div>
             <div class="col">
                 Wartość portfela
             </div>
             <div class="col">
-                <div th:text="${walletById.walletSum}"></div>
+                <div th:text="${#numbers.formatDecimal(walletById.walletSum,1,2)}"></div>
             </div>
 
         </div>
@@ -50,13 +50,13 @@
                 Zysk/Strata
             </div>
             <div class="col">
-                <div th:text="${walletById.profitLoss}" ></div>
+                <div th:text="${#numbers.formatDecimal(walletById.profitLoss,1,2)}" ></div>
             </div>
             <div class="col">
                 Zysk/strata pozycje zamknięte
             </div>
             <div class="col">
-                <div th:text="${walletById.historicalProfitLoss}"></div>
+                <div th:text="${#numbers.formatDecimal(walletById.historicalProfitLoss,1,2)}"></div>
             </div>
         </div>
     </div>
@@ -90,11 +90,11 @@
                     th:style="${activeTransaction.stopLoss > 0} ? 'background-color: red' : ''">
 
                 </td>
-                <td th:text="${activeTransaction.takeProfit}"
+                <td th:text="${#numbers.formatDecimal(activeTransaction.takeProfit,1,2)}"
                     th:style="${activeTransaction.takeProfit > 0} ? 'background-color: green' : ''">
 
                 </td>
-                <td th:text="${activeTransaction.countProfit()}"></td>
+                <td th:text="${#numbers.formatDecimal(activeTransaction.countProfit(),1,2)}"></td>
 
                 <td>
 

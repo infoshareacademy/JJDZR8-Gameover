@@ -31,7 +31,7 @@
       <td th:text="${closingTransaction.coin.shortSymbol}"></td>
       <td th:text="${closingTransaction.openPrice}"></td>
       <td th:text="${closingTransaction.currentPrice}"></td>
-      <td th:text="${closingTransaction.countProfit()}"></td>
+      <td th:text="${#numbers.formatDecimal(closingTransaction.countProfit(),1,2)}"></td>
     </tr>
     </tbody>
   </table>

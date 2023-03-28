@@ -54,7 +54,7 @@
                 <td th:text="${coin.name}"></td>
                 <td th:text="${coin.symbol}"></td>
                 <td th:text="${coin.lastPrice}"></td>
-                <td th:text="${coin.priceChangePercent}"></td>
+                <td th:text="${#numbers.formatDecimal(coin.priceChangePercent,1,2)}"></td>
                 <td th:text="${coin.volume}"></td>
                 <td>
                     <a th:href="@{/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light ">

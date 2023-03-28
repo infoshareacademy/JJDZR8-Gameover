@@ -29,7 +29,7 @@
                 <td th:text="${coinForBuy.name}"></td>
                 <td th:text="${coinForBuy.shortSymbol}"></td>
                 <td th:text="${coinForBuy.lastPrice}"></td>
-                <td th:text="${coinForBuy.priceChangePercent}"></td>
+                <td th:text="${#numbers.formatDecimal(coinForBuy.priceChangePercent,1,2)}"></td>
             </tr>
             </tbody>
         </table>
