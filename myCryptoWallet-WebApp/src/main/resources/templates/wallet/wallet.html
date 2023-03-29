@@ -81,13 +81,13 @@
             <tbody>
             <tr th:each="activeTransaction,iterStat: ${activeTransactions}">
                 <td th:text="${iterStat.count}"></td>
-                <td th:text="${activeTransaction.getCoin().getName()}"></td>
-                <td th:text="${activeTransaction.getCoin().getShortSymbol}"></td>
-                <td th:text="${activeTransaction.openPrice}"></td>
-                <td th:text="${activeTransaction.currentPrice}"></td>
-                <td th:text="${activeTransaction.volume}"></td>
-                <td th:text="${activeTransaction.stopLoss}"
-                    th:style="${activeTransaction.stopLoss > 0} ? 'background-color: red' : ''">
+                <td th:text="${activeTransaction.coin().getName()}"></td>
+                <td th:text="${activeTransaction.coin().getSymbol()}"></td>
+                <td th:text="${activeTransaction.openPrice()}"></td>
+                <td th:text="${activeTransaction.currentPrice()}"></td>
+                <td th:text="${activeTransaction.volume()}"></td>
+                <td th:text="${activeTransaction.stopLoss()}"
+                    th:style="${activeTransaction.stopLoss() > 0} ? 'background-color: red' : ''">
 
                 </td>
                 <td th:text="${#numbers.formatDecimal(activeTransaction.takeProfit,1,2)}"
