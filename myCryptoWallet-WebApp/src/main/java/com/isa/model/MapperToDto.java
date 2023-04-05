@@ -25,7 +25,8 @@ public class MapperToDto {
                 ,activeTransaction.getOpenPrice()
                 ,activeTransaction.getCurrentPrice()
                 ,activeTransaction.getStopLoss()
-                ,activeTransaction.getTakeProfit());
+                ,activeTransaction.getTakeProfit()
+                ,activeTransaction.countProfit());
     }
 
     public static ClosedTransactionDto mapClosedTransactionToClosedTransactionDto(ClosedTransaction closedTransaction){

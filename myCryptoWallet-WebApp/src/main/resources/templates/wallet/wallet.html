@@ -94,9 +94,9 @@
                     th:style="${activeTransaction.takeProfit > 0} ? 'background-color: green' : ''">
 
                 </td>
-                <td th:text="${#numbers.formatDecimal(activeTransaction.countProfit(),1,2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(activeTransaction.profit(),1,2)}"></td>
 
-                <td>
+                    <td>
 
                     <a th:href="@{/close/transaction{transactionId}(transactionId=${activeTransaction.idTransaction})}"
                        class="btn btn-primary btn-light" type="submit">zamknij

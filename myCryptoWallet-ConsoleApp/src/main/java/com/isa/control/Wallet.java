@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class Wallet {
     private String walletId;
-    private Balance startBalance;
     private double walletSum;
     private double profitLoss;
     private double historicalProfitLoss;
@@ -19,9 +18,23 @@ public class Wallet {
     private Set<ActiveTransaction> activeTransactions = new HashSet<>();
     public Wallet(){}
 
-    public Wallet(String walletId, Balance startBalance){
+    public Wallet(String walletId){
         this.walletId = walletId;
-        this.startBalance = startBalance;
+        this.walletBalance = 0;
+    }
+
+    public void loadWalletBalance(double funds){
+        if (funds > 0){
+            updateWallet();
+            this.walletBalance += funds;
+        }
+    }
+
+    public void withdrawalFunds(double funds){
+        updateWallet();
+        if (funds > 0 && funds <= walletBalance){
+            this.walletBalance += funds;
+        }
     }
 
     public void buyNewToken(Coin coin, double volume){
@@ -79,11 +92,11 @@ public class Wallet {
 
 
     public void countWalletBalance(){
-        this.walletBalance = startBalance.getWorth() - transactionsCosts + historicalProfitLoss + profitLoss;
+        this.walletBalance = walletBalance - transactionsCosts + historicalProfitLoss + profitLoss;
     }
 
     public void countWalletSum(){
-        this.walletSum = startBalance.getWorth() + historicalProfitLoss + profitLoss;
+        this.walletSum = walletBalance + historicalProfitLoss + profitLoss;
     }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
@@ -110,7 +123,7 @@ public class Wallet {
         return activeTransactions.stream().anyMatch(n-> n.isTPOn() && n.getCurrentPrice() >= n.getTakeProfit());
     }
 
-    public static Wallet createNewWalletFromKeyboard(Scanner scanner){
+ /*   public static Wallet createNewWalletFromKeyboard(Scanner scanner){
         System.out.println("podaj unikatową nazwę portfela");
         String idForNewWallet = scanner.nextLine();
         System.out.println("wybierz początkową wartość portfela:");
@@ -119,6 +132,8 @@ public class Wallet {
         Balance balance = Balance.getBalance(walletBalance);
         return new Wallet(idForNewWallet,balance);
     }
+
+  */
     public static Coin searchCoinForBuying(){
         System.out.println("wybierz token który chcesz kupić");
         CoinSearch coinSearch = new CoinSearch();
@@ -161,12 +176,12 @@ public class Wallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Wallet wallet = (Wallet) o;
-        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && startBalance == wallet.startBalance && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
+        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletId, startBalance, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, transactionsHistory, activeTransactions);
+        return Objects.hash(walletId, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, transactionsHistory, activeTransactions);
     }
 
     public String getWalletId() {
@@ -175,14 +190,6 @@ public class Wallet {
 
     public void setWalletId(String walletId) {
         this.walletId = walletId;
-    }
-
-    public Balance getStartBalance() {
-        return startBalance;
-    }
-
-    public void setStartBalance(Balance startBalance) {
-        this.startBalance = startBalance;
     }
 
     public double getWalletSum() {
