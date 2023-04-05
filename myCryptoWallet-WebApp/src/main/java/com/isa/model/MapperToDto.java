@@ -52,7 +52,6 @@ public class MapperToDto {
                     .collect(Collectors.toSet());
         }
         return new WalletDto(wallet.getWalletId()
-                ,wallet.getStartBalance()
                 ,wallet.getWalletSum()
                 ,wallet.getProfitLoss()
                 ,wallet.getHistoricalProfitLoss()

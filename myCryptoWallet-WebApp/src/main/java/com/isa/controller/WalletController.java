@@ -22,36 +22,29 @@ import java.util.Set;
 
 import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionDto;
 import static com.isa.model.MapperToDto.mapWalletToWalletDto;
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Controller
 public class WalletController {
 
     private final WalletService walletService;
-    private Set<String> allWalletsId;
-    private List<Coin> searchResult = new ArrayList<>();
-    private Coin coinForBuy = new Coin();
-    private ActiveTransaction transactionForClose;
-    private ActiveTransaction transactionForChangeAttributes;
+
+
 
     public WalletController(WalletService walletService, Wallet wallet){
 
         this.walletService = walletService;
-        this.allWalletsId = walletService.getAllWalletsId();
     }
 
     @GetMapping("/show_wallets")
     public String selectWallet(Model model){
         Wallet emptyWallet = new Wallet();
         // #TODO odświezyć ceny
-        if (allWalletsId.isEmpty()){
+        if (walletService.getWallet() == null ){
             model.addAttribute("emptyWallet", emptyWallet);
             return "wallet/create_wallet";
-        }else{
-        model.addAttribute("emptyWallet", emptyWallet);
-        model.addAttribute("allWalletsId", allWalletsId);
-        // #TODO jeśli mamy jeden wallet id w set to dodać if() i przekierować odrazu na "wallet"
-        return "wallet/wallet_first_view";
-        }
+        }else return "redirect:wallet/form";
+
     }
 
     @GetMapping("/add_new_wallet")      // z wallet   i z new wallet    , wallet first view
@@ -61,7 +54,7 @@ public class WalletController {
         return "wallet/create_wallet";
     }
 
-    @PostMapping("/new_wallet")             // z create wallet
+  /*  @PostMapping("/new_wallet")             // z create wallet
     public String createNewWallet(@ModelAttribute Wallet wallet, Model model){       // #TODO dodać walidację
         String id = wallet.getWalletId();
         if (walletService.isNewWalletIdExist(id)) return "wallet/create_wallet";
@@ -80,42 +73,42 @@ public class WalletController {
 
         return "redirect:/wallet/form";
     }
-
+*/
     @GetMapping("/wallet/form")
     public String redirectToWalletForm(Model model){
-        coinForBuy = new Coin();
-        Set<ActiveTransactionDto> activeTransactions = walletService.mapActiveTransactionsToDto();
-        WalletDto walletById = mapWalletToWalletDto(walletService.getWalletById());
-        model.addAttribute("walletById", walletById);
-        model.addAttribute("activeTransactions", activeTransactions);
-        model.addAttribute("allWalletsId", allWalletsId);
+        Set<ActiveTransactionDto> activeTransactionsDto = walletService.mapActiveTransactionsToDto();
+        WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
+        model.addAttribute("walletById", walletDto);
+        model.addAttribute("activeTransactions", activeTransactionsDto);
         return "wallet/wallet";
     }
     @GetMapping("/history/transactions/{id}")       // z wallet.html
     public String showTransactionsHistory(@PathVariable("id") String walletId, Model model){
-        walletService.findWalletById(walletId);
-        Set<ClosedTransactionDto> transactionsHistory = walletService.mapClosedTransactionsToDto();
-        model.addAttribute("history",transactionsHistory);
+        Set<ClosedTransactionDto> transactionsHistoryDto = walletService.mapClosedTransactionsToDto();
+        model.addAttribute("history",transactionsHistoryDto);
         return "wallet/transaction_history";
     }
 
-    @GetMapping("/buy/coin/{walletId}")     // z wallet.html
+  /*  @GetMapping("/buy/coin/{walletId}")     // z wallet.html
     public String showBuyNewCoinForm(@PathVariable("walletId") String walletId){
         walletService.findWalletById(walletId);
         return "redirect:/buy/coin/form";
     }
 
+   */
+
     @RequestMapping(value = "/search/coin", method = RequestMethod.POST)        // z choice coin to buy
     public String searchCoinForBuy(@ModelAttribute("emptyCoin") Coin coin){
-        searchResult = walletService.searchCoin(coin.getSymbol());
+        walletService.searchCoin(coin.getSymbol());
         return "redirect:/buy/coin/form";}
 
     @GetMapping("/buy/coin/form")
     public String redirectToBuyCoinForm(Model model){
         Coin coin = new Coin();
-        Wallet walletById = walletService.getWalletById();
+        Wallet wallet = walletService.getWallet();
+        List<Coin> searchResult = walletService.getSearchResult();
         model.addAttribute("emptyCoin", coin);
-        model.addAttribute("wallet", walletById);
+        model.addAttribute("wallet", wallet);
         model.addAttribute("result", searchResult);
 
         return "wallet/choice_coin_to_buy";
@@ -123,12 +116,13 @@ public class WalletController {
 
     @GetMapping("/buy/{coinSymbol}")                // z choice coin to buy
     public String establishCoinForBuy(@PathVariable("coinSymbol") String coinSymbol, Model model){
-        List<Coin> result = walletService.searchCoin(coinSymbol);
 
-        if (result.isEmpty()){
+
+        if (walletService.getSearchResult().isEmpty()){
             return "redirect:/buy/coin/form";
         }else {
-            coinForBuy = result.get(0);
+            walletService.addCoinForBuy();
+            Coin coinForBuy = walletService.getCoinForBuy();
             ActiveTransaction activeTransaction = new ActiveTransaction();
             model.addAttribute("coinForBuy", coinForBuy);
             model.addAttribute("emptyTransaction", activeTransaction);
@@ -139,14 +133,15 @@ public class WalletController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)            // z new transaction
     public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransaction activeTransaction){
         double volume = activeTransaction.getVolume();
-        walletService.buyNewTokenForWallet(coinForBuy, volume);
+        walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
+        walletService.setCoinForBuy(new Coin());
         return "redirect:/wallet/form";
     }
 
     @GetMapping("/close/transaction{transactionId}")        // z wallet
     public String showClosingTransactionForm(@PathVariable("transactionId") long transactionId, Model model){
-
-        transactionForClose = walletService.getWalletById().searchActiveTransaction(transactionId);
+        walletService.searchTransactionForClose(transactionId);
+        ActiveTransaction transactionForClose = walletService.getTransactionForClose();
         if (transactionForClose.getCoin() == null) return "wallet/mistake_form";
         else {
             ActiveTransactionDto transactionForCloseDto = mapActiveTransactionToActiveTransactionDto(transactionForClose);
@@ -158,16 +153,19 @@ public class WalletController {
     @RequestMapping(value = "/transaction/close", method = RequestMethod.POST)          // z close_transaction
     public String closeTransaction(@ModelAttribute("closingTransaction") ActiveTransaction activeTransaction){
         double volume = activeTransaction.getVolume();
-        walletService.getWalletById().closeActiveTransaction(transactionForClose, volume);
-        transactionForClose = new ActiveTransaction();
+        walletService.closeTransaction(volume);
+
+
         return "redirect:/wallet/form";
     }
 
     @GetMapping("/sl-tp/transaction{transactionId}")            // z wallet
     public String showSlTpForm(@PathVariable("transactionId") long transactionId, Model model){
 
-        transactionForChangeAttributes = walletService.getWalletById().searchActiveTransaction(transactionId);
-        model.addAttribute("slTpTransaction", transactionForChangeAttributes);
+        walletService.searchTransactionForChangeAttributes(transactionId);
+        ActiveTransaction transactionForChangeAttributes = walletService.getTransactionForChangeAttributes();
+        ActiveTransactionDto activeTransactionDto = mapActiveTransactionToActiveTransactionDto(transactionForChangeAttributes);
+        model.addAttribute("slTpTransaction", activeTransactionDto);
 
         return "wallet/sl_tp";
     }
@@ -176,19 +174,13 @@ public class WalletController {
     public String setSlAndTP(@ModelAttribute("slTpTransaction") ActiveTransaction slTpTransaction){
         double stopLoss = slTpTransaction.getStopLoss();
         double takeProfit = slTpTransaction.getTakeProfit();
-
-        transactionForChangeAttributes.setSLAlarm(stopLoss, true);
-        transactionForChangeAttributes.setTPAlarm(takeProfit, true);
-        walletService.getWalletById().getActiveTransactions().removeIf(n -> n.getIdTransaction() == transactionForChangeAttributes.getIdTransaction());
-        walletService.getWalletById().getActiveTransactions().add(transactionForChangeAttributes);
-        transactionForChangeAttributes = new ActiveTransaction();
-
+        walletService.setSlAndTpAlarm(stopLoss, takeProfit);
         return "redirect:/wallet/form";
     }
 
     @GetMapping("/wallet/refresh")                          // z wallet
     public String refreshWallet(){
-        walletService.getWalletById().updateWallet();
+        walletService.getWallet().updateWallet();
         return "redirect:/wallet/form";
     }
 
