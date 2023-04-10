@@ -123,17 +123,17 @@ public class Wallet {
         return activeTransactions.stream().anyMatch(n-> n.isTPOn() && n.getCurrentPrice() >= n.getTakeProfit());
     }
 
- /*   public static Wallet createNewWalletFromKeyboard(Scanner scanner){
-        System.out.println("podaj unikatową nazwę portfela");
-        String idForNewWallet = scanner.nextLine();
-        System.out.println("wybierz początkową wartość portfela:");
-        Balance.printBalance();
-        double walletBalance = scanner.nextDouble();
-        Balance balance = Balance.getBalance(walletBalance);
-        return new Wallet(idForNewWallet,balance);
+    public static Wallet createNewWalletFromKeyboard(Scanner scanner){
+//        System.out.println("podaj unikatową nazwę portfela");
+//        String idForNewWallet = scanner.nextLine();
+//        System.out.println("wybierz początkową wartość portfela:");
+//        Balance.printBalance();
+//        double walletBalance = scanner.nextDouble();
+//        Balance balance = Balance.getBalance(walletBalance);
+//        return new Wallet(idForNewWallet,balance);
+        return new Wallet();
     }
 
-  */
     public static Coin searchCoinForBuying(){
         System.out.println("wybierz token który chcesz kupić");
         CoinSearch coinSearch = new CoinSearch();

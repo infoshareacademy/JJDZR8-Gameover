@@ -31,7 +31,7 @@ public class WalletController {
 
 
 
-    public WalletController(WalletService walletService, Wallet wallet){
+    public WalletController(WalletService walletService){
 
         this.walletService = walletService;
     }
@@ -105,10 +105,8 @@ public class WalletController {
     @GetMapping("/buy/coin/form")
     public String redirectToBuyCoinForm(Model model){
         Coin coin = new Coin();
-        Wallet wallet = walletService.getWallet();
         List<Coin> searchResult = walletService.getSearchResult();
         model.addAttribute("emptyCoin", coin);
-        model.addAttribute("wallet", wallet);
         model.addAttribute("result", searchResult);
 
         return "wallet/choice_coin_to_buy";
@@ -121,7 +119,7 @@ public class WalletController {
         if (walletService.getSearchResult().isEmpty()){
             return "redirect:/buy/coin/form";
         }else {
-            walletService.addCoinForBuy();
+            walletService.addCoinForBuy(coinSymbol);
             Coin coinForBuy = walletService.getCoinForBuy();
             ActiveTransaction activeTransaction = new ActiveTransaction();
             model.addAttribute("coinForBuy", coinForBuy);
@@ -135,6 +133,7 @@ public class WalletController {
         double volume = activeTransaction.getVolume();
         walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
         walletService.setCoinForBuy(new Coin());
+        walletService.setSearchResult(new ArrayList<>());
         return "redirect:/wallet/form";
     }
 

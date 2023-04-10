@@ -78,8 +78,8 @@ public class WalletService {
         this.searchResult = coinSearch.search(coinSymbol);
     }
 
-    public void addCoinForBuy(){
-        this.coinForBuy = searchResult.get(0);
+    public void addCoinForBuy(String coinSymbol){
+        this.coinForBuy = searchResult.stream().filter(n->n.getSymbol().equals(coinSymbol)).findFirst().orElseThrow();
     }
 
     public void searchTransactionForClose(long transactionId){
