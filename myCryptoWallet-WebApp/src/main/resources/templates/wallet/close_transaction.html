@@ -27,11 +27,11 @@
     </thead>
     <tbody>
     <tr>
-      <td th:text="${closingTransaction.coin.name}"></td>
-      <td th:text="${closingTransaction.coin.shortSymbol}"></td>
-      <td th:text="${closingTransaction.openPrice}"></td>
-      <td th:text="${closingTransaction.currentPrice}"></td>
-      <td th:text="${#numbers.formatDecimal(closingTransaction.countProfit(),1,2)}"></td>
+      <td th:text="${closingTransaction.coin().name}"></td>
+      <td th:text="${closingTransaction.coin().symbol}"></td>
+      <td th:text="${closingTransaction.openPrice()}"></td>
+      <td th:text="${closingTransaction.currentPrice()}"></td>
+      <td th:text="${#numbers.formatDecimal(closingTransaction.profit(),1,2)}"></td>
     </tr>
     </tbody>
   </table>
