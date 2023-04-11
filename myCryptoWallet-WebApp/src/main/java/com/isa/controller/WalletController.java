@@ -82,8 +82,8 @@ public class WalletController {
         model.addAttribute("activeTransactions", activeTransactionsDto);
         return "wallet/wallet";
     }
-    @GetMapping("/history/transactions/{id}")       // z wallet.html
-    public String showTransactionsHistory(@PathVariable("id") String walletId, Model model){
+    @GetMapping("/history/transactions")       // z wallet.html
+    public String showTransactionsHistory(Model model){
         Set<ClosedTransactionDto> transactionsHistoryDto = walletService.mapClosedTransactionsToDto();
         model.addAttribute("history",transactionsHistoryDto);
         return "wallet/transaction_history";

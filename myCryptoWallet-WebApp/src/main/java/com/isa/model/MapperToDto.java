@@ -33,7 +33,8 @@ public class MapperToDto {
         return new ClosedTransactionDto(mapCoinToCoinDto(closedTransaction.getCoin())
                 ,closedTransaction.getVolume()
                 ,closedTransaction.getOpenPrice()
-                ,closedTransaction.getClosePrice());
+                ,closedTransaction.getClosePrice()
+                ,closedTransaction.countProfit());
     }
 
     public static WalletDto mapWalletToWalletDto(Wallet wallet){
