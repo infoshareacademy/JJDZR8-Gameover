@@ -48,11 +48,17 @@ public class WalletController {
 
     }
 
-    @GetMapping("/add_new_wallet")      // z wallet   i z new wallet    , wallet first view
-    public String showCreateWalletForm(Model model){
+    @GetMapping("/top_up_wallet")      // z wallet   i z new wallet    , wallet first view
+    public String topUpWallet(Model model){
         Wallet emptyWallet = new Wallet();
         model.addAttribute("emptyWallet", emptyWallet);
-        return "wallet/create_wallet";
+        return "wallet/top_up";
+    }
+
+    @RequestMapping("/add/amount")
+    public String addAmountToWallet(@RequestParam(value = "amount", required = false) double amount){
+        walletService.TopUpWallet(amount);
+        return "redirect:/wallet/form";
     }
 
     @PostMapping("/new_wallet")             // z create wallet
@@ -65,7 +71,6 @@ public class WalletController {
             walletService.setWallet(wallet);
             return "redirect:/wallet/form";
         }
-
     }
 /*
     @GetMapping("/wallet/{id}")             // z wallet   , wall first view

@@ -103,6 +103,11 @@ public class WalletService {
         transactionForChangeAttributes = new ActiveTransaction();
     }
 
+    public void TopUpWallet(double amount){
+        wallet.setWalletBalance(wallet.getWalletBalance() + amount);
+        wallet.updateWallet();
+    }
+
     public Wallet getWallet() {
         return wallet;
     }
