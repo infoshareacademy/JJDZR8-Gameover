@@ -1,0 +1,48 @@
+{
+  "walletId": "nowy portfel",
+  "walletSum": 7981.499999999995,
+  "profitLoss": -1.0999999999999899,
+  "historicalProfitLoss": 0.0,
+  "transactionsCosts": 503.70000000000005,
+  "walletBalance": 7982.599999999996,
+  "transactionsHistory": [],
+  "activeTransactions": [
+    {
+      "idTransaction": 1681322376651,
+      "coin": {
+        "symbol": "XRPBUSD",
+        "shortSymbol": "XRP",
+        "name": "XRP",
+        "priceChange": "-0.01160000",
+        "priceChangePercent": "-2.251",
+        "weightedAvgPrice": "0.50766334",
+        "prevClosePrice": "0.51520000",
+        "lastPrice": "0.50370000",
+        "lastQty": "1981.00000000",
+        "bidPrice": "0.50360000",
+        "bidQty": "12941.00000000",
+        "askPrice": "0.50370000",
+        "askQty": "9450.00000000",
+        "openPrice": "0.51530000",
+        "highPrice": "0.51910000",
+        "lowPrice": "0.49880000",
+        "volume": "69013324.00000000",
+        "quoteVolume": "35035534.45770000",
+        "openTime": 1681235902184,
+        "closeTime": 1681322302184,
+        "firstId": 88050336,
+        "lastId": 88127972,
+        "count": 77637
+      },
+      "isActive": true,
+      "volume": 1000.0,
+      "openTransactionDate": "2023-04-12 19:59:36",
+      "openPrice": 0.5037,
+      "currentPrice": 0.5026,
+      "stopLoss": 0.0,
+      "isSLOn": false,
+      "takeProfit": 0.0,
+      "isTPOn": false
+    }
+  ]
+}

@@ -5,7 +5,6 @@ import com.isa.control.CoinSearch;
 import com.isa.control.Data;
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
-import com.isa.menu.Balance;
 import com.isa.model.ActiveTransactionDto;
 import com.isa.model.ClosedTransactionDto;
 import com.isa.model.MapperToDto;
@@ -13,12 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionDto;
-import static com.isa.model.MapperToDto.mapWalletToWalletDto;
 
 @Service
 public class WalletService {
@@ -34,32 +29,6 @@ public class WalletService {
         this.wallet = wallet;
     }
 
- /*   public Set<String> getAllWalletsId(){
-        return walletsMap.keySet();
-    }
-
-  */
-
-   /* public void findWalletById(String walletId){
-        if(walletsMap.containsKey(walletId)){
-            this.walletById = walletsMap.get(walletId);
-        }else this.walletById = new Wallet();
-    }
-
-    */
-
-    /*public void addWalletToWalletsMap(Wallet wallet){
-        walletsMap.put(wallet.getWalletId(), wallet);
-    }
-
-     */
-
-    /*public boolean isNewWalletIdExist(String walletId){
-        if (walletsMap.containsKey(walletId)) return true;
-        else return false;
-    }
-
-     */
     public Set<ActiveTransactionDto> mapActiveTransactionsToDto(){
         return this.wallet.getActiveTransactions().stream()
                 .map(MapperToDto::mapActiveTransactionToActiveTransactionDto).collect(Collectors.toSet());
@@ -106,6 +75,11 @@ public class WalletService {
     public void TopUpWallet(double amount){
         wallet.setWalletBalance(wallet.getWalletBalance() + amount);
         wallet.updateWallet();
+    }
+
+    public void saveWalletToFile(){
+        wallet.updateWallet();
+        Data.serializer(wallet, "wallet.json");
     }
 
     public Wallet getWallet() {
