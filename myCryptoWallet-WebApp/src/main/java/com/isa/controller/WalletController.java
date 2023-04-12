@@ -12,6 +12,7 @@ import com.isa.model.CoinDto;
 import com.isa.model.WalletDto;
 import com.isa.service.CoinUtils;
 import com.isa.service.WalletService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,19 +55,19 @@ public class WalletController {
         return "wallet/create_wallet";
     }
 
-  /*  @PostMapping("/new_wallet")             // z create wallet
-    public String createNewWallet(@ModelAttribute Wallet wallet, Model model){       // #TODO dodać walidację
+    @PostMapping("/new_wallet")             // z create wallet
+    public String createNewWallet(@ModelAttribute Wallet wallet){       // #TODO dodać walidację
         String id = wallet.getWalletId();
-        if (walletService.isNewWalletIdExist(id)) return "wallet/create_wallet";
+        double walletBalance = wallet.getWalletBalance();
+        if (id.isEmpty() || walletBalance < 0) return "wallet/create_wallet";
         else{
             wallet.updateWallet();
-            walletService.addWalletToWalletsMap(wallet);
-            walletService.findWalletById(id);
+            walletService.setWallet(wallet);
             return "redirect:/wallet/form";
         }
 
     }
-
+/*
     @GetMapping("/wallet/{id}")             // z wallet   , wall first view
     public String getWalletById(@PathVariable("id") String walletId){
         walletService.findWalletById(walletId);

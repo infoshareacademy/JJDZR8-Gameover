@@ -39,10 +39,12 @@
 
                 </div>
                 <div class="col">
-                    <select th:field="*{startBalance}" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <div class="input-group mb-3">
+                        <input type="number" th:field="*{walletBalance}" class="form-control" placeholder="Kwota doładowania"
+                               aria-label="Recipient's username" aria-describedby="basic-addon2"/>
 
-                        <option th:each="balance : ${T(com.isa.menu.Balance).values()}" th:value="${balance}" th:text="${balance.worth}"/>
-                    </select>
+                    </div>
+
                 </div>
             </div>
             <div style="height: 50px"></div>

@@ -30,8 +30,8 @@ public class WalletService {
     private ActiveTransaction transactionForChangeAttributes;
 
     public WalletService(){
-        Map<String, Wallet> stringWalletMap = Data.deserializeWallet();
-        this.wallet = stringWalletMap.get("mojWallet");
+        Wallet wallet = Data.deserializeWallet();
+        this.wallet = wallet;
     }
 
  /*   public Set<String> getAllWalletsId(){
