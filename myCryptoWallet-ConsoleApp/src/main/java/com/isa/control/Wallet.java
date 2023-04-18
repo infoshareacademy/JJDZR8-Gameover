@@ -14,6 +14,7 @@ public class Wallet {
     private double historicalProfitLoss;
     private double transactionsCosts;
     private double walletBalance;
+    private double paymentCalc;
     private Set<ClosedTransaction> transactionsHistory = new HashSet<>();
     private Set<ActiveTransaction> activeTransactions = new HashSet<>();
     public Wallet(){}
@@ -21,19 +22,20 @@ public class Wallet {
     public Wallet(String walletId){
         this.walletId = walletId;
         this.walletBalance = 0;
+        this.paymentCalc = 0;
     }
 
     public void loadWalletBalance(double funds){
         if (funds > 0){
             updateWallet();
-            this.walletBalance += funds;
+            this.paymentCalc += funds;
         }
     }
 
     public void withdrawalFunds(double funds){
         updateWallet();
         if (funds > 0 && funds <= walletBalance){
-            this.walletBalance += funds;
+            this.paymentCalc -= funds;
         }
     }
 
@@ -92,11 +94,11 @@ public class Wallet {
 
 
     public void countWalletBalance(){
-        this.walletBalance = walletBalance - transactionsCosts + historicalProfitLoss + profitLoss;
+        this.walletBalance = paymentCalc - transactionsCosts + historicalProfitLoss + profitLoss;
     }
 
     public void countWalletSum(){
-        this.walletSum = walletBalance + historicalProfitLoss + profitLoss;
+        this.walletSum = paymentCalc + historicalProfitLoss + profitLoss;
     }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
@@ -176,12 +178,12 @@ public class Wallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Wallet wallet = (Wallet) o;
-        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Objects.equals(walletId, wallet.walletId) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
+        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Double.compare(wallet.paymentCalc, paymentCalc) == 0 && Objects.equals(walletId, wallet.walletId) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletId, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, transactionsHistory, activeTransactions);
+        return Objects.hash(walletId, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, paymentCalc, transactionsHistory, activeTransactions);
     }
 
     public String getWalletId() {
@@ -230,6 +232,14 @@ public class Wallet {
 
     public void setWalletBalance(double walletBalance) {
         this.walletBalance = walletBalance;
+    }
+
+    public double getPaymentCalc() {
+        return paymentCalc;
+    }
+
+    public void setPaymentCalc(double paymentCalc) {
+        this.paymentCalc = paymentCalc;
     }
 
     public Set<ClosedTransaction> getTransactionsHistory() {

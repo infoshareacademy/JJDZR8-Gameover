@@ -78,13 +78,17 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
     }
 
     public void setSLAlarm(double price, boolean active){
-        setStopLoss(price);
-        setSLOn(active);
+       if (price < this.currentPrice) {
+           setStopLoss(price);
+           setSLOn(active);
+       }
     }
 
     public void setTPAlarm(double price, boolean active){
-        setTakeProfit(price);
-        setTPOn(active);
+        if (price > this.currentPrice) {
+            setTakeProfit(price);
+            setTPOn(active);
+        }
     }
 
     @Override

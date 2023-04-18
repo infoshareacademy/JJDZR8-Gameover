@@ -25,11 +25,11 @@
     </thead>
     <tbody>
     <tr>
-      <td th:text="${slTpTransaction.coin().name}"></td>
-      <td th:text="${slTpTransaction.coin().symbol}"></td>
-      <td th:text="${slTpTransaction.openPrice()}"></td>
-      <td th:text="${slTpTransaction.currentPrice()}"></td>
-      <td th:text="${#numbers.formatDecimal(slTpTransaction.profit(),1,2)}"></td>
+      <td th:text="${slTpTransaction.coin.name}"></td>
+      <td th:text="${slTpTransaction.coin.symbol}"></td>
+      <td th:text="${slTpTransaction.openPrice}"></td>
+      <td th:text="${slTpTransaction.currentPrice}"></td>
+      <td th:text="${#numbers.formatDecimal(slTpTransaction.profit,1,2)}"></td>
     </tr>
     </tbody>
   </table>
@@ -48,6 +48,9 @@
       <div class="row">
         <div class="col">
           <p><input type="number" step="any" min="0" th:field="*{stopLoss}"/></p>
+          <div th:if="${slError}" th:text="${slError}"></div>
+
+
         </div>
         <div class="col">
           <p><input type="number" step="any" min="0" th:field="*{takeProfit}"/></p>

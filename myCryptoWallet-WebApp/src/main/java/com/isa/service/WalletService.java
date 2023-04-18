@@ -73,7 +73,7 @@ public class WalletService {
     }
 
     public void TopUpWallet(double amount){
-        wallet.setWalletBalance(wallet.getWalletBalance() + amount);
+        wallet.loadWalletBalance(amount);
         wallet.updateWallet();
     }
 
