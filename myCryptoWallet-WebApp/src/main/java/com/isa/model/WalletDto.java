@@ -1,6 +1,7 @@
 package com.isa.model;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.util.Set;
 
@@ -11,6 +12,7 @@ public class WalletDto{
         private double profitLoss;
         private double historicalProfitLoss;
         private double transactionCosts;
+        @PositiveOrZero
         private double walletBalance;
         private Set<ClosedTransactionDto> transactionHistoryDtos;
         private Set<ActiveTransactionDto> activeTransactionDtos;

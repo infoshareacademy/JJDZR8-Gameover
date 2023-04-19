@@ -8,8 +8,8 @@ import com.isa.model.ClosedTransactionDto;
 import com.isa.model.WalletDto;
 import com.isa.service.WalletService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,13 +43,11 @@ public class WalletController {
 
     @GetMapping("/top_up/wallet")      // z wallet   i z new wallet
     public String topUpWallet(Model model) {
-        Wallet emptyWallet = new Wallet();
-        model.addAttribute("emptyWallet", emptyWallet);
         return "wallet/top_up";
     }
 
     @RequestMapping("/add/amount")
-    public String addAmountToWallet(@RequestParam(value = "amount", required = false) @Positive double amount) {
+    public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount) {
         walletService.TopUpWallet(amount);
         return "redirect:/wallet/form";
     }
@@ -167,13 +165,25 @@ public class WalletController {
         double takeProfit = slTpTransaction.getTakeProfit();
         double price = walletService.getTransactionForChangeAttributes().getCurrentPrice();
 
-        if(stopLoss > price) {
+        if(stopLoss > price || (takeProfit < price && takeProfit != 0)) {
             ActiveTransaction transactionForChangeAttributes = walletService.getTransactionForChangeAttributes();
             ActiveTransactionDto activeTransactionDto = mapActiveTransactionToActiveTransactionDto(transactionForChangeAttributes);
-            model.addAttribute("slTpTransaction", activeTransactionDto);
-            model.addAttribute("slError", "stop loss nie może być większy niż aktualna cena");
-            return "wallet/sl_tp";
+            if (stopLoss > price && takeProfit < price && takeProfit != 0) {
+                model.addAttribute("slTpTransaction", activeTransactionDto);
+                model.addAttribute("slError", "sl.Error");
+                model.addAttribute("tpError", "tp.Error");
+                return "wallet/sl_tp";
+            } else if (stopLoss > price){
+                model.addAttribute("slTpTransaction", activeTransactionDto);
+                model.addAttribute("slError", "sl.Error");
+                return "wallet/sl_tp";
+            }else {
+                model.addAttribute("slTpTransaction", activeTransactionDto);
+                model.addAttribute("tpError", "tp.Error");
+                return "wallet/sl_tp";
+            }
         }
+
         walletService.setSlAndTpAlarm(stopLoss, takeProfit);
         return "redirect:/wallet/form";
     }

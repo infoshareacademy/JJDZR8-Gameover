@@ -1,11 +1,11 @@
 {
   "walletId": "nowy portfel",
-  "walletSum": 20005.498,
-  "profitLoss": 5.298000000000026,
-  "historicalProfitLoss": 0.20000000000003348,
-  "transactionsCosts": 861.2851999999999,
-  "walletBalance": 19144.2128,
-  "paymentCalc": 20000.0,
+  "walletSum": 52966.2844,
+  "profitLoss": -21.915599999999976,
+  "historicalProfitLoss": -11.79999999999995,
+  "transactionsCosts": 602.6351999999999,
+  "walletBalance": 52363.6492,
+  "paymentCalc": 53000.0,
   "transactionsHistory": [
     {
       "idTransaction": 1681840413136,
@@ -76,9 +76,7 @@
         "takeProfit": 0.54,
         "isTPOn": true
       }
-    }
-  ],
-  "activeTransactions": [
+    },
     {
       "idTransaction": 1681840546132,
       "coin": {
@@ -106,16 +104,14 @@
         "lastId": 88478140,
         "count": 50084
       },
-      "isActive": true,
+      "isActive": false,
       "volume": 500.0,
-      "openTransactionDate": "2023-04-18 19:53:33",
-      "openPrice": 0.5173,
-      "currentPrice": 0.5224,
-      "stopLoss": 0.5,
-      "isSLOn": true,
-      "takeProfit": 0.54,
-      "isTPOn": true
-    },
+      "closeTransactionDate": "2023-04-19 20:43:42",
+      "closePrice": 0.4933,
+      "openPrice": 0.5173
+    }
+  ],
+  "activeTransactions": [
     {
       "idTransaction": 1681840646157,
       "coin": {
@@ -147,9 +143,9 @@
       "volume": 0.02,
       "openTransactionDate": "2023-04-18 19:57:26",
       "openPrice": 30131.76,
-      "currentPrice": 30269.16,
+      "currentPrice": 29035.98,
       "stopLoss": 0.0,
-      "isSLOn": false,
+      "isSLOn": true,
       "takeProfit": 0.0,
       "isTPOn": false
     }

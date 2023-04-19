@@ -48,12 +48,13 @@
       <div class="row">
         <div class="col">
           <p><input type="number" step="any" min="0" th:field="*{stopLoss}"/></p>
-          <div th:if="${slError}" th:text="${slError}"></div>
+          <div th:if="${slError}" th:text="#{sl.Error}"></div>
 
 
         </div>
         <div class="col">
           <p><input type="number" step="any" min="0" th:field="*{takeProfit}"/></p>
+          <div th:if="${tpError}" th:text="#{tp.Error}"></div>
         </div>
 
       </div>
