@@ -13,11 +13,11 @@ public class ActiveTransactionDto{
         double stopLoss;
         double takeProfit;
         double profit;
+        double transactionCost;
 
         public ActiveTransactionDto() {}
 
-
-        public ActiveTransactionDto(long idTransaction, CoinDto coin, double volume, double openPrice, double currentPrice, double stopLoss, double takeProfit, double profit) {
+        public ActiveTransactionDto(long idTransaction, CoinDto coin, double volume, double openPrice, double currentPrice, double stopLoss, double takeProfit, double profit, double transactionCost) {
                 this.idTransaction = idTransaction;
                 this.coin = coin;
                 this.volume = volume;
@@ -26,6 +26,7 @@ public class ActiveTransactionDto{
                 this.stopLoss = stopLoss;
                 this.takeProfit = takeProfit;
                 this.profit = profit;
+                this.transactionCost = transactionCost;
         }
 
         public long getIdTransaction() {
@@ -90,5 +91,13 @@ public class ActiveTransactionDto{
 
         public void setProfit(double profit) {
                 this.profit = profit;
+        }
+
+        public double getTransactionCost() {
+                return transactionCost;
+        }
+
+        public void setTransactionCost(double transactionCost) {
+                this.transactionCost = transactionCost;
         }
 }

@@ -1,12 +1,11 @@
 package com.isa.model;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 
 import java.util.Set;
 
 public class WalletDto{
-        @NotEmpty
+        @Size(min = 3)
         private String walletId;
         private double walletSum;
         private double profitLoss;

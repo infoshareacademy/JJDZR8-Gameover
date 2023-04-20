@@ -8,8 +8,6 @@ import com.isa.model.ClosedTransactionDto;
 import com.isa.model.WalletDto;
 import com.isa.service.WalletService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,8 +33,7 @@ public class WalletController {
     @GetMapping("/show_wallets")
     public String selectWallet(Model model) {
         if (walletService.getWallet() == null) {
-            WalletDto emptyWallet = new WalletDto();
-            model.addAttribute("emptyWallet", emptyWallet);
+            model.addAttribute("emptyWallet", new WalletDto());
             return "wallet/create_wallet";
         } else return "redirect:wallet/form";
     }
@@ -53,8 +50,9 @@ public class WalletController {
     }
 
     @PostMapping("/new_wallet")             // z create wallet
-    public String createNewWallet(@Valid @ModelAttribute WalletDto wallet, BindingResult result) {       // #TODO dodać walidację
+    public String createNewWallet(@Valid @ModelAttribute WalletDto wallet, BindingResult result, Model model) {
         if (result.hasErrors()){
+            model.addAttribute("emptyWallet", new WalletDto());
             return "/wallet/create_wallet";
         }
         String id = wallet.getWalletId();
@@ -110,20 +108,15 @@ public class WalletController {
         } else {
             walletService.addCoinForBuy(coinSymbol);
             Coin coinForBuy = walletService.getCoinForBuy();
-            ActiveTransaction activeTransaction = new ActiveTransaction();
+            ActiveTransactionDto activeTransactionDto = new ActiveTransactionDto();
             model.addAttribute("coinForBuy", coinForBuy);
-            model.addAttribute("emptyTransaction", activeTransaction);
+            model.addAttribute("emptyTransaction", activeTransactionDto);
             return "wallet/new_transaction";
         }
     }
 
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)            // z new transaction
-    public String buyNewCoin(
-            @Valid
-            @ModelAttribute("emptyTransaction")
-            ActiveTransaction activeTransaction,
-            BindingResult bindingResult) {
-
+    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransactionDto activeTransaction) {
         double volume = activeTransaction.getVolume();
         walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
         walletService.setCoinForBuy(new Coin());

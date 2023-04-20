@@ -32,6 +32,7 @@
                         <input type="text" th:field="*{walletId}" class="form-control" placeholder="Nazwa portfela"
                                aria-label="Recipient's username" aria-describedby="basic-addon2"/>
                     </div>
+                    <p th:if="${#fields.hasErrors('walletId')}" th:text="#{walletId.error}" >cannot be empty</p>
 
                 </div>
                 <div class="col">
@@ -41,7 +42,6 @@
                     </div>
                 </div>
             </div>
-            <p th:if="${#fields.hasErrors('walletId')}">cannot be empty</p>
             <div style="height: 50px"></div>
                 <p><input class="btn btn-primary btn-lg" type="submit" value="Submit"/></p>
         </div>
