@@ -12,16 +12,16 @@
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
 <div class="container" style="width: 100%">
-  <h2 class="text-center">Zamknij transakcję</h2>
+  <h2 class="text-center" th:text="#{head.closeTransaction}">Zamknij transakcję</h2>
   <table class="table table-striped">
     <thead>
     <tr>
-      <th scope="col">nazwa</th>
-      <th scope="col">symbol</th>
-      <th scope="col">wolumen</th>
-      <th scope="col">cena zakupu</th>
-      <th scope="col">cena zamknięcia</th>
-      <th scope="col">Z/S</th>
+      <th scope="col" th:text="#{coin.name}">nazwa</th>
+      <th scope="col" th:text="#{coin.symbol}">symbol</th>
+      <th scope="col" th:text="#{coin.volume}">wolumen</th>
+      <th scope="col" th:text="#{transaction.openPrice}">cena zakupu</th>
+      <th scope="col" th:text="#{transaction.closePrice}">cena zamknięcia</th>
+      <th scope="col" th:text="#{table.field.profitLoss}">Z/S</th>
     </tr>
     </thead>
     <tbody>
@@ -40,7 +40,7 @@
     <div class="container text-center">
       <div class="row">
         <div class="col">
-          <p>Ilość</p>
+          <p th:text="#{coin.volume}">Ilość</p>
         </div>
 
       </div>
@@ -49,7 +49,7 @@
           <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
         </div>
       </div>
-      <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+      <p><input type="submit" value="Submit" th:value="#{button.close}"/> <input type="reset" value="Reset" th:value="#{button.reset}"/></p>
     </div>
 
   </form>

@@ -11,7 +11,7 @@
 <body>
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
-<h1 class="text-center">kup nowego coina</h1>
+<h1 class="text-center" th:text="#{head.buyNewCoin}">kup nowego coina</h1>
 <div class="container text-center" style=" width: 100%">
 
     <div class="row">
@@ -19,9 +19,9 @@
         <div class="col">
             <form action="#" th:action="@{/search/coin}" th:object="${emptyCoin}" method="post" class="input-group mb-3 text-center">
                 <div class="input-group mb-3 text-center">
-                    <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control" placeholder="Search Coin" aria-label="Search Coin" aria-describedby="button-addon2"/>
-                    <input class="btn btn-secondary" type="submit" id="button-addon2" value="Submit"/>
-                    <div id="SearchCoinFromHere" class="form-text input-group mb-3">
+                    <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control" placeholder="Search Coin" th:placeholder="#{placeholder.search}" aria-label="Search Coin" aria-describedby="button-addon2"/>
+                    <input class="btn btn-secondary" type="submit" id="button-addon2" value="Submit" th:value="#{button.search}"/>
+                    <div id="SearchCoinFromHere" class="form-text input-group mb-3" th:text="#{label.search}">
                         wybierz token aby kupić
                     </div>
                 </div>
@@ -31,16 +31,15 @@
     </div>
 
     <div class="container" style="width: 100%">
-        <h2 class="text-center">Wybierz Coina</h2>
+        <h2 class="text-center" th:text="#{head.search}">Wybierz Coina</h2>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">nazwa</th>
-                <th scope="col">symbol</th>
-                <th scope="col">aktualna cena</th>
-                <th scope="col">zmiana%</th>
-                <th scope="col">volumen</th>
+                <th scope="col" th:text="#{coin.name}">nazwa</th>
+                <th scope="col" th:text="#{coin.symbol}">symbol</th>
+                <th scope="col" th:text="#{coin.price}">aktualna cena</th>
+                <th scope="col" th:text="#{coin.change}">zmiana%</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -51,9 +50,8 @@
                 <td th:text="${coin.symbol}"></td>
                 <td th:text="${coin.lastPrice}"></td>
                 <td th:text="${#numbers.formatDecimal(coin.priceChangePercent,1,2)}"></td>
-                <td th:text="${coin.volume}"></td>
                 <td>
-                    <a th:href="@{/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light ">
+                    <a th:href="@{/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light" th:text="#{button.buy}">
                         KUP
                     </a>
                 </td>

@@ -12,14 +12,14 @@
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
     <div class="container" style="width: 100%">
-        <h2 class="text-center">Nowa Transakcja</h2>
+        <h2 class="text-center" th:text="#{head.buyNewCoin}">Nowa Transakcja</h2>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">nazwa</th>
-                <th scope="col">symbol</th>
-                <th scope="col">cena aktualna</th>
-                <th scope="col">Zmiana %</th>
+                <th scope="col" th:text="#{coin.name}">nazwa</th>
+                <th scope="col" th:text="#{coin.symbol}">symbol</th>
+                <th scope="col" th:text="#{coin.price}">cena aktualna</th>
+                <th scope="col" th:text="#{coin.change}">Zmiana %</th>
             </tr>
             </thead>
             <tbody>
@@ -36,10 +36,10 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col">
-                    <p>Dostępne środki</p>
+                    <p th:text="#{table.field.availableFounds}">Dostępne środki</p>
                 </div>
                 <div class="col">
-                    <p>Ilość</p>
+                    <p th:text="#{coin.volume}">Ilość</p>
                 </div>
             </div>
             <div class="row">
@@ -50,19 +50,20 @@
                     <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
                 </div>
             </div>
-            <p><input type="submit" value="Submit"/></p>
+            <p><input type="submit" value="Submit" th:value="#{button.submit}"/></p>
         </div>
         </form>
 <!-- calculator form -->
     <div style="background-color: darkgray">
+        <h4 class="text-center" th:text="#{head.calcForVolume}">Użyj kalkulatora aby ustalić wielkość transakcji</h4>
         <form action="#" th:action="@{/calculate/costs}" th:object="${emptyTransaction}" method="post">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
-                        <p>ilość</p>
+                        <p th:text="#{coin.volume}">ilość</p>
                     </div>
                     <div class="col">
-                        <p>wartość transakcji</p>
+                        <p th:text="#{transaction.cost}">wartość transakcji</p>
                     </div>
                 </div>
                 <div class="row">
@@ -75,7 +76,7 @@
                              th:style="${emptyTransaction.transactionCost >= balance} ? 'background-color: red' : ''"></div>
                     </div>
                 </div>
-                <p> <input type="submit" value="count"/></p>
+                <p> <input type="submit" value="count" th:value="#{button.count}"/></p>
             </div>
         </form>
     </div>

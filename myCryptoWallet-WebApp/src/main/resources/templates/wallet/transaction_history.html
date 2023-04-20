@@ -12,20 +12,19 @@
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
 
-<h1>Historia Transakcji</h1>
+<h1 class="text-center" th:text="#{head.history}">Historia Transakcji</h1>
     <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="container" style="width: 100%">
-            <h2 class="text-center">Pozycje otwarte</h2>
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">nazwa</th>
-                    <th scope="col">symbol</th>
-                    <th scope="col">cena otwarcia</th>
-                    <th scope="col">cena zamknięcia</th>
-                    <th scope="col">volumen</th>
-                    <th scope="col">Z/S</th>
+                    <th scope="col" th:text="#{coin.name}">nazwa</th>
+                    <th scope="col" th:text="#{coin.symbol}">symbol</th>
+                    <th scope="col" th:text="#{transaction.openPrice}">cena otwarcia</th>
+                    <th scope="col" th:text="#{transaction.closePrice}">cena zamknięcia</th>
+                    <th scope="col" th:text="#{coin.volume}">volumen</th>
+                    <th scope="col" th:text="#{table.field.profitLoss}">Z/S</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,9 +36,7 @@
                     <td th:text="${transaction.closePrice}"></td>
                     <td th:text="${transaction.volume}"></td>
                     <td th:text="${#numbers.formatDecimal(transaction.profit,1,2)}"></td>
-
                 </tr>
-
                 </tbody>
             </table>
         </div>

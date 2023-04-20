@@ -13,13 +13,13 @@
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
 <div class="container text-center">
-    <h2 class="text-center">Zasil Portfel</h2>
+    <h2 class="text-center" th:text="#{head.topUp}">Doładuj Portfel</h2>
     <form action="#" th:action="@{/add/amount}">
         <div class="container text-center">
             <div class="row">
 
                 <div class="col">
-                    <p>Podaj kwotę zasilenia</p>
+                    <p th:text="#{label.amount}">Podaj kwotę zasilenia</p>
                 </div>
             </div>
             <div class="row">
@@ -31,10 +31,8 @@
                 </div>
             </div>
             <div style="height: 50px"></div>
-            <p><input class="btn btn-primary btn-lg" type="submit" value="Submit"/></p>
+            <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" th:value="#{button.submit}"/></p>
         </div>
-
-        <!-- #TODO dodać walidację -->
     </form>
 </div>
 

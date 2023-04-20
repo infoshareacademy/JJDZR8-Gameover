@@ -14,29 +14,17 @@
     <h2></h2>
     <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="row">
-            <div class="col">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        wybierz portfel
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li th:each="walletId : ${allWalletsId}">
-                            <a class="dropdown-item" th:href="@{/wallet/{id}(id = ${walletId})}"><span th:text="${walletId}"></span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <div class="col"></div>
             <div class="col-2">
-
                 <div th:text="${walletById.walletId}" th:classappend="${'font-bold'}"></div>
             </div>
-            <div class="col">
+            <div class="col" th:text="#{table.field.availableFounds}">
                wolne środki
             </div>
             <div class="col">
                 <div th:text="${#numbers.formatDecimal(walletById.walletBalance,1,2)}"></div>
             </div>
-            <div class="col">
+            <div class="col" th:text="#{table.field.walletWorth}">
                 Wartość portfela
             </div>
             <div class="col">
@@ -45,13 +33,13 @@
         </div>
         <h1></h1>
         <div class = "row">
-            <div class="col">
+            <div class="col" th:text="#{table.field.profitLoss}">
                 Zysk/Strata
             </div>
             <div class="col">
                 <div th:text="${#numbers.formatDecimal(walletById.profitLoss,1,2)}" ></div>
             </div>
-            <div class="col">
+            <div class="col" th:text="#{table.field.profitLossForClosedTransaction}">
                 Zysk/strata pozycje zamknięte
             </div>
             <div class="col">
@@ -60,19 +48,19 @@
         </div>
     </div>
     <div class="container" style="width: 100%">
-        <h2 class="text-center">Pozycje otwarte</h2>
+        <h2 class="text-center" th:text="#{table.field.activeTrades}">Pozycje otwarte</h2>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">nazwa</th>
-                <th scope="col">symbol</th>
-                <th scope="col">cena otwarcia</th>
-                <th scope="col">cena aktualna</th>
-                <th scope="col">volumen</th>
-                <th scope="col">SL</th>
-                <th scope="col">TP</th>
-                <th scope="col">Z/S</th>
+                <th scope="col" th:text="#{coin.name}">nazwa</th>
+                <th scope="col" th:text="#{coin.symbol}">symbol</th>
+                <th scope="col" th:text="#{transaction.openPrice}">cena otwarcia</th>
+                <th scope="col" th:text="#{transaction.currentPrice}">cena aktualna</th>
+                <th scope="col" th:text="#{coin.volume}">volumen</th>
+                <th scope="col" th:text="#{transaction.sl}">SL</th>
+                <th scope="col" th:text="#{transaction.tp}">TP</th>
+                <th scope="col" th:text="#{table.field.profitLoss}">Z/S</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -94,12 +82,12 @@
                     <td th:text="${#numbers.formatDecimal(activeTransaction.profit,1,2)}"></td>
                     <td>
                     <a th:href="@{/close/transaction{transactionId}(transactionId=${activeTransaction.idTransaction})}"
-                       class="btn btn-primary btn-light" type="submit">zamknij
+                       class="btn btn-primary btn-light" type="submit" th:text="#{button.close}">zamknij
                     </a>
                 </td>
                 <td>
                     <a th:href="@{/sl-tp/transaction{transactionId}(transactionId=${activeTransaction.idTransaction})}"
-                       class="btn btn-primary btn-light" type="submit">SL/TP
+                       class="btn btn-primary btn-light" type="submit" th:text="#{button.sl_tp}">SL/TP
                     </a>
                 </td>
             </tr>
@@ -110,16 +98,16 @@
         <div class="row">
             <div class="col">
                 <a th:href="@{/buy/coin/form}"
-                   class="btn btn-primary btn-lg" type="submit">kup
+                   class="btn btn-primary btn-lg" type="submit" th:text="#{button.buy}">kup
                 </a>
             </div>
             <div class="col">
                 <a th:href="@{/history/transactions}"
-                   class="btn btn-primary btn-lg" type="submit">historia
+                   class="btn btn-primary btn-lg" type="submit" th:text="#{button.history}">historia
                 </a>
             </div>
             <div class="col">
-                <a th:href="@{/top_up/wallet}" class="btn btn-primary btn-lg" type="submit">Zasil portfel</a>
+                <a th:href="@{/top_up/wallet}" class="btn btn-primary btn-lg" type="submit" th:text="#{button.topUp}">Zasil portfel</a>
             </div>
             <div class="col">
                 <a th:href="@{/wallet/refresh}" class="btn btn-primary btn-lg" type="submit">Odśwież Cenę</a>

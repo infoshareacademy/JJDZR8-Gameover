@@ -12,16 +12,16 @@
 <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
 <h2></h2>
 <div class="container" style="width: 100%">
-  <h2 class="text-center">Ustaw zlecenie SL oraz TP</h2>
+  <h2 class="text-center" th:text="#{head.attributes}">Ustaw zlecenie SL oraz TP</h2>
   <table class="table table-striped">
     <thead>
     <tr>
-      <th scope="col">nazwa</th>
-      <th scope="col">symbol</th>
-      <th scope="col">volumen</th>
-      <th scope="col">cena zakupu</th>
-      <th scope="col">cena zamknięcia</th>
-      <th scope="col">Z/S</th>
+      <th scope="col" th:text="#{coin.name}">nazwa</th>
+      <th scope="col" th:text="#{coin.symbol}">symbol</th>
+      <th scope="col" th:text="#{coin.volume}">volumen</th>
+      <th scope="col" th:text="#{transaction.openPrice}">cena zakupu</th>
+      <th scope="col" th:text="#{transaction.currentPrice}">cena aktualna</th>
+      <th scope="col" th:text="#{table.field.profitLoss}">Z/S</th>
     </tr>
     </thead>
     <tbody>
@@ -40,10 +40,10 @@
     <div class="container text-center">
       <div class="row">
         <div class="col">
-          <p>Stop-Loss (cena)</p>
+          <p th:text="#{label.sl}">Stop-Loss (cena)</p>
         </div>
         <div class="col">
-          <p>Take-Profit (cena)</p>
+          <p th:text="#{label.tp}">Take-Profit (cena)</p>
         </div>
 
       </div>
@@ -60,45 +60,46 @@
         </div>
 
       </div>
-      <p><input type="submit" value="Submit"/></p>
+      <p><input type="submit" value="Submit" th:value="#{button.submit}"/></p>
     </div>
 
   </form>
   <div style="background-color: darkgray">
+    <h4 class="text-center" th:text="#{head.calcForAttributes}">UŻYJ KALKULATORA ABY USTALIĆ POZIOM ZLECEŃ</h4>
     <form action="#" th:action="@{/calculate/sl-tp}" th:object="${slTpTransaction}" method="post">
       <div class="container text-center">
         <div class="row">
           <div class="col">
-            <p>Stop-Loss (cena)</p>
+            <p th:text="#{label.sl}">Stop-Loss (cena)</p>
           </div>
           <div class="col"></div>
           <div class="col">
-            <p>Take-Profit (cena)</p>
+            <p th:text="#{label.tp}">Take-Profit (cena)</p>
           </div>
 
         </div>
         <div class="row">
           <div class="col">
-            <p><input type="number" step="any" min="0" th:field="*{stopLoss}" placeholder="przykładowy sl"/></p>
+            <p><input type="number" step="any" min="0" th:field="*{stopLoss}" placeholder="podaj stop-loss" th:placeholder="#{placeholder.sl}"/></p>
           </div>
           <div class="col"></div>
           <div class="col">
-            <p><input type="number" step="any" min="0" th:field="*{takeProfit}" placeholder="przykładowy tp"/></p>
+            <p><input type="number" step="any" min="0" th:field="*{takeProfit}" placeholder="podaj take-profit" th:placeholder="#{placeholder.tp}"/></p>
           </div>
 
         </div>
         <div class="row">
           <div class="col">
-            <p>Profit</p>
+            <p th:text="#{table.field.profitLoss}">Profit</p>
             <p th:text="${#numbers.formatDecimal(slProfit, 1, 2)}"></p>
           </div>
           <div class="col"></div>
           <div class="col">
-            <p>Profit</p>
+            <p th:text="#{table.field.profitLoss}">Profit</p>
             <p th:text="${#numbers.formatDecimal(tpProfit, 1, 2)}" > </p>
           </div>
         </div>
-        <p><input type="submit" value="count"/></p>
+        <p><input type="submit" value="count" th:value="#{button.count}"/></p>
       </div>
     </form>
   </div>

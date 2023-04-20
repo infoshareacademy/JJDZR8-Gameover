@@ -15,7 +15,7 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" th:text="#{button.contact}"
                         data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Kontakt
                 </button>
 
@@ -36,23 +36,23 @@
             </div>
             <div class="col-6">
                 <div class="btn-group btn-group-lg ">
-                    <a href="#" class="btn btn-success active" aria-current="page">Lista Coinów</a>
+                    <a href="#" class="btn btn-success active" aria-current="page" th:text="#{button.list}">Lista Coinów</a>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#chartBackdrop">
+                            data-bs-target="#chartBackdrop" th:text="#{button.chart}">
                         Wykres
                     </button>
-                    <a href="favourite.html" target="_blank" class="btn btn-primary">Ulubione</a>
+                    <a href="favourite.html" target="_blank" class="btn btn-primary" th:text="#{button.favourite}">Ulubione</a>
 
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal">
-                        <a th:href="@{/show_wallets}" class="btn btn-primary">Moje portfele</a>
+                        <a th:href="@{/show_wallets}" class="btn btn-primary" th:text="#{button.wallet}">PORTFEL</a>
                     </button>
                 </div>
             </div>
             <div class="col">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                            aria-expanded="false" th:text="#{button.settings}">
                         Ustawienia
                     </button>
                     <ul class="dropdown-menu">
@@ -117,7 +117,7 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="walletBackdropLabel">Moj Portfel</h1>
+                <h1 class="modal-title fs-5" id="walletBackdropLabel">PORTFEL</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -138,9 +138,9 @@
             <form action="#" th:action="@{/search/coin}" th:object="${emptyCoin}" method="post"
                   class="input-group mb-3">
                 <div class="input-group mb-3">
-                    <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control"
+                    <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control" th:placeholder="#{placeholder.search}"
                            placeholder="Wpisz symbol szukanej kryptowaluty" aria-label="Search Coin" aria-describedby="button-addon2"/>
-                    <input class="btn btn-secondary" type="submit" id="button-addon2" value="Szukaj"/>
+                    <input class="btn btn-secondary" type="submit" id="button-addon2" value="Szukaj" th:value="#{button.search}"/>
                     <div id="SearchCoinFromHere" class="form-text input-group mb-3">
                     </div>
                 </div>
@@ -175,8 +175,8 @@
             <td th:text="${coin.volume}"></td>
 
             <td>
-                <button type="button" class="btn btn-light">dodaj</button>
-                <button type="button" class="btn btn-light ">kup</button>
+                <button type="button" class="btn btn-light" th:text="#{button.add}">dodaj</button>
+                <button type="button" class="btn btn-light " th:text="#{button.buy}">kup</button>
             </td>
         </tr>
         </tbody>
