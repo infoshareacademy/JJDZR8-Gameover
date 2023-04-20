@@ -18,6 +18,7 @@
     <tr>
       <th scope="col">nazwa</th>
       <th scope="col">symbol</th>
+      <th scope="col">wolumen</th>
       <th scope="col">cena zakupu</th>
       <th scope="col">cena zamknięcia</th>
       <th scope="col">Z/S</th>
@@ -27,6 +28,7 @@
     <tr>
       <td th:text="${closingTransaction.coin.name}"></td>
       <td th:text="${closingTransaction.coin.symbol}"></td>
+      <td th:text="${closingTransaction.volume}"></td>
       <td th:text="${closingTransaction.openPrice}"></td>
       <td th:text="${closingTransaction.currentPrice}"></td>
       <td th:text="${#numbers.formatDecimal(closingTransaction.profit,1,2)}"></td>

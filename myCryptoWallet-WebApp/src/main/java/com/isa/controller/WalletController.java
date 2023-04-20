@@ -39,7 +39,7 @@ public class WalletController {
     }
 
     @GetMapping("/top_up/wallet")      // z wallet   i z new wallet
-    public String topUpWallet(Model model) {
+    public String topUpWallet() {
         return "wallet/top_up";
     }
 
@@ -50,21 +50,20 @@ public class WalletController {
     }
 
     @PostMapping("/new_wallet")             // z create wallet
-    public String createNewWallet(@Valid @ModelAttribute WalletDto wallet, BindingResult result, Model model) {
+    public String createNewWallet(@Valid @ModelAttribute WalletDto walletDto, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("emptyWallet", new WalletDto());
             return "/wallet/create_wallet";
         }
-        String id = wallet.getWalletId();
-        double walletBalance = wallet.getWalletBalance();
-        if (id.isEmpty() || walletBalance < 0) return "wallet/create_wallet";
-        else {
-            Wallet wallet1 = new Wallet(id);
-            wallet1.setPaymentCalc(walletBalance);
-            wallet1.updateWallet();
-            walletService.setWallet(wallet1);
-            return "redirect:/wallet/form";
-        }
+        String id = walletDto.getWalletId();
+        double walletBalance = walletDto.getWalletBalance();
+
+        Wallet wallet = new Wallet(id);
+        wallet.setPaymentCalc(walletBalance);
+        wallet.updateWallet();
+        walletService.setWallet(wallet);
+        return "redirect:/wallet/form";
+
     }
 
     @GetMapping("/wallet/form")
@@ -108,9 +107,11 @@ public class WalletController {
         } else {
             walletService.addCoinForBuy(coinSymbol);
             Coin coinForBuy = walletService.getCoinForBuy();
+            double walletBalance = walletService.getWallet().getWalletBalance();
             ActiveTransactionDto activeTransactionDto = new ActiveTransactionDto();
             model.addAttribute("coinForBuy", coinForBuy);
             model.addAttribute("emptyTransaction", activeTransactionDto);
+            model.addAttribute("balance", walletBalance);
             return "wallet/new_transaction";
         }
     }
@@ -146,9 +147,7 @@ public class WalletController {
     @GetMapping("/sl-tp/transaction{transactionId}")            // z wallet
     public String showSlTpForm(@PathVariable("transactionId") long transactionId, Model model) {
         walletService.searchTransactionForChangeAttributes(transactionId);
-        ActiveTransaction transactionForChangeAttributes = walletService.getTransactionForChangeAttributes();
-        ActiveTransactionDto activeTransactionDto = mapActiveTransactionToActiveTransactionDto(transactionForChangeAttributes);
-        model.addAttribute("slTpTransaction", activeTransactionDto);
+        model.addAttribute("slTpTransaction", mapTransactionForChangeAttributes());
         return "wallet/sl_tp";
     }
 
@@ -159,8 +158,7 @@ public class WalletController {
         double price = walletService.getTransactionForChangeAttributes().getCurrentPrice();
 
         if(stopLoss > price || (takeProfit < price && takeProfit != 0)) {
-            ActiveTransaction transactionForChangeAttributes = walletService.getTransactionForChangeAttributes();
-            ActiveTransactionDto activeTransactionDto = mapActiveTransactionToActiveTransactionDto(transactionForChangeAttributes);
+            ActiveTransactionDto activeTransactionDto = mapTransactionForChangeAttributes();
             if (stopLoss > price && takeProfit < price && takeProfit != 0) {
                 model.addAttribute("slTpTransaction", activeTransactionDto);
                 model.addAttribute("slError", "sl.Error");
@@ -185,6 +183,60 @@ public class WalletController {
     public String refreshWallet() {
         walletService.getWallet().updateWallet();
         return "redirect:/wallet/form";
+    }
+
+    @PostMapping("/calculate/costs")
+    public String countTransactionCost(@ModelAttribute ActiveTransactionDto transactionDto, Model model){
+
+        model.addAttribute("emptyTransaction",countTransactionCost(transactionDto));
+        model.addAttribute("coinForBuy", walletService.getCoinForBuy());
+        model.addAttribute("balance", walletService.getWallet().getWalletBalance());
+        if (transactionDto.getTransactionCost() >= walletService.getWallet().getWalletBalance()) {
+            model.addAttribute("overbalance", "overbalance");
+        }
+        return "wallet/new_transaction";
+    }
+
+    @PostMapping("/calculate/sl-tp")
+    public String countTransactionProfitWithSlAndTp(@ModelAttribute ActiveTransactionDto transactionDto, Model model){
+        ActiveTransactionDto transactionForChangeAttributesDto = setSlAndTpForTransactionForChangeAttributes(transactionDto);
+        double transactionCost = transactionForChangeAttributesDto.getTransactionCost();
+        double volume = transactionForChangeAttributesDto.getVolume();
+
+        model.addAttribute("slTpTransaction",transactionForChangeAttributesDto);
+        model.addAttribute("slProfit", countProfitForSl(transactionDto, volume, transactionCost));
+        model.addAttribute("tpProfit", countProfitForTp(transactionDto, volume, transactionCost));
+        return "wallet/sl_tp";
+    }
+
+    private ActiveTransactionDto countTransactionCost(ActiveTransactionDto transactionDto){
+        double volume = transactionDto.getVolume();
+        double currentPrice = Double.parseDouble(walletService.getCoinForBuy().getLastPrice());
+        transactionDto.setTransactionCost(volume * currentPrice);
+        return transactionDto;
+    }
+
+    private double countProfitForSl(ActiveTransactionDto activeTransactionDto, double volume, double transactionCost){
+        double stopLoss = activeTransactionDto.getStopLoss();
+        if (stopLoss == 0) return 0;
+        else return (stopLoss * volume) - transactionCost;
+    }
+
+    private double countProfitForTp(ActiveTransactionDto activeTransactionDto, double volume, double transactionCost){
+        double takeProfit = activeTransactionDto.getTakeProfit();
+        if (takeProfit == 0) return 0;
+        else return (takeProfit * volume) - transactionCost;
+    }
+    private ActiveTransactionDto mapTransactionForChangeAttributes(){
+        return mapActiveTransactionToActiveTransactionDto(walletService.getTransactionForChangeAttributes());
+    }
+    private ActiveTransactionDto setSlAndTpForTransactionForChangeAttributes(ActiveTransactionDto transactionDto){
+        double stopLoss = transactionDto.getStopLoss();
+        double takeProfit = transactionDto.getTakeProfit();
+        ActiveTransactionDto transactionForChangeAttributesDto = mapTransactionForChangeAttributes();
+        transactionForChangeAttributesDto.setStopLoss(stopLoss);
+        transactionForChangeAttributesDto.setTakeProfit(takeProfit);
+        return transactionForChangeAttributesDto;
     }
 }
 

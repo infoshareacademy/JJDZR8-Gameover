@@ -36,17 +36,52 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col">
+                    <p>Dostępne środki</p>
+                </div>
+                <div class="col">
                     <p>Ilość</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
+                    <div th:text="${balance}"></div>
+                </div>
+                <div class="col">
                     <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
                 </div>
             </div>
-            <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+            <p><input type="submit" value="Submit"/></p>
         </div>
         </form>
+<!-- calculator form -->
+    <div style="background-color: darkgray">
+        <form action="#" th:action="@{/calculate/costs}" th:object="${emptyTransaction}" method="post">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <p>ilość</p>
+                    </div>
+                    <div class="col">
+                        <p>wartość transakcji</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
+
+                    </div>
+                    <div class="col">
+                        <div th:text="${#numbers.formatDecimal(emptyTransaction.transactionCost, 1, 2)}"
+                             th:style="${emptyTransaction.transactionCost >= balance} ? 'background-color: red' : ''"></div>
+                    </div>
+                </div>
+                <p> <input type="submit" value="count"/></p>
+            </div>
+        </form>
+    </div>
+        <h1 th:if="${overbalance}" th:text="#{overbalance.account}"></h1>
+
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
