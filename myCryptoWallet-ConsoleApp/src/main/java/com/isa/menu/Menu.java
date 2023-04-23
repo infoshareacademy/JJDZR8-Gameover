@@ -106,10 +106,9 @@ public enum Menu {
                     case 8:
                         System.out.println(Menu.USER_WALLET);
                         //wyswietla portfel uzytkownika
-                        Map<String, Wallet> wallets = Data.deserializeWallet();
-                        Wallet wallet = choiceWallet(wallets);
+                        Wallet wallet = Data.deserializeWallet();
                         Wallet changedWallet = walletService(wallet);
-                        saveWalletsToFile(wallets,changedWallet);
+                       // saveWalletsToFile(wallets,changedWallet);
                         break;
                     case 9:
                         flag = false;

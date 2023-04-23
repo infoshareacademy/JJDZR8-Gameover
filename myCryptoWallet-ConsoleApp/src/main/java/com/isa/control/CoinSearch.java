@@ -17,7 +17,7 @@ public class CoinSearch {
     public List<Coin> search(String searchCriteria) {
         List<Coin> results = new ArrayList<>();
         for (Coin coin : coins) {
-            if (coin.getSymbol().contains(searchCriteria)) {
+            if (coin.getSymbol().contains(searchCriteria.toUpperCase())) {
                 results.add(coin);
             }
         }

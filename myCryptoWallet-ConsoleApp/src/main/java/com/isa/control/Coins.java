@@ -9,7 +9,6 @@ public class Coins {
 
     private Coins() {
         setCoins();
-
     }
 
     public static Coins getInstance() {
