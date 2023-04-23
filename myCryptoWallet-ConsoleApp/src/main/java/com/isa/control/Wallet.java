@@ -81,7 +81,7 @@ public class Wallet {
         countActiveTransactionsCosts();
         countWalletBalance();
         countWalletSum();
-        LOGGER.info("pomyślnie zaktualizowano portfel");
+        LOGGER.warn("pomyślnie zaktualizowano portfel");
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {

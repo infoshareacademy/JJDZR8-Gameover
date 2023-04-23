@@ -77,7 +77,7 @@ public class WalletController {
         WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
         model.addAttribute("walletById", walletDto);
         model.addAttribute("activeTransactions", activeTransactionsDto);
-        LOGGER.info("przechodzisz do portfela");
+        LOGGER.error("przechodzisz do portfela");
         return "wallet/wallet";
     }
 
