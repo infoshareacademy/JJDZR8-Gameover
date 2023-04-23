@@ -8,6 +8,8 @@ import com.isa.model.ClosedTransactionDto;
 import com.isa.model.WalletDto;
 import com.isa.service.WalletService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.LogManager;
 
 import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionDto;
 import static com.isa.model.MapperToDto.mapWalletToWalletDto;
@@ -23,6 +26,7 @@ import static com.isa.model.MapperToDto.mapWalletToWalletDto;
 @Controller
 public class WalletController {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(WalletController.class);
     private final WalletService walletService;
 
 
@@ -68,12 +72,12 @@ public class WalletController {
 
     @GetMapping("/wallet/form")
     public String redirectToWalletForm(Model model) {
-        walletService.getWallet().updateWallet();
         walletService.saveWalletToFile();
         Set<ActiveTransactionDto> activeTransactionsDto = walletService.mapActiveTransactionsToDto();
         WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
         model.addAttribute("walletById", walletDto);
         model.addAttribute("activeTransactions", activeTransactionsDto);
+        LOGGER.info("przechodzisz do portfela");
         return "wallet/wallet";
     }
 

@@ -2,12 +2,14 @@ package com.isa.control;
 
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
-import com.isa.menu.Balance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Wallet {
+    private static Logger LOGGER = LoggerFactory.getLogger(Wallet.class.getName());
     private String walletId;
     private double walletSum;
     private double profitLoss;
@@ -79,6 +81,7 @@ public class Wallet {
         countActiveTransactionsCosts();
         countWalletBalance();
         countWalletSum();
+        LOGGER.info("pomyślnie zaktualizowano portfel");
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
