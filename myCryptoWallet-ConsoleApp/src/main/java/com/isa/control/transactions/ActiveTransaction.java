@@ -5,12 +5,15 @@ import com.google.gson.GsonBuilder;
 import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class ActiveTransaction implements Transaction, Comparable<ActiveTransaction>{
 
+    private static Logger LOGGER = LoggerFactory.getLogger(ActiveTransaction.class.getName());
     private long idTransaction;
     private Coin coin;
     private boolean isActive;
@@ -33,6 +36,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         this.openPrice = Double.parseDouble(coin.getLastPrice());
         this.currentPrice = Double.parseDouble(coin.getLastPrice());
         this.openTransactionDate = establishOpenTransactionDate();
+        LOGGER.info("Transaction {} created. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
     }
 
     public ActiveTransaction(ActiveTransaction activeTransaction, double volume){
@@ -43,6 +47,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         this.openPrice = activeTransaction.getOpenPrice();
         this.openTransactionDate = activeTransaction.getOpenTransactionDate();
         this.currentPrice = activeTransaction.getCurrentPrice();
+        LOGGER.info("Transaction {} created. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
     }
 
     @Override
@@ -55,11 +60,13 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
            String request = Endpoints.buildRequest(coin.getShortSymbol());
            String response = Data.sendHttpRequest(request);
            if(response.contains("\"code\":-1100")) {
+               LOGGER.error("Error updating the current price for the transaction id: {}.", this.idTransaction);
                System.out.println("cena nie została zaktualizowana");
            }else {
                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                Coin[] coin = gson.fromJson(response, Coin[].class);
                 this.currentPrice = Double.parseDouble(coin[0].getLastPrice());
+                LOGGER.info("Current price updated for transaction id: {}", this.idTransaction);
            }
        }
     }
@@ -81,6 +88,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
        if (price < this.currentPrice) {
            setStopLoss(price);
            setSLOn(active);
+           LOGGER.trace("Stop Loss alarm Set. SL = {}", price);
        }
     }
 
@@ -88,6 +96,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         if (price > this.currentPrice) {
             setTakeProfit(price);
             setTPOn(active);
+            LOGGER.trace("Take Profit alarm Set. TP = {}", price);
         }
     }
 

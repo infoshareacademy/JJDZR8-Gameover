@@ -1,6 +1,11 @@
 package com.isa.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ClosedTransactionDto {
+
+    private Logger LOGGER = LoggerFactory.getLogger(ClosedTransactionDto.class.getName());
     private CoinDto coin;
     private double volume;
     private double openPrice;
@@ -15,6 +20,7 @@ public class ClosedTransactionDto {
         this.openPrice = openPrice;
         this.closePrice = closePrice;
         this.profit = profit;
+        LOGGER.debug("DTO for closed transaction created.");
     }
 
     public CoinDto getCoin() {

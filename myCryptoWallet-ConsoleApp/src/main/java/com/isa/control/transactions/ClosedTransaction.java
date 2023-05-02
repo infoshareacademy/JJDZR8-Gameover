@@ -5,11 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 public class ClosedTransaction implements Transaction, Comparable<ClosedTransaction>{
 
+    private static Logger LOGGER = LoggerFactory.getLogger(ClosedTransaction.class.getName());
     private long idTransaction;
     private Coin coin;
     private boolean isActive;
@@ -28,6 +31,7 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         this.closePrice = activeTransaction.getCurrentPrice();
+        LOGGER.info("Transaction {} closed. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
@@ -39,6 +43,7 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
         this.closePrice = activeTransaction.getCurrentPrice();
+        LOGGER.info("Transaction {} closed. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
 
         this.activePartOfClosedTransaction = new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }

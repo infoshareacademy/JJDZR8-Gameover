@@ -31,6 +31,7 @@ public class Wallet {
         if (funds > 0){
             updateWallet();
             this.paymentCalc += funds;
+            LOGGER.info("{} USD added to wallet balance", funds);
         }
     }
 
@@ -38,6 +39,7 @@ public class Wallet {
         updateWallet();
         if (funds > 0 && funds <= walletBalance){
             this.paymentCalc -= funds;
+            LOGGER.info("{} USD withdrawal from wallet balance", funds);
         }
     }
 
@@ -45,8 +47,12 @@ public class Wallet {
         ActiveTransaction activeTransaction = new ActiveTransaction(coin, volume);
         if(activeTransaction.countTransactionCost() < walletBalance) {
             activeTransactions.add(activeTransaction);
+            LOGGER.info("Transaction completed successfully.");
             System.out.println("transakcja zawarta pomyślnie");
-        }else System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
+        }else{
+            LOGGER.info("The transaction value exceeds the amount of funds available in the wallet.");
+            System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
+        }
     }
     public void closeActiveTransaction(ActiveTransaction transaction, double volume){
         long idTransaction = transaction.getIdTransaction();
@@ -55,15 +61,21 @@ public class Wallet {
             ClosedTransaction closed = new ClosedTransaction(transaction);
             transactionsHistory.add(closed);
             activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
+            LOGGER.info("Transaction {} closed successfully.", idTransaction);
 
         } else if (transaction.getVolume()>volume && volume>0) {
             ClosedTransaction closed = new ClosedTransaction(transaction, volume);
             transactionsHistory.add(closed);
-                activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
+            activeTransactions.removeIf(n->n.getIdTransaction() == idTransaction);
+            LOGGER.info("Transaction {} closed successfully.", idTransaction);
             ActiveTransaction newActiveTransaction = closed.getActivePartOfClosedTransaction();
             activeTransactions.add(newActiveTransaction);
+            LOGGER.info("New transaction opened.");
         }
-        else System.out.println("volumen musi być liczbą dodatnią");
+        else {
+            LOGGER.info("Volume must be greater than zero");
+            System.out.println("volumen musi być liczbą dodatnią");
+        }
 
     }
     public void updateWallet(){
@@ -81,36 +93,42 @@ public class Wallet {
         countActiveTransactionsCosts();
         countWalletBalance();
         countWalletSum();
-        LOGGER.warn("pomyślnie zaktualizowano portfel");
+        LOGGER.info("Wallet updated successfully.");
     }
     public void currentProfitCount(){
         if(!activeTransactions.isEmpty()) {
             this.profitLoss = activeTransactions.stream().mapToDouble(ActiveTransaction::countProfit).sum();
         }else this.profitLoss = 0;
+        LOGGER.trace("Open transactions profit updated.");
     }
 
     public void historyProfitCount(){
         if(!transactionsHistory.isEmpty()){
             this.historicalProfitLoss =  transactionsHistory.stream().mapToDouble(ClosedTransaction::countProfit).sum();
         }else this.historicalProfitLoss = 0;
+        LOGGER.trace("Closed transactions profit updated.");
     }
 
 
     public void countWalletBalance(){
         this.walletBalance = paymentCalc - transactionsCosts + historicalProfitLoss + profitLoss;
+        LOGGER.trace("Wallet available founds updated to {}", this.walletBalance);
     }
 
     public void countWalletSum(){
         this.walletSum = paymentCalc + historicalProfitLoss + profitLoss;
+        LOGGER.trace("Wallet worth updated to {}.", this.walletSum);
     }
     public void countActiveTransactionsCosts() {
         if (!activeTransactions.isEmpty()) {
             this.transactionsCosts = activeTransactions.stream().mapToDouble(ActiveTransaction::countTransactionCost).sum();
         }else this.transactionsCosts = 0;
+        LOGGER.trace("Active transactions costs updated to: {}", this.transactionsCosts);
     }
     public void executeStopLossAlarm(ActiveTransaction activeTransaction){
         if(activeTransaction.isSLOn() && activeTransaction.getCurrentPrice() <= activeTransaction.getStopLoss()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
+            LOGGER.trace("Stop Loss executed for id transaction: {}", activeTransaction.getIdTransaction());
         }
     }
 
@@ -121,6 +139,7 @@ public class Wallet {
     public void executeTakeProfitAlarm(ActiveTransaction activeTransaction){
         if(activeTransaction.isTPOn() && activeTransaction.getCurrentPrice() >= activeTransaction.getTakeProfit()){
             closeActiveTransaction(activeTransaction, activeTransaction.getVolume());
+            LOGGER.trace("Take profit executed for id transaction: {}", activeTransaction.getIdTransaction());
         }
     }
 
@@ -172,8 +191,7 @@ public class Wallet {
     public boolean isActiveTransactionsContainsId(long idTransaction){
         Set<Long> idTransactionsSet = new HashSet<>();
         activeTransactions.forEach(n->idTransactionsSet.add(n.getIdTransaction()));
-        if(idTransactionsSet.contains(idTransaction)) return true;
-        else return false;
+        return idTransactionsSet.contains(idTransaction);
     }
 
     @Override
