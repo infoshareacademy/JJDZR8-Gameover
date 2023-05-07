@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.LogManager;
 
 import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionDto;
 import static com.isa.model.MapperToDto.mapWalletToWalletDto;

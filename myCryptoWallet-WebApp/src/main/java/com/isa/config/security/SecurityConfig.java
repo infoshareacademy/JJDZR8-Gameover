@@ -25,9 +25,9 @@ public class SecurityConfig {
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/home", "/registration").permitAll()
+                .requestMatchers("/", "/home", "/registration").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/favourite", "/wallet").hasRole("USER")
+                .authorizeHttpRequests().anyRequest().authenticated()
                 .and()
                 .formLogin()//.loginPage("/login")
                 .and()
@@ -41,8 +41,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
