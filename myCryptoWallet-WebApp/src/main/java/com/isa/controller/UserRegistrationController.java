@@ -1,7 +1,6 @@
 package com.isa.controller;
 
 import com.isa.dto.UserRegistrationDto;
-import com.isa.service.UserService;
 import com.isa.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/registration")
 public class UserRegistrationController {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     public UserRegistrationController(UserServiceImpl userService) {
         this.userService = userService;
