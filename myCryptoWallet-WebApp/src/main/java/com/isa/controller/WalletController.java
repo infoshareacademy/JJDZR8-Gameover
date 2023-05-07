@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.LogManager;
 
 import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionDto;
 import static com.isa.model.MapperToDto.mapWalletToWalletDto;
@@ -49,9 +48,11 @@ public class WalletController {
 
     @RequestMapping("/add/amount")
     public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount) {
-        walletService.TopUpWallet(amount);
+        walletService.topUpWallet(amount);
         return "redirect:/wallet/form";
     }
+    @GetMapping("/withdrawal")
+    public String withdrawalFounds(){return "wallet/withdrawal_form";}
 
     @PostMapping("/new_wallet")             // z create wallet
     public String createNewWallet(@Valid @ModelAttribute WalletDto walletDto, BindingResult result, Model model) {

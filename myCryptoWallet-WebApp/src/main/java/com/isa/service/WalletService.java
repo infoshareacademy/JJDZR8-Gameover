@@ -72,8 +72,13 @@ public class WalletService {
         transactionForChangeAttributes = new ActiveTransaction();
     }
 
-    public void TopUpWallet(double amount){
+    public void topUpWallet(double amount){
         wallet.loadWalletBalance(amount);
+        wallet.updateWallet();
+    }
+
+    public void withdrawalFoundsFromWallet(double amount){
+        wallet.withdrawalFunds(amount);
         wallet.updateWallet();
     }
 
