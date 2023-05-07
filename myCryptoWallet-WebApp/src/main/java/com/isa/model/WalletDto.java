@@ -1,10 +1,14 @@
 package com.isa.model;
 
 import jakarta.validation.constraints.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public class WalletDto{
+
+        private static Logger LOGGER = LoggerFactory.getLogger(WalletDto.class.getName());
         @Size(min = 3)
         private String walletId;
         private double walletSum;
@@ -27,6 +31,7 @@ public class WalletDto{
                 this.walletBalance = walletBalance;
                 this.transactionHistoryDtos = transactionHistoryDtos;
                 this.activeTransactionDtos = activeTransactionDtos;
+                LOGGER.debug("Wallet DTO created.");
         }
 
         public String getWalletId() {

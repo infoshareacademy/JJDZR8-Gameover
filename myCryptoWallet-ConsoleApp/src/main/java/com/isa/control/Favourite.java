@@ -3,12 +3,15 @@ package com.isa.control;
 import com.isa.control.Coin;
 import com.isa.control.CoinsList;
 import com.isa.control.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Favourite extends CoinsList {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(Favourite.class.getName());
     private final List<Coin> coins;
 
     public Favourite(List<Coin> coins, int recordsPerPage) {
@@ -19,11 +22,11 @@ public class Favourite extends CoinsList {
     public void AddYourFavouriteToken(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz szukaną frazę");
-        String string = scanner.nextLine().toUpperCase();
+        String userInput = scanner.nextLine().toUpperCase();
         List<Coin> list = Arrays.stream(Data.deserializeCoin()).collect(Collectors.toList());
         List<Coin> temporaryList = new ArrayList<>();
         list.forEach(a->{
-            if (a.getSymbol().contains(string)) temporaryList.add(a);
+            if (a.getSymbol().contains(userInput)) temporaryList.add(a);
                 });
 
         if (!temporaryList.isEmpty()){
@@ -36,6 +39,7 @@ public class Favourite extends CoinsList {
                     char choice = scanner.nextLine().toUpperCase().charAt(0);
                     if (choice == 'Y') {
                         coins.addAll(temporaryList);
+                        LOGGER.trace("Coins added to favorites list.");
                         Collections.sort(coins);
                         Data.serializer(coins,"favourite.json");
                     }
@@ -53,6 +57,7 @@ public class Favourite extends CoinsList {
             String flag = scanner.nextLine();
             if (flag.charAt(0) == 0){
                 coins.remove(n);
+                LOGGER.trace("Coins added to favorites list.");
                 System.out.println("token został usuniety");
             }
         });
@@ -66,6 +71,7 @@ public class Favourite extends CoinsList {
         }catch (NullPointerException e){
             e.printStackTrace();
             favCoinsList = new ArrayList<>();
+            LOGGER.trace("Favourite coins list is empty");
         }
         return favCoinsList;
     }

@@ -2,18 +2,22 @@ package com.isa.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ActiveTransactionDto{
-        long idTransaction;
-        CoinDto coin;
+
+        private static Logger LOGGER = LoggerFactory.getLogger(ActiveTransactionDto.class.getName());
+        private long idTransaction;
+        private CoinDto coin;
         @Positive
-        double volume;
-        double openPrice;
-        double currentPrice;
-        double stopLoss;
-        double takeProfit;
-        double profit;
-        double transactionCost;
+        private double volume;
+        private double openPrice;
+        private double currentPrice;
+        private double stopLoss;
+        private double takeProfit;
+        private double profit;
+        private double transactionCost;
 
         public ActiveTransactionDto() {}
 
@@ -27,6 +31,7 @@ public class ActiveTransactionDto{
                 this.takeProfit = takeProfit;
                 this.profit = profit;
                 this.transactionCost = transactionCost;
+                LOGGER.debug("DTO for active transaction created.");
         }
 
         public long getIdTransaction() {

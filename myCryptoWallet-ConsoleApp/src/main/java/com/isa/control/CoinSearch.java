@@ -1,17 +1,20 @@
 package com.isa.control;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 
 public class CoinSearch {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(CoinSearch.class.getName());
     private List<Coin> coins;
 
     public CoinSearch() {
         // readCoinsFromJson();
         this.coins = Coins.getInstance().getCoinList();
-
     }
 
     public List<Coin> search(String searchCriteria) {
@@ -19,6 +22,7 @@ public class CoinSearch {
         for (Coin coin : coins) {
             if (coin.getSymbol().contains(searchCriteria.toUpperCase())) {
                 results.add(coin);
+                LOGGER.trace("{} added to the search coins list.", coin.getName());
             }
         }
         return results;

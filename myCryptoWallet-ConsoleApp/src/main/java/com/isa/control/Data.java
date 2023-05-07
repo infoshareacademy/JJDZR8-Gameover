@@ -4,6 +4,8 @@ package com.isa.control;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -16,6 +18,8 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Data {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Data.class.getName());
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     static final String pathToFile = System.getenv("FILE_PATH");
 
@@ -27,6 +31,7 @@ public class Data {
         for (Coin element : coins){
             element.creatNameAndShortSymbolForCoin();
         }
+        LOGGER.debug("Coins array is correctly downloaded from coin.json");
         return coins;
     }
     public static Coin[] deserializeCoin(String file){
@@ -34,7 +39,9 @@ public class Data {
     }
     public static List<Coin> deserializeCoinList(String response){
         Type foundListType = new TypeToken<ArrayList<Coin>>(){}.getType();
-        return new Gson().fromJson(response, foundListType);
+        List<Coin> coinsList = new Gson().fromJson(response, foundListType);
+        LOGGER.debug("Coins list is correctly crated.");
+        return coinsList;
     }
     public static List<String> deserializeEndpoints(){
         return new Gson().fromJson(loadFile("endpoints.json"), Endpoints.getEndpoints().getClass());
@@ -43,7 +50,9 @@ public class Data {
         return new Gson().fromJson(loadFile(file), (Type) object.getClass());
     }
     public static Wallet deserializeWallet(){
-        return new Gson().fromJson(loadFile("wallet.json"), Wallet.class);
+        Wallet wallet = new Gson().fromJson(loadFile("wallet.json"), Wallet.class);
+        LOGGER.debug("Correctly downloaded wallet from file wallet.json.");
+        return wallet;
     }
     public static Map<String,String> deserializeRequest(String response, Object object){
         return new Gson().fromJson(response, (Type) object.getClass());
@@ -54,7 +63,9 @@ public class Data {
         String fromFile = null;
         try {
             fromFile = Files.readString(path);
+            LOGGER.debug("Correctly downloaded from file: {}", file);
         } catch (IOException e) {
+            LOGGER.error("{} loading ERROR", file);
             System.out.println("file not exist");
         }
         return fromFile;
@@ -63,7 +74,9 @@ public class Data {
         Path path = Path.of(pathToFile, file);
         try {
             Files.writeString(path, data);
+            LOGGER.info("Correctly saved to file {}", file);
         } catch (IOException e) {
+            LOGGER.error("ERROR writing to file: {}", file);
             System.out.println("path not exist " + e);
         }
     }
@@ -73,8 +86,10 @@ public class Data {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            LOGGER.info("Received a correctly response from the Binance API");
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);  //FIXME
+            LOGGER.error("Binance API response ERROR");
+            throw new RuntimeException(e);
         }
         return response.body();
     }
@@ -83,6 +98,7 @@ public class Data {
         String response = sendHttpRequest(Endpoints.buildRequest());
         saveToFile(response, "coin.json");
         System.out.println("Lista zaktualizowana pomyślnie");
+        LOGGER.info("Coin List updated successfully.");
     }
 
     public static Map<String, String> deserializeCoinsNames() {

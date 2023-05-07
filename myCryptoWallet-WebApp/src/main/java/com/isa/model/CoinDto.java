@@ -2,10 +2,14 @@ package com.isa.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Data
 @NoArgsConstructor
 public class CoinDto {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(CoinDto.class.getName());
     private String symbol;
     private String name;
     private double lastPrice;
@@ -18,5 +22,6 @@ public class CoinDto {
         this.lastPrice = lastPrice;
         this.priceChangePercent = priceChangePercent;
         this.volume = volume;
+        LOGGER.debug("DTO for Coin created.");
     }
 }

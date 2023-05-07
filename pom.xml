@@ -16,13 +16,11 @@
     <maven.compiler.target>19</maven.compiler.target>
   </properties>
 
-
-
-
-
   <modules>
     <module>myCryptoWallet-ConsoleApp</module>
     <module>myCryptoWallet-WebApp</module>
   </modules>
+
+
 
 </project>

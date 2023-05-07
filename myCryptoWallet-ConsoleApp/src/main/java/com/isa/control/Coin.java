@@ -2,11 +2,15 @@ package com.isa.control;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Objects;
 
 public class Coin implements Comparable<Coin> {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Coin.class.getName());
     @SerializedName("symbol")
     @Expose
     private String symbol;
@@ -261,6 +265,7 @@ public class Coin implements Comparable<Coin> {
     public void creatNameAndShortSymbolForCoin(){
         setShortSymbol();
         setName();
+        LOGGER.trace("Created short symbol and name for: {}", this.symbol);
     }
 
     @Override
