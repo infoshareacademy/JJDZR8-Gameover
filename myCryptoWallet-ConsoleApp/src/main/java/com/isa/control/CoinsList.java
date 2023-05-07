@@ -1,10 +1,14 @@
 package com.isa.control;
 
 import com.isa.control.Coin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class CoinsList {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(CoinsList.class.getName());
 
     private Map<Integer, List<Coin>> pagesMap;
     private final List<Coin> coins;
@@ -30,13 +34,14 @@ public class CoinsList {
             else if (i == totalPages - 1) {
                 temporaryCoinList = coins.subList(i * recordsPerPage, coins.size());
             } else temporaryCoinList = coins.subList(i * recordsPerPage, (i + 1) * recordsPerPage);
-
             pagesMap.put(i, temporaryCoinList);
         }
+        LOGGER.debug("The map with key = page number and value = CoinsList has been created successfully.");
     }
 
     public List<Coin> openPage(Integer pageNumber){
         System.out.println(pagesMap.get(pageNumber - 1));
+        LOGGER.trace("Page {} is open", pageNumber);
         return pagesMap.get(pageNumber - 1);
     }
 
@@ -56,6 +61,7 @@ public class CoinsList {
         if (coins.size() < recordsPerPage) this.totalPages = 1;
         else if (coins.size() % recordsPerPage != 0) this.totalPages = coins.size() / recordsPerPage + 1;
         else this.totalPages = coins.size() / recordsPerPage;
+        LOGGER.trace("Total pages = {}", this.totalPages);
     }
 
     public Map<Integer, List<Coin>> getPagesMap() {

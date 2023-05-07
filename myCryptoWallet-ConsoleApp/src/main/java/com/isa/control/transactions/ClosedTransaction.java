@@ -5,11 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.isa.control.Coin;
 import com.isa.control.Data;
 import com.isa.control.Endpoints;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 public class ClosedTransaction implements Transaction, Comparable<ClosedTransaction>{
 
+    private static Logger LOGGER = LoggerFactory.getLogger(ClosedTransaction.class.getName());
     private long idTransaction;
     private Coin coin;
     private boolean isActive;
@@ -23,19 +26,24 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
     public ClosedTransaction(ActiveTransaction activeTransaction) {
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = activeTransaction.getVolume();
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
-        refreshPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
+        LOGGER.info("Transaction {} closed. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
     }
 
     public ClosedTransaction(ActiveTransaction activeTransaction, double volume){
+
         this.idTransaction = activeTransaction.getIdTransaction();
         this.isActive = false;
+        this.coin = activeTransaction.getCoin();
         this.volume = volume;
         this.closeTransactionDate = establishCloseTransactionDate();
         this.openPrice = activeTransaction.getOpenPrice();
-        refreshPrice();
+        this.closePrice = activeTransaction.getCurrentPrice();
+        LOGGER.info("Transaction {} closed. volume = {}, coin = {}", this.idTransaction, this.volume, this.coin.getName());
 
         this.activePartOfClosedTransaction = new ActiveTransaction(activeTransaction, activeTransaction.getVolume() - volume);
     }
@@ -47,10 +55,11 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
 
     @Override
     public void printDetails() {
-        System.out.println("id Transakcji" + idTransaction);
+        System.out.println("id Transakcji: " + idTransaction);
         System.out.println(coin.getName() + " " + coin.getShortSymbol() +
-                "cena zakupu " + openPrice + "cena aktualna " + closePrice + "ilość: " + volume);
+                " cena zakupu " + openPrice + " cena aktualna " + closePrice + " ilość: " + volume);
         System.out.println("Zysk/Strata: " + countProfit());
+        System.out.println();
 
     }
 

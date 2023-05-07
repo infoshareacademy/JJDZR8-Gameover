@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New transaction</title>
+    <link href="../.. static/styleformyhtml.css" th:href="@{/styleformyhtml.css}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
+<h2></h2>
+    <div class="container" style="width: 100%">
+        <h2 class="text-center" th:text="#{head.buyNewCoin}">Nowa Transakcja</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{coin.name}">nazwa</th>
+                <th scope="col" th:text="#{coin.symbol}">symbol</th>
+                <th scope="col" th:text="#{coin.price}">cena aktualna</th>
+                <th scope="col" th:text="#{coin.change}">Zmiana %</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${coinForBuy.name}"></td>
+                <td th:text="${coinForBuy.shortSymbol}"></td>
+                <td th:text="${coinForBuy.lastPrice}"></td>
+                <td th:text="${#numbers.formatDecimal(coinForBuy.priceChangePercent,1,2)}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form action="#" th:action="@{/add/transaction}" th:object="${emptyTransaction}" method="post">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <p th:text="#{table.field.availableFounds}">Dostępne środki</p>
+                </div>
+                <div class="col">
+                    <p th:text="#{coin.volume}">Ilość</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div th:text="${balance}"></div>
+                </div>
+                <div class="col">
+                    <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
+                </div>
+            </div>
+            <p><input type="submit" value="Submit" th:value="#{button.submit}"/></p>
+        </div>
+        </form>
+<!-- calculator form -->
+    <div style="background-color: darkgray">
+        <h4 class="text-center" th:text="#{head.calcForVolume}">Użyj kalkulatora aby ustalić wielkość transakcji</h4>
+        <form action="#" th:action="@{/calculate/costs}" th:object="${emptyTransaction}" method="post">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <p th:text="#{coin.volume}">ilość</p>
+                    </div>
+                    <div class="col">
+                        <p th:text="#{transaction.cost}">wartość transakcji</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
+
+                    </div>
+                    <div class="col">
+                        <div th:text="${#numbers.formatDecimal(emptyTransaction.transactionCost, 1, 2)}"
+                             th:style="${emptyTransaction.transactionCost >= balance} ? 'background-color: red' : ''"></div>
+                    </div>
+                </div>
+                <p> <input type="submit" value="count" th:value="#{button.count}"/></p>
+            </div>
+        </form>
+    </div>
+        <h1 th:if="${overbalance}" th:text="#{overbalance.account}"></h1>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
