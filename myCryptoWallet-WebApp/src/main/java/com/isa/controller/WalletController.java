@@ -51,8 +51,20 @@ public class WalletController {
         walletService.topUpWallet(amount);
         return "redirect:/wallet/form";
     }
-    @GetMapping("/withdrawal")
+    @GetMapping("/wallet/withdrawal")
     public String withdrawalFounds(){return "wallet/withdrawal_form";}
+
+    @RequestMapping("/wallet/withdrawal/submit")
+    public String withdrawalFoundsFromWallet(@RequestParam(value = "amount", required = false, defaultValue = "0") Double amount,
+                                             Model model){
+        if (walletService.checkIsPossibleToWithdrawalAmount(amount)) {
+            walletService.withdrawalFoundsFromWallet(amount);
+            model.addAttribute("confirm", "withdrawal.confirmation");
+        }else {
+            model.addAttribute("error", "withdrawal.error");
+        }
+        return "wallet/withdrawal_Confirmation";
+    }
 
     @PostMapping("/new_wallet")             // z create wallet
     public String createNewWallet(@Valid @ModelAttribute WalletDto walletDto, BindingResult result, Model model) {
@@ -78,7 +90,6 @@ public class WalletController {
         WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
         model.addAttribute("walletById", walletDto);
         model.addAttribute("activeTransactions", activeTransactionsDto);
-        LOGGER.error("przechodzisz do portfela");
         return "wallet/wallet";
     }
 

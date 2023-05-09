@@ -82,6 +82,10 @@ public class WalletService {
         wallet.updateWallet();
     }
 
+    public boolean checkIsPossibleToWithdrawalAmount(Double amount){
+        return amount <= wallet.getWalletBalance() && amount > 0;
+    }
+
     public void saveWalletToFile(){
         wallet.updateWallet();
         Data.serializer(wallet, "wallet.json");
