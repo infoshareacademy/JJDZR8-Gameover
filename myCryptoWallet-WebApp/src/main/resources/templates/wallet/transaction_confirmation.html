@@ -14,8 +14,10 @@
 <h2></h2>
 <div class="container text-center" style="display: flex; justify-content: center; align-items: center; height: 25vh;">
     <div class="row">
-        <a class="confirmation" th:if="${confirm}" th:text="#{withdrawal.confirmation}">Środki zostały wypłacone pomyślnie</a>
-        <a class="error" th:if="${error}" th:text="#{withdrawal.error}">Błąd przy wypłacaniu środków</a>
+        <a class="confirmation" th:if="${openTransactionConfirm}" th:text="#{openTransaction.confirm}">Transakcja otwarta pomyślnie</a>
+        <a class="confirmation" th:if="${closeTransactionConfirm}" th:text="#{closeTransaction.confirm}">Transakcja zamknięta pomyślnie</a>
+        <a class="error" th:if="${openTransactionError}" th:text="#{openTransaction.error}">Błędne parametry transakcji</a>
+        <a class="error" th:if="${closeError}" th:text="#{closeTransaction.error}">Nie udało się zamknąć transakcji</a>
     </div>
 </div>
 <div class="container text-center">
