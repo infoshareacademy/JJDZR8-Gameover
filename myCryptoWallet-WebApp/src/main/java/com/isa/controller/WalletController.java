@@ -83,6 +83,7 @@ public class WalletController {
     @GetMapping("/wallet/form")
     public String redirectToWalletForm(Model model) {
         walletService.saveWalletToFile();
+        walletService.setSearchResult(new ArrayList<>());
         Set<ActiveTransactionDto> activeTransactionsDto = walletService.mapActiveTransactionsToDto();
         WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
         model.addAttribute("walletById", walletDto);
@@ -135,12 +136,10 @@ public class WalletController {
         try {
             walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
             walletService.setCoinForBuy(new Coin());
-            walletService.setSearchResult(new ArrayList<>());
             model.addAttribute("openTransactionConfirm", "openTransaction.confirm");
             return "wallet/transaction_confirmation";
         }catch (RuntimeException e) {
             walletService.setCoinForBuy(new Coin());
-            walletService.setSearchResult(new ArrayList<>());
             model.addAttribute("openTransactionError", "openTransaction.error");
             return "wallet/transaction_confirmation";
         }

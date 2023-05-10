@@ -10,7 +10,22 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
-<h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
+<div class="mainheader">
+    <h1><span style="color: snow">MyCryptoWalletApp</span></h1>
+    <div class="container ">
+        <div class="row">
+            <div class="col">
+                <div class="btn-group btn-group-lg ">
+                    <a th:href="@{/wallet/form}" class="btn btn-primary" aria-current="page" th:text="#{button.back}">POWRÓT</a>
+                </div>
+            </div>
+            <div class="col-6">
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</div>
 <h2></h2>
 <div class="container text-center">
     <h2 class="text-center" th:text="#{head.topUp}">Doładuj Portfel</h2>

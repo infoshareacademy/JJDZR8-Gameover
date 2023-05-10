@@ -10,7 +10,89 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
-    <h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
+    <div class="mainheader">
+        <h1><span style="color: snow">MyCryptoWalletApp</span></h1>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col-6">
+                    <div class="btn-group btn-group-lg ">
+                        <a th:href="@{/}" class="btn btn-primary" aria-current="page" th:text="#{button.list}">Lista Coinów</a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#chartBackdrop" th:text="#{button.chart}">
+                            Wykres
+                        </button>
+                        <a href="favourite.html" target="_blank" class="btn btn-primary" th:text="#{button.favourite}">Ulubione</a>
+
+                        <button type="button" class="btn btn-success active">
+                            <a href="#" class="btn btn-success active" th:text="#{button.wallet}">PORTFEL</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" th:text="#{button.settings}">
+                            Ustawienia
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">ustawienia konta</a></li>
+                            <li><a class="dropdown-item" href="#">ustawienia portfela</a></li>
+                            <li><a class="dropdown-item" href="#">wyloguj</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for charts-->
+    <div class="modal fade" id="chartBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="chartBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="chartBackdropLabel">Wykresy</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container">
+                            <div id="tradingview_7b397"></div>
+                            <div class="tradingview-widget-copyright"><a
+                                    href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener"
+                                    target="_blank"><span class="blue-text">AAPL stock chart</span></a> by TradingView
+                            </div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                            <script type="text/javascript">
+                                new TradingView.widget(
+                                    {
+                                        "autosize": true,
+                                        "symbol": "NASDAQ:AAPL",
+                                        "interval": "D",
+                                        "timezone": "Etc/UTC",
+                                        "theme": "light",
+                                        "style": "1",
+                                        "locale": "en",
+                                        "toolbar_bg": "#f1f3f6",
+                                        "enable_publishing": false,
+                                        "allow_symbol_change": true,
+                                        "container_id": "tradingview_7b397"
+                                    }
+                                );
+                            </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <h2></h2>
     <div class="container text-center" style="border: red solid 2px; width: 100%">
         <div class="row">

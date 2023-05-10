@@ -9,7 +9,22 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
-<h1 class="walletheader"><span style="color: snow">MyCryptoWalletApp</span></h1>
+<div class="mainheader">
+  <h1><span style="color: snow">MyCryptoWalletApp</span></h1>
+  <div class="container ">
+    <div class="row">
+      <div class="col">
+        <div class="btn-group btn-group-lg ">
+          <a th:href="@{/wallet/form}" class="btn btn-primary" aria-current="page" th:text="#{button.back}">POWRÓT</a>
+        </div>
+      </div>
+      <div class="col-6">
+      </div>
+      <div class="col">
+      </div>
+    </div>
+  </div>
+</div>
 <h2></h2>
 <div class="container" style="width: 100%">
   <h2 class="text-center" th:text="#{head.closeTransaction}">Zamknij transakcję</h2>
@@ -49,7 +64,7 @@
           <p><input type="number" step="any" min="0" th:field="*{volume}"/></p>
         </div>
       </div>
-      <p><input type="submit" value="Submit" th:value="#{button.close}"/> <input type="reset" value="Reset" th:value="#{button.reset}"/></p>
+      <p><input type="submit" value="Submit" th:value="#{button.close}"/> </p>
     </div>
 
   </form>
