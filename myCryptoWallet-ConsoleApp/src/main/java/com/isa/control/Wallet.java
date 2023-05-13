@@ -52,6 +52,7 @@ public class Wallet {
         }else{
             LOGGER.info("The transaction value exceeds the amount of funds available in the wallet.");
             System.out.println("wartość transakcji przekracza ilość środków dostępnych w portfelu");
+            throw new RuntimeException("The transaction value exceeds the amount of funds available in the wallet.");
         }
     }
     public void closeActiveTransaction(ActiveTransaction transaction, double volume){

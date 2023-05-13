@@ -37,6 +37,16 @@
     font-weight: bold;
     font-size: 17px;
 }
+.confirmation{
+    font-weight: bold;
+    font-size: xx-large;
+    color: green;
+}
+.error{
+    font-weight: bold;
+    font-size: xx-large;
+    color: red;
+}
 iframe {
     display:block;
     height: 100%;

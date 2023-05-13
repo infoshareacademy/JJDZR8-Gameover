@@ -8,8 +8,6 @@ import com.isa.model.ClosedTransactionDto;
 import com.isa.model.WalletDto;
 import com.isa.service.WalletService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +23,6 @@ import static com.isa.model.MapperToDto.mapWalletToWalletDto;
 @Controller
 public class WalletController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(WalletController.class);
     private final WalletService walletService;
 
 
@@ -48,8 +45,22 @@ public class WalletController {
 
     @RequestMapping("/add/amount")
     public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount) {
-        walletService.TopUpWallet(amount);
+        walletService.topUpWallet(amount);
         return "redirect:/wallet/form";
+    }
+    @GetMapping("/wallet/withdrawal")
+    public String withdrawalFounds(){return "wallet/withdrawal_form";}
+
+    @RequestMapping("/wallet/withdrawal/submit")
+    public String withdrawalFoundsFromWallet(@RequestParam(value = "amount", required = false, defaultValue = "0") Double amount,
+                                             Model model){
+        if (walletService.checkIsPossibleToWithdrawalAmount(amount)) {
+            walletService.withdrawalFoundsFromWallet(amount);
+            model.addAttribute("confirm", "withdrawal.confirmation");
+        }else {
+            model.addAttribute("error", "withdrawal.error");
+        }
+        return "wallet/withdrawal_Confirmation";
     }
 
     @PostMapping("/new_wallet")             // z create wallet
@@ -72,11 +83,11 @@ public class WalletController {
     @GetMapping("/wallet/form")
     public String redirectToWalletForm(Model model) {
         walletService.saveWalletToFile();
+        walletService.setSearchResult(new ArrayList<>());
         Set<ActiveTransactionDto> activeTransactionsDto = walletService.mapActiveTransactionsToDto();
         WalletDto walletDto = mapWalletToWalletDto(walletService.getWallet());
         model.addAttribute("walletById", walletDto);
         model.addAttribute("activeTransactions", activeTransactionsDto);
-        LOGGER.error("przechodzisz do portfela");
         return "wallet/wallet";
     }
 
@@ -120,19 +131,27 @@ public class WalletController {
     }
 
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)            // z new transaction
-    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransactionDto activeTransaction) {
+    public String buyNewCoin(@ModelAttribute("emptyTransaction") ActiveTransactionDto activeTransaction, Model model) {
         double volume = activeTransaction.getVolume();
-        walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
-        walletService.setCoinForBuy(new Coin());
-        walletService.setSearchResult(new ArrayList<>());
-        return "redirect:/wallet/form";
+        try {
+            walletService.buyNewTokenForWallet(walletService.getCoinForBuy(), volume);
+            walletService.setCoinForBuy(new Coin());
+            model.addAttribute("openTransactionConfirm", "openTransaction.confirm");
+            return "wallet/transaction_confirmation";
+        }catch (RuntimeException e) {
+            walletService.setCoinForBuy(new Coin());
+            model.addAttribute("openTransactionError", "openTransaction.error");
+            return "wallet/transaction_confirmation";
+        }
     }
 
     @GetMapping("/close/transaction{transactionId}")        // z wallet
     public String showClosingTransactionForm(@PathVariable("transactionId") long transactionId, Model model) {
         walletService.searchTransactionForClose(transactionId);
         ActiveTransaction transactionForClose = walletService.getTransactionForClose();
-        if (transactionForClose.getCoin() == null) return "wallet/mistake_form";
+        if (transactionForClose.getCoin() == null) {
+            model.addAttribute("closeError", "closeTransaction.error");
+            return "wallet/transaction_confirmation";}
         else {
             ActiveTransactionDto transactionForCloseDto = mapActiveTransactionToActiveTransactionDto(transactionForClose);
             model.addAttribute("closingTransaction", transactionForCloseDto);
@@ -141,10 +160,11 @@ public class WalletController {
     }
 
     @RequestMapping(value = "/transaction/close", method = RequestMethod.POST)          // z close_transaction
-    public String closeTransaction(@ModelAttribute("closingTransaction") ActiveTransactionDto activeTransaction) {
+    public String closeTransaction(@ModelAttribute("closingTransaction") ActiveTransactionDto activeTransaction, Model model) {
         double volume = activeTransaction.getVolume();
         walletService.closeTransaction(volume);
-        return "redirect:/wallet/form";
+        model.addAttribute("closeTransactionConfirm", "closeTransaction.confirm");
+        return "wallet/transaction_confirmation";
     }
 
     @GetMapping("/sl-tp/transaction{transactionId}")            // z wallet
