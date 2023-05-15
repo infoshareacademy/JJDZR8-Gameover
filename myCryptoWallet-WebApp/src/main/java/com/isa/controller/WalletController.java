@@ -21,6 +21,7 @@ import static com.isa.model.MapperToDto.mapActiveTransactionToActiveTransactionD
 import static com.isa.model.MapperToDto.mapWalletToWalletDto;
 
 @Controller
+@RequestMapping("/wallet")
 public class WalletController {
 
     private final WalletService walletService;
@@ -35,7 +36,7 @@ public class WalletController {
         if (walletService.getWallet() == null) {
             model.addAttribute("emptyWallet", new WalletDto());
             return "wallet/create_wallet";
-        } else return "redirect:wallet/form";
+        } else return "redirect:/wallet/wallet/form";
     }
 
     @GetMapping("/top_up/wallet")      // z wallet   i z new wallet
@@ -46,7 +47,7 @@ public class WalletController {
     @RequestMapping("/add/amount")
     public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount) {
         walletService.topUpWallet(amount);
-        return "redirect:/wallet/form";
+        return "redirect:/wallet/wallet/form";
     }
     @GetMapping("/wallet/withdrawal")
     public String withdrawalFounds(){return "wallet/withdrawal_form";}
@@ -76,7 +77,7 @@ public class WalletController {
         wallet.setPaymentCalc(walletBalance);
         wallet.updateWallet();
         walletService.setWallet(wallet);
-        return "redirect:/wallet/form";
+        return "redirect:/wallet/wallet/form";
 
     }
 
@@ -101,7 +102,7 @@ public class WalletController {
     @RequestMapping(value = "/search/coin", method = RequestMethod.POST)        // z choice coin to buy
     public String searchCoinForBuy(@ModelAttribute("emptyCoin") Coin coin) {
         walletService.searchCoin(coin.getSymbol());
-        return "redirect:/buy/coin/form";
+        return "redirect:/wallet/buy/coin/form";
     }
 
     @GetMapping("/buy/coin/form")
@@ -117,7 +118,7 @@ public class WalletController {
     @GetMapping("/buy/{coinSymbol}")                // z choice coin to buy
     public String establishCoinForBuy(@PathVariable("coinSymbol") String coinSymbol, Model model) {
         if (walletService.getSearchResult().isEmpty()) {
-            return "redirect:/buy/coin/form";
+            return "redirect:/wallet/buy/coin/form";
         } else {
             walletService.addCoinForBuy(coinSymbol);
             Coin coinForBuy = walletService.getCoinForBuy();
@@ -199,13 +200,13 @@ public class WalletController {
         }
 
         walletService.setSlAndTpAlarm(stopLoss, takeProfit);
-        return "redirect:/wallet/form";
+        return "redirect:/wallet/wallet/form";
     }
 
     @GetMapping("/wallet/refresh")                          // z wallet
     public String refreshWallet() {
         walletService.getWallet().updateWallet();
-        return "redirect:/wallet/form";
+        return "redirect:/wallet/wallet/form";
     }
 
     @PostMapping("/calculate/costs")

@@ -45,7 +45,7 @@
                     <a href="favourite.html" target="_blank" class="btn btn-primary" th:text="#{button.favourite}">Ulubione</a>
 
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal">
-                        <a th:href="@{/show_wallets}" class="btn btn-primary" th:text="#{button.wallet}">PORTFEL</a>
+                        <a th:href="@{/wallet/show_wallets}" class="btn btn-primary" th:text="#{button.wallet}">PORTFEL</a>
                     </button>
                 </div>
             </div>
@@ -135,7 +135,7 @@
             <!--            column-->
         </div>
         <div class="col-6">
-            <form action="#" th:action="@{/search/coin}" th:object="${emptyCoin}" method="post"
+            <form action="#" th:action="@{/wallet/search/coin}" th:object="${emptyCoin}" method="post"
                   class="input-group mb-3">
                 <div class="input-group mb-3">
                     <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control" th:placeholder="#{placeholder.search}"
@@ -236,16 +236,6 @@
     </nav>
 </div>
 </div>
-
-<!--    <div class="div-investing">-->
-<!--        <iframe src="https://pl.widgets.investing.com/top-cryptocurrencies?theme=darkTheme"-->
-<!--                width="100%" height="100%" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0">-->
-
-<!--        </iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;">Obsługiwane przez:-->
-<!--        <a href="https://pl.investing.com?utm_source=WMT&amp;utm_medium=referral&amp;utm_campaign=TOP_CRYPTOCURRENCIES&amp;utm_content=Footer%20Link"-->
-<!--           target="_blank" rel="nofollow">Investing.com</a></div>-->
-
-<!--    </div>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

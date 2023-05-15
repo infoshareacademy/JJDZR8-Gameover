@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/", "/home", "/registration").permitAll()
                 .and()
-                .authorizeHttpRequests().anyRequest().authenticated()
+                .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER")
                 .and()
                 .formLogin()//.loginPage("/login")
                 .and()
