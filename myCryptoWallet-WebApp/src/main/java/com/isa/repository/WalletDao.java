@@ -1,4 +1,4 @@
-package com.isa.dao;
+package com.isa.repository;
 
 public class WalletDao {
 }
