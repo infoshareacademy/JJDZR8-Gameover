@@ -29,6 +29,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER")
                 .and()
+                .authorizeHttpRequests().requestMatchers("/admin-panel").hasAnyAuthority("ADMIN")
+                .and()
                 .formLogin()//.loginPage("/login")
                 .and()
                 .logout(LogoutConfigurer::permitAll)
