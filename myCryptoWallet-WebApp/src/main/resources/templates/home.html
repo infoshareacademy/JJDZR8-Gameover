@@ -156,7 +156,6 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>#</th>
             <th th:text="#{coin.name}"></th>
             <th th:text="#{coin.symbol}"></th>
             <th th:text="#{coin.price}"></th>
@@ -167,7 +166,6 @@
         </thead>
         <tbody>
         <tr th:each="coin, iterStat: ${coins}">
-            <td th:text="${iterStat.count}"></td>
             <td th:text="${coin.name}"></td>
             <td th:text="${coin.symbol}"></td>
             <td th:text="${coin.lastPrice}"></td>
