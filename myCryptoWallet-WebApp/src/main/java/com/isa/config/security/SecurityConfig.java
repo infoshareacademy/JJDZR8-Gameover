@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/", "/home", "/registration").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER")
+                .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .authorizeHttpRequests().requestMatchers("/admin-panel").hasAnyAuthority("ADMIN")
                 .and()

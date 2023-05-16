@@ -21,12 +21,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        Optional<User> admin = repository.findUserByRolesIs("ADMIN");
+        Optional<User> admin = repository.findUserByRoles("ADMIN");
         if (admin.isEmpty()) {
             User adminUser = new User();
             adminUser.setEmail("admin");
             adminUser.setPassword(passwordEncoder.encode("admin"));
-            adminUser.setRoles("ADMIN, USER");
+            adminUser.setRoles("ADMIN");
             repository.save(adminUser);
         }
     }
