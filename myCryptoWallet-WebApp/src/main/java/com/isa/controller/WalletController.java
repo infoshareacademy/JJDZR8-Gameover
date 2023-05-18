@@ -44,9 +44,11 @@ public class WalletController {
     }
 
     @RequestMapping("/add/amount")
-    public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount) {
+    public String addAmountToWallet( @RequestParam(value = "amount", required = false, defaultValue = "0") Double amount, Model model) {
         walletService.topUpWallet(amount);
-        return "redirect:/wallet/form";
+        model.addAttribute("topUp", amount);
+
+        return "wallet/withdrawal_Confirmation";
     }
     @GetMapping("/wallet/withdrawal")
     public String withdrawalFounds(){return "wallet/withdrawal_form";}

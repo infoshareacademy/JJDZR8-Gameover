@@ -17,8 +17,8 @@ public class Wallet {
     private double transactionsCosts;
     private double walletBalance;
     private double paymentCalc;
-    private Set<ClosedTransaction> transactionsHistory = new HashSet<>();
-    private Set<ActiveTransaction> activeTransactions = new HashSet<>();
+    private Set<ClosedTransaction> transactionsHistory = new TreeSet<>();
+    private Set<ActiveTransaction> activeTransactions = new TreeSet<>();
     public Wallet(){}
 
     public Wallet(String walletId){
