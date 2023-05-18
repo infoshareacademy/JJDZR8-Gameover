@@ -92,38 +92,34 @@
         </div>
     </div>
     <h2></h2>
-    <div class="container text-center" style="border: red solid 2px; width: 100%">
+    <div class="container text-center" style="border: black solid 2px; width: 100%">
         <div class="row">
-            <div class="col"></div>
-            <div class="col-2">
-                <div th:text="${walletById.walletId}" th:classappend="${'font-bold'}"></div>
-            </div>
-            <div class="col" th:text="#{table.field.availableFounds}">
-               wolne środki
-            </div>
-            <div class="col">
-                <div th:text="${#numbers.formatDecimal(walletById.walletBalance,1,2)}"></div>
-            </div>
-            <div class="col" th:text="#{table.field.walletWorth}">
-                Wartość portfela
-            </div>
-            <div class="col">
-                <div th:text="${#numbers.formatDecimal(walletById.walletSum,1,2)}"></div>
-            </div>
+            <div class="col" th:text="#{coin.name}">Nazwa</div>
+            <div class="col" th:text="#{table.field.availableFounds}">wolne środki</div>
+            <div class="col" th:text="#{table.field.walletWorth}">Wartość portfela</div>
+            <div class="col" th:text="#{table.field.profitLossForClosedTransaction}">Zysk/strata pozycje zamknięte</div>
+            <div class="col" th:text="#{table.field.profitLoss}">Zysk/Strata</div>
         </div>
         <h1></h1>
         <div class = "row">
-            <div class="col" th:text="#{table.field.profitLoss}">
-                Zysk/Strata
+            <div class="col" >
+                <div th:text="${walletById.walletId}" th:classappend="${'font-bold'}"></div>
             </div>
             <div class="col">
-                <div th:text="${#numbers.formatDecimal(walletById.profitLoss,1,2)}" ></div>
-            </div>
-            <div class="col" th:text="#{table.field.profitLossForClosedTransaction}">
-                Zysk/strata pozycje zamknięte
+                <div th:text="${#numbers.formatDecimal(walletById.walletBalance,1,2)}" th:classappend="${'font-bold'}"
+                     th:style="'color: green'"></div>
             </div>
             <div class="col">
-                <div th:text="${#numbers.formatDecimal(walletById.historicalProfitLoss,1,2)}"></div>
+                <div th:text="${#numbers.formatDecimal(walletById.walletSum,1,2)}" th:classappend="${'font-bold'}"
+                     th:style="'color: green'"></div>
+            </div>
+            <div class="col">
+                <div th:text="${#numbers.formatDecimal(walletById.historicalProfitLoss,1,2)}" th:classappend="${'font-bold'}"
+                     th:style="${walletById.historicalProfitLoss > 0} ? 'color: green' : 'color: red'"></div>
+            </div>
+            <div class="col">
+                <div th:text="${#numbers.formatDecimal(walletById.profitLoss,1,2)}" th:classappend="${'font-bold'}"
+                     th:style="${walletById.profitLoss > 0} ? 'color: green' : 'color: red'"></div>
             </div>
         </div>
     </div>
