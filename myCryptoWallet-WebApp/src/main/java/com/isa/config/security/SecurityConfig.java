@@ -25,13 +25,13 @@ public class SecurityConfig {
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/home", "/registration").permitAll()
+                .requestMatchers("/*", "/home", "/registration", "/login").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER", "ADMIN")
+                .authorizeHttpRequests().requestMatchers("/wallet/**", "/user-panel").hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .authorizeHttpRequests().requestMatchers("/admin-panel").hasAnyAuthority("ADMIN")
                 .and()
-                .formLogin()//.loginPage("/login")
+                .formLogin().loginPage("/login")
                 .and()
                 .logout(LogoutConfigurer::permitAll)
                 .build();
