@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col">
                 <div class="btn-group btn-group-lg ">
-                    <a th:href="@{/wallet/form}" class="btn btn-primary" aria-current="page" th:text="#{button.back}">POWRÓT</a>
+                    <a th:href="@{/wallet/wallet/form}" class="btn btn-primary" aria-current="page" th:text="#{button.back}">POWRÓT</a>
                 </div>
             </div>
             <div class="col-6">
@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col"></div>
         <div class="col">
-            <form action="#" th:action="@{/search/coin}" th:object="${emptyCoin}" method="post" class="input-group mb-3 text-center">
+            <form action="#" th:action="@{/wallet/search/coin}" th:object="${emptyCoin}" method="post" class="input-group mb-3 text-center">
                 <div class="input-group mb-3 text-center">
                     <input type="text" th:field="*{symbol}" id="inputCoin" class="form-control" placeholder="Search Coin" th:placeholder="#{placeholder.search}" aria-label="Search Coin" aria-describedby="button-addon2"/>
                     <input class="btn btn-secondary" type="submit" id="button-addon2" value="Submit" th:value="#{button.search}"/>
@@ -66,7 +66,7 @@
                 <td th:text="${coin.lastPrice}"></td>
                 <td th:text="${#numbers.formatDecimal(coin.priceChangePercent,1,2)}"></td>
                 <td>
-                    <a th:href="@{/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light" th:text="#{button.buy}">
+                    <a th:href="@{/wallet/buy/{coinSymbol}(coinSymbol=${coin.symbol})}" type="button" class="btn btn-light" th:text="#{button.buy}">
                         KUP
                     </a>
                 </td>
