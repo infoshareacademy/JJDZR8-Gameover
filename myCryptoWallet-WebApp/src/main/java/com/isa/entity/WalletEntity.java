@@ -10,24 +10,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
-@Table(name = "wallet", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "wallet")
 public class WalletEntity {
 
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "wallet_name")
     private String walletId;
 
-    @Column(name = "wallet_sum")
-    private double walletSum;
-    @Column(name = "profit_loss")
-    private double profitLoss;
     @Column(name = "historical_profit_loss")
     private double historicalProfitLoss;
-    @Column(name = "transatcion_costs")
-    private double transactionCosts;
-    @PositiveOrZero
-    private double walletBalance;
+
+    @Column(name="paymentCalc")
+    private double paymentCalc;
+
+    @OneToOne()
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     /*@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

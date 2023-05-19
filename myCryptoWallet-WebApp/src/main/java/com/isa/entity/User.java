@@ -1,5 +1,6 @@
 package com.isa.entity;
 
+import com.isa.control.Wallet;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,7 @@ public class User{
     private String password;
 
     private String roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private WalletEntity walletEntity;
 }
