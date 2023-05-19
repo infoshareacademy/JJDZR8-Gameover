@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,9 @@ public class WalletController {
     }
 
     @GetMapping("/show_wallets")
-    public String selectWallet(Model model) {
+    public String selectWallet(Model model, Principal principal) {
+        String name = principal.getName();
+        walletService.findWalletByPrincipalName(name);
         if (walletService.getWallet() == null) {
             model.addAttribute("emptyWallet", new WalletDto());
             return "wallet/create_wallet";

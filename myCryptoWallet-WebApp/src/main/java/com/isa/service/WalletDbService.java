@@ -1,4 +1,4 @@
-package com.isa.service;
+/*package com.isa.service;
 
 import com.isa.control.Coin;
 import com.isa.control.CoinSearch;
@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
 public class WalletDbService {
 
     private Wallet wallet;
@@ -141,3 +140,5 @@ public class WalletDbService {
         this.transactionForChangeAttributes = transactionForChangeAttributes;
     }
 }
+
+ */
