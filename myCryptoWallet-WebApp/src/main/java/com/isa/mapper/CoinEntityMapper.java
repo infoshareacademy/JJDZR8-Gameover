@@ -11,4 +11,10 @@ public class CoinEntityMapper {
         coin.creatNameAndShortSymbolForCoin();
         return coin;
     }
+
+    public static CoinEntity mapCoinToEntity(Coin coin){
+        CoinEntity coinEntity = new CoinEntity();
+        coinEntity.setSymbol(coin.getSymbol());
+        return coinEntity;
+    }
 }

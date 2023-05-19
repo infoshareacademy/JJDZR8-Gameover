@@ -3,8 +3,12 @@ package com.isa.mapper;
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.control.transactions.ClosedTransaction;
+import com.isa.entity.ActiveTransactionEntity;
+import com.isa.entity.ClosedTransactionEntity;
 import com.isa.entity.WalletEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -31,5 +35,25 @@ public class WalletEntityMapper {
         wallet.setActiveTransactions(activeTransactions);
         wallet.setTransactionsHistory(closedTransactions);
         return wallet;
+    }
+
+    public static WalletEntity mapWalletToEntity(Wallet wallet){
+        List<ActiveTransactionEntity> activeTransactionEntityList = new ArrayList<>();
+        List<ClosedTransactionEntity> closedTransactionEntityList = new ArrayList<>();
+        if (!wallet.getActiveTransactions().isEmpty()){
+            activeTransactionEntityList = wallet.getActiveTransactions().stream()
+                    .map(ActiveTransactionEntityMapper::mapActiveTransactionToEntity).collect(Collectors.toList());
+        }
+        if (!wallet.getTransactionsHistory().isEmpty()){
+            closedTransactionEntityList = wallet.getTransactionsHistory().stream()
+                    .map(ClosedTransactionEntityMapper::mapClosedTransactionToEntity).collect(Collectors.toList());
+        }
+        WalletEntity walletEntity = new WalletEntity();
+        walletEntity.setWalletId(wallet.getWalletId());
+        walletEntity.setHistoricalProfitLoss(wallet.getHistoricalProfitLoss());
+        walletEntity.setPaymentCalc(wallet.getPaymentCalc());
+        walletEntity.setActiveTransactionEntityList(activeTransactionEntityList);
+        walletEntity.setClosedTransactionEntities(closedTransactionEntityList);
+        return walletEntity;
     }
 }

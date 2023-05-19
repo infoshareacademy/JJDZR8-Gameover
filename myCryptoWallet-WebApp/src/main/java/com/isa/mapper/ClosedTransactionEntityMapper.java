@@ -16,4 +16,16 @@ public class ClosedTransactionEntityMapper {
         closedTransaction.setCoin(CoinEntityMapper.mapCoinEntityToCoin(closedTransactionEntity.getCoinEntity()));
         return closedTransaction;
     }
+
+    public static ClosedTransactionEntity mapClosedTransactionToEntity(ClosedTransaction closedTransaction){
+        ClosedTransactionEntity closedTransactionEntity = new ClosedTransactionEntity();
+        closedTransactionEntity.setIdTransaction(closedTransaction.getIdTransaction());
+        closedTransactionEntity.setActive(closedTransaction.isActive());
+        closedTransactionEntity.setVolume(closedTransaction.getVolume());
+        closedTransactionEntity.setCloseTransactionDate(closedTransaction.getCloseTransactionDate());
+        closedTransactionEntity.setOpenPrice(closedTransaction.getOpenPrice());
+        closedTransactionEntity.setClosePrice(closedTransaction.getClosePrice());
+        closedTransactionEntity.setCoinEntity(CoinEntityMapper.mapCoinToEntity(closedTransaction.getCoin()));
+        return closedTransactionEntity;
+    }
 }
