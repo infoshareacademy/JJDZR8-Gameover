@@ -16,16 +16,10 @@ public class CoinEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "symbol", nullable = false)
     private String symbol;
-
-    @Column(name = "shortSymbol", nullable = false)
-    private String shortSymbol;
-
-    @Column(name = "name", nullable = false)
-    private String name;
 
     @OneToMany(mappedBy = "coinEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActiveTransactionEntity> activeTransactionEntity;

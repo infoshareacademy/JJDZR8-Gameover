@@ -18,7 +18,7 @@ public class WalletEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "wallet_name", nullable = false)
     private String walletId;

@@ -15,7 +15,7 @@ public class ClosedTransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "stamp", nullable = false, unique = true)
     private long idTransaction;
