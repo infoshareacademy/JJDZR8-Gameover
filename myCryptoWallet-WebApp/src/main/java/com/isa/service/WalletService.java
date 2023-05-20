@@ -30,7 +30,7 @@ public class WalletService {
     private List<Coin> searchResult = new ArrayList<>();
     private ActiveTransaction transactionForClose;
     private ActiveTransaction transactionForChangeAttributes;
-    private User user;
+    private String userMail;
 
     private final WalletRepository walletRepository;
 
@@ -43,8 +43,8 @@ public class WalletService {
     }
 
     public void findWalletByPrincipalName(String name){
-        this.user = this.userRepository.findByEmail(name).get();
-        WalletEntity walletEntitiesByUserEmail = this.walletRepository.findWalletEntitiesByUserEmail(name);
+        this.userMail = name;
+        WalletEntity walletEntitiesByUserEmail = this.walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         if (walletEntitiesByUserEmail == null) this.wallet = null;
         else this.wallet = WalletEntityMapper.mapWalletEntityToWallet(walletEntitiesByUserEmail);
     }
@@ -107,11 +107,21 @@ public class WalletService {
     }
 
     public void saveWalletToFile(){
-        wallet.updateWallet();
+        if (this.wallet != null) {
+            wallet.updateWallet();
+            WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
+
+            WalletEntity currentWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         //Data.serializer(wallet, "wallet.json");
-        WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
-        walletEntity.setUser(this.user);
-        walletRepository.saveAndFlush(walletEntity);
+
+            currentWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
+            currentWalletEntity.setClosedTransactionEntities(walletEntity.getClosedTransactionEntities());
+            currentWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
+            currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+
+
+            walletRepository.save(currentWalletEntity);
+        }
     }
 
     public Wallet getWallet() {
