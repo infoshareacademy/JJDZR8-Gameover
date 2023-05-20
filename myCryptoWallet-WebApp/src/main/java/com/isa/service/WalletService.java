@@ -11,8 +11,7 @@ import com.isa.mapper.WalletEntityMapper;
 import com.isa.model.ActiveTransactionDto;
 import com.isa.model.ClosedTransactionDto;
 import com.isa.model.MapperToDto;
-import com.isa.repository.UserRepository;
-import com.isa.repository.WalletRepository;
+import com.isa.repository.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,13 +32,15 @@ public class WalletService {
     private String userMail;
 
     private final WalletRepository walletRepository;
+    private final ActiveTransactionRepository activeTransactionRepository;
+    private final ClosedTransactionRepository closedTransactionRepository;
 
-    private final UserRepository userRepository;
 
-    public WalletService(WalletRepository walletRepository, UserRepository userRepository){
+    public WalletService(WalletRepository walletRepository,ActiveTransactionRepository activeTransactionRepository, ClosedTransactionRepository closedTransactionRepository ){
        // Wallet wallet = Data.deserializeWallet();
         this.walletRepository = walletRepository;
-        this.userRepository = userRepository;
+        this.activeTransactionRepository = activeTransactionRepository;
+        this.closedTransactionRepository = closedTransactionRepository;
     }
 
     public void findWalletByPrincipalName(String name){
@@ -111,6 +112,7 @@ public class WalletService {
             wallet.updateWallet();
             WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
 
+
             WalletEntity currentWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         //Data.serializer(wallet, "wallet.json");
 
@@ -118,6 +120,7 @@ public class WalletService {
             currentWalletEntity.setClosedTransactionEntities(walletEntity.getClosedTransactionEntities());
             currentWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
             currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+            currentWalletEntity.setWalletId(walletEntity.getWalletId());
 
 
             walletRepository.save(currentWalletEntity);

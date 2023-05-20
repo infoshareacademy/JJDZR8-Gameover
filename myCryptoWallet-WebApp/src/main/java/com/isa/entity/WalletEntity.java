@@ -33,10 +33,10 @@ public class WalletEntity {
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
-    @OneToMany(mappedBy = "walletEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "walletEntity", cascade = CascadeType.ALL)
     private List<ActiveTransactionEntity> activeTransactionEntityList;
 
-    @OneToMany(mappedBy = "walletEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "walletEntity", cascade = CascadeType.ALL)
     private List<ClosedTransactionEntity> closedTransactionEntities;
 
 

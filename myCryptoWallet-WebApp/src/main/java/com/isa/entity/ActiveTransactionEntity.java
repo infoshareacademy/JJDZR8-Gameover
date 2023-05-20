@@ -28,7 +28,7 @@ public class ActiveTransactionEntity {
     @Column(name = "open_Transaction_Date", nullable = false)
     private String openTransactionDate;
 
-    @Column(name = "open_Price")
+    @Column(name = "open_Price", nullable = false)
     private double openPrice;
 
     @Column(name = "current_Price", nullable = false)
@@ -37,7 +37,7 @@ public class ActiveTransactionEntity {
     @Column(name = "stop_Loss")
     private double stopLoss;
 
-    @Column(name = "is_Sl_On", nullable = false)
+    @Column(name = "is_Sl_On")
     private boolean isSLOn;
 
     @Column(name = "take_Profit")
@@ -45,12 +45,16 @@ public class ActiveTransactionEntity {
 
     @Column(name = "is_Tp_On")
     private boolean isTPOn;
+    @Column(name = "coin_symbol", nullable = false)
+    private String coinSymbol;
 
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
     private WalletEntity walletEntity;
 
-    @ManyToOne
+  /*  @ManyToOne
     @JoinColumn(name = "coin_id", nullable = false)
     private CoinEntity coinEntity;
+
+   */
 }

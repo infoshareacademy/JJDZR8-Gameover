@@ -35,12 +35,15 @@ public class ClosedTransactionEntity {
     @Column(name = "close_Price", nullable = false)
     private double closePrice;
 
+    @Column(name = "coin_symbol", nullable = false)
+    private String coinSymbol;
+
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
     private WalletEntity walletEntity;
-
+    /*
     @ManyToOne
     @JoinColumn(name = "coin_id", nullable = false)
     private CoinEntity coinEntity;
-
+*/
 }

@@ -1,5 +1,6 @@
 package com.isa.mapper;
 
+import com.isa.control.Coin;
 import com.isa.control.transactions.ClosedTransaction;
 import com.isa.entity.ClosedTransactionEntity;
 
@@ -13,7 +14,10 @@ public class ClosedTransactionEntityMapper {
         closedTransaction.setCloseTransactionDate(closedTransactionEntity.getCloseTransactionDate());
         closedTransaction.setOpenPrice(closedTransactionEntity.getOpenPrice());
         closedTransaction.setClosePrice(closedTransactionEntity.getClosePrice());
-        closedTransaction.setCoin(CoinEntityMapper.mapCoinEntityToCoin(closedTransactionEntity.getCoinEntity()));
+        Coin coin = new Coin();
+        coin.setSymbol(closedTransactionEntity.getCoinSymbol());
+        coin.creatNameAndShortSymbolForCoin();
+        closedTransaction.setCoin(coin);
         return closedTransaction;
     }
 
@@ -25,7 +29,7 @@ public class ClosedTransactionEntityMapper {
         closedTransactionEntity.setCloseTransactionDate(closedTransaction.getCloseTransactionDate());
         closedTransactionEntity.setOpenPrice(closedTransaction.getOpenPrice());
         closedTransactionEntity.setClosePrice(closedTransaction.getClosePrice());
-        closedTransactionEntity.setCoinEntity(CoinEntityMapper.mapCoinToEntity(closedTransaction.getCoin()));
+        closedTransactionEntity.setCoinSymbol(closedTransaction.getCoin().getSymbol());
         return closedTransactionEntity;
     }
 }
