@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/home", "/registration").permitAll()
+                .requestMatchers("/*", "/home", "/registration").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/wallet/**").hasAnyAuthority("USER", "ADMIN")
                 .and()

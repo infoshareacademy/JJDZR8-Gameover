@@ -16,6 +16,7 @@
     <div class="row">
         <a class="confirmation" th:if="${confirm}" th:text="#{withdrawal.confirmation}">Środki zostały wypłacone pomyślnie</a>
         <a class="error" th:if="${error}" th:text="#{withdrawal.error}">Błąd przy wypłacaniu środków</a>
+        <a class="confirmation" th:if="${topUp}" th:text="#{topUp.confirmation(${#numbers.formatDecimal(topUp, 1,2)})}">Środki zostały dodane do portfela</a>
     </div>
 </div>
 <div class="container text-center">
