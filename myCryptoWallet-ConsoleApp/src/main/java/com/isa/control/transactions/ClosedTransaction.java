@@ -73,6 +73,7 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
             }else {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 Coin[] coin = gson.fromJson(response, Coin[].class);
+                this.coin = coin[0];
                 this.closePrice = Double.parseDouble(coin[0].getLastPrice());
             }
         }

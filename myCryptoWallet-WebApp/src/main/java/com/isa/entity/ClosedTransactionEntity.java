@@ -17,7 +17,7 @@ public class ClosedTransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "stamp", nullable = false, unique = true)
+    @Column(name = "stamp", nullable = false)
     private long idTransaction;
 
     @Column(name = "is_Active", nullable = false)
@@ -41,9 +41,5 @@ public class ClosedTransactionEntity {
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
     private WalletEntity walletEntity;
-    /*
-    @ManyToOne
-    @JoinColumn(name = "coin_id", nullable = false)
-    private CoinEntity coinEntity;
-*/
+
 }

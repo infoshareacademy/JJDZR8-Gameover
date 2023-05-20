@@ -65,6 +65,7 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
            }else {
                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                Coin[] coin = gson.fromJson(response, Coin[].class);
+               this.coin = coin[0];
                 this.currentPrice = Double.parseDouble(coin[0].getLastPrice());
                 LOGGER.info("Current price updated for transaction id: {}", this.idTransaction);
            }

@@ -5,6 +5,8 @@ import com.isa.control.CoinSearch;
 import com.isa.control.Data;
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
+import com.isa.entity.ActiveTransactionEntity;
+import com.isa.entity.ClosedTransactionEntity;
 import com.isa.entity.User;
 import com.isa.entity.WalletEntity;
 import com.isa.mapper.WalletEntityMapper;
@@ -47,7 +49,9 @@ public class WalletService {
         this.userMail = name;
         WalletEntity walletEntitiesByUserEmail = this.walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         if (walletEntitiesByUserEmail == null) this.wallet = null;
-        else this.wallet = WalletEntityMapper.mapWalletEntityToWallet(walletEntitiesByUserEmail);
+        else {this.wallet = WalletEntityMapper.mapWalletEntityToWallet(walletEntitiesByUserEmail);
+        this.wallet.updateWallet();
+        }
     }
 
     public Set<ActiveTransactionDto> mapActiveTransactionsToDto(){
@@ -111,19 +115,26 @@ public class WalletService {
         if (this.wallet != null) {
             wallet.updateWallet();
             WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
-
+            List<ClosedTransactionEntity> closedTransactionEntities = walletEntity.getClosedTransactionEntities();
+            List<ActiveTransactionEntity> activeTransactionEntityList = walletEntity.getActiveTransactionEntityList();
 
             WalletEntity currentWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
+
         //Data.serializer(wallet, "wallet.json");
 
             currentWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
-            currentWalletEntity.setClosedTransactionEntities(walletEntity.getClosedTransactionEntities());
             currentWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
-            currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
             currentWalletEntity.setWalletId(walletEntity.getWalletId());
 
 
-            walletRepository.save(currentWalletEntity);
+            closedTransactionEntities.forEach(n->n.setWalletEntity(currentWalletEntity));
+            activeTransactionEntityList.forEach(n->n.setWalletEntity(currentWalletEntity));
+
+            currentWalletEntity.setClosedTransactionEntities(closedTransactionEntities);
+            currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+
+
+            walletRepository.saveAndFlush(currentWalletEntity);
         }
     }
 
