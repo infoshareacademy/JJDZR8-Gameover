@@ -24,12 +24,12 @@
         </filter>
     </appender>
 
-    <logger name="justbuild.it.web.app" level="DEBUG" additivity="false">
+    <logger name="justbuild.it.web.app" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE_CSV"/>
     </logger>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE_CSV"/>
     </root>
