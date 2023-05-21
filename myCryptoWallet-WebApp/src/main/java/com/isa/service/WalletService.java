@@ -11,8 +11,7 @@ import com.isa.mapper.WalletEntityMapper;
 import com.isa.model.ActiveTransactionDto;
 import com.isa.model.ClosedTransactionDto;
 import com.isa.model.MapperToDto;
-import com.isa.repository.UserRepository;
-import com.isa.repository.WalletRepository;
+import com.isa.repository.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,21 +29,23 @@ public class WalletService {
     private List<Coin> searchResult = new ArrayList<>();
     private ActiveTransaction transactionForClose;
     private ActiveTransaction transactionForChangeAttributes;
-    private User user;
+    private String userMail;
 
     private final WalletRepository walletRepository;
+    private final ActiveTransactionRepository activeTransactionRepository;
+    private final ClosedTransactionRepository closedTransactionRepository;
 
-    private final UserRepository userRepository;
 
-    public WalletService(WalletRepository walletRepository, UserRepository userRepository){
+    public WalletService(WalletRepository walletRepository,ActiveTransactionRepository activeTransactionRepository, ClosedTransactionRepository closedTransactionRepository ){
        // Wallet wallet = Data.deserializeWallet();
         this.walletRepository = walletRepository;
-        this.userRepository = userRepository;
+        this.activeTransactionRepository = activeTransactionRepository;
+        this.closedTransactionRepository = closedTransactionRepository;
     }
 
     public void findWalletByPrincipalName(String name){
-        this.user = this.userRepository.findByEmail(name).get();
-        WalletEntity walletEntitiesByUserEmail = this.walletRepository.findWalletEntitiesByUserEmail(name);
+        this.userMail = name;
+        WalletEntity walletEntitiesByUserEmail = this.walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         if (walletEntitiesByUserEmail == null) this.wallet = null;
         else this.wallet = WalletEntityMapper.mapWalletEntityToWallet(walletEntitiesByUserEmail);
     }
@@ -107,11 +108,23 @@ public class WalletService {
     }
 
     public void saveWalletToFile(){
-        wallet.updateWallet();
+        if (this.wallet != null) {
+            wallet.updateWallet();
+            WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
+
+
+            WalletEntity currentWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
         //Data.serializer(wallet, "wallet.json");
-        WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
-        walletEntity.setUser(this.user);
-        walletRepository.saveAndFlush(walletEntity);
+
+            currentWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
+            currentWalletEntity.setClosedTransactionEntities(walletEntity.getClosedTransactionEntities());
+            currentWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
+            currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+            currentWalletEntity.setWalletId(walletEntity.getWalletId());
+
+
+            walletRepository.save(currentWalletEntity);
+        }
     }
 
     public Wallet getWallet() {

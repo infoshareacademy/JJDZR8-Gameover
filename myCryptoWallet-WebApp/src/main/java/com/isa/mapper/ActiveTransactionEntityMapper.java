@@ -1,5 +1,6 @@
 package com.isa.mapper;
 
+import com.isa.control.Coin;
 import com.isa.control.transactions.ActiveTransaction;
 import com.isa.entity.ActiveTransactionEntity;
 
@@ -17,7 +18,10 @@ public class ActiveTransactionEntityMapper {
         activeTransaction.setSLOn(activeTransactionEntity.isSLOn());
         activeTransaction.setTakeProfit(activeTransactionEntity.getTakeProfit());
         activeTransaction.setTPOn(activeTransactionEntity.isTPOn());
-        activeTransaction.setCoin(CoinEntityMapper.mapCoinEntityToCoin(activeTransactionEntity.getCoinEntity()));
+        Coin coin = new Coin();
+        coin.setSymbol(activeTransactionEntity.getCoinSymbol());
+        coin.creatNameAndShortSymbolForCoin();
+        activeTransaction.setCoin(coin);
         return activeTransaction;
     }
 
@@ -33,7 +37,7 @@ public class ActiveTransactionEntityMapper {
         activeTransactionEntity.setStopLoss(activeTransaction.getStopLoss());
         activeTransactionEntity.setTakeProfit(activeTransaction.getTakeProfit());
         activeTransactionEntity.setTPOn(activeTransaction.isTPOn());
-        activeTransactionEntity.setCoinEntity(CoinEntityMapper.mapCoinToEntity(activeTransaction.getCoin()));
+        activeTransactionEntity.setCoinSymbol(activeTransaction.getCoin().getSymbol());
         return activeTransactionEntity;
     }
 }
