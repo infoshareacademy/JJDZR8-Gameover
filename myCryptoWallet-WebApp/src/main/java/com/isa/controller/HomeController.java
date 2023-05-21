@@ -4,12 +4,18 @@ import com.isa.control.Coin;
 import com.isa.model.CoinDto;
 import com.isa.service.CoinService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -17,6 +23,7 @@ import java.util.stream.IntStream;
 @Controller
 public class HomeController {
     private final CoinService coinService;
+
 
     public HomeController(CoinService coinService) {
         this.coinService = coinService;
@@ -59,5 +66,10 @@ public class HomeController {
     @GetMapping("/admin-panel")
     public String adminPanel() {
         return "admin_panel";
+    }
+
+    @GetMapping("/user-panel")
+    public String userPanel() {
+        return "user_panel";
     }
 }
