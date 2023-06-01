@@ -14,16 +14,27 @@ import java.util.stream.Collectors;
 
 public class MapperToDto {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(MapperToDto.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MapperToDto.class.getName());
 
     public static CoinDto mapCoinToCoinDto(Coin coin){
-        CoinDto coinDto = new CoinDto(coin.getShortSymbol()
-                ,coin.getName()
-                ,Double.parseDouble(coin.getLastPrice())
-                ,Double.parseDouble(coin.getPriceChangePercent())
-                ,Double.parseDouble(coin.getVolume()));
-        LOGGER.debug("{} mapped to Coin DTO", coin.getName());
-        return coinDto;
+        if (coin.getShortSymbol() == null || coin.getName() == null){
+            coin.creatNameAndShortSymbolForCoin();
+        }
+        if (coin.getLastPrice() == null || coin.getVolume() == null || coin.getPriceChangePercent() == null){
+            CoinDto coinDto = new CoinDto(coin.getShortSymbol(), coin.getName(), 0,0,0);
+            LOGGER.debug("{} mapped to Coin DTO", coin.getName());
+            return coinDto;
+        }else {
+            CoinDto coinDto = new CoinDto(coin.getShortSymbol()
+                    , coin.getName()
+                    , Double.parseDouble(coin.getLastPrice())
+                    , Double.parseDouble(coin.getPriceChangePercent())
+                    , Double.parseDouble(coin.getVolume()));
+            LOGGER.debug("{} mapped to Coin DTO", coin.getName());
+            return coinDto;
+        }
+       // Todo modify this map method later to simple form without "null".
+
     }
     public static ActiveTransactionDto mapActiveTransactionToActiveTransactionDto (ActiveTransaction activeTransaction){
         ActiveTransactionDto activeTransactionDto = new ActiveTransactionDto(activeTransaction.getIdTransaction()
