@@ -17,6 +17,7 @@ import com.isa.repository.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +112,8 @@ public class WalletService {
         return amount <= wallet.getWalletBalance() && amount > 0;
     }
 
+
+    @Transactional
     public void saveWalletToFile(){
         if (this.wallet != null) {
             wallet.updateWallet();
@@ -118,23 +121,25 @@ public class WalletService {
             List<ClosedTransactionEntity> closedTransactionEntities = walletEntity.getClosedTransactionEntities();
             List<ActiveTransactionEntity> activeTransactionEntityList = walletEntity.getActiveTransactionEntityList();
 
-            WalletEntity currentWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
+            WalletEntity dBWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
 
         //Data.serializer(wallet, "wallet.json");
 
-            currentWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
-            currentWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
-            currentWalletEntity.setWalletId(walletEntity.getWalletId());
+            dBWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
+            dBWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
+            dBWalletEntity.setWalletId(walletEntity.getWalletId());
 
 
-            closedTransactionEntities.forEach(n->n.setWalletEntity(currentWalletEntity));
-            activeTransactionEntityList.forEach(n->n.setWalletEntity(currentWalletEntity));
+            closedTransactionEntities.forEach(n->n.setWalletEntity(dBWalletEntity));
+            activeTransactionEntityList.forEach(n->n.setWalletEntity(dBWalletEntity));
 
-            currentWalletEntity.setClosedTransactionEntities(closedTransactionEntities);
-            currentWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+            dBWalletEntity.setClosedTransactionEntities(closedTransactionEntities);
+            dBWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
 
+//            activeTransactionRepository.deleteActiveTransactionEntitiesByWalletEntity(currentWalletEntity);
+//            closedTransactionRepository.deleteClosedTransactionEntitiesByWalletEntity(currentWalletEntity);
 
-            walletRepository.saveAndFlush(currentWalletEntity);
+            walletRepository.saveAndFlush(dBWalletEntity);
         }
     }
 

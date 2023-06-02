@@ -40,9 +40,27 @@ public class WalletEntity {
     private List<ClosedTransactionEntity> closedTransactionEntities;
 
 
+    public void addActiveTransactionEntity(ActiveTransactionEntity activeTransactionEntity){
+        activeTransactionEntity.setWalletEntity(this);
+        this.activeTransactionEntityList.add(activeTransactionEntity);
+    }
 
+    public void addActiveTransactionsEntityList(List<ActiveTransactionEntity> activeTransactionEntityList){
+        for (ActiveTransactionEntity activeTransaction : activeTransactionEntityList) {
+            this.addActiveTransactionEntity(activeTransaction);
+        }
+    }
 
+    public void addClosedTransactionEntity(ClosedTransactionEntity closedTransactionEntity){
+        closedTransactionEntity.setWalletEntity(this);
+        this.closedTransactionEntities.add(closedTransactionEntity);
+    }
 
+    public void addClosedTransactionsEntityList(List<ClosedTransactionEntity> closedTransactionEntityList){
+        for (ClosedTransactionEntity closedTransaction : closedTransactionEntityList){
+            this.addClosedTransactionEntity(closedTransaction);
+        }
+    }
 
     /*@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
