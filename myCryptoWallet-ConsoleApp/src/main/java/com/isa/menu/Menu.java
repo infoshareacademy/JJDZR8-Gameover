@@ -257,13 +257,13 @@ public enum Menu {
     public static void saveWalletsToFile(Map<String, Wallet> wallets, Wallet wallet){
         if(wallets == null){
             wallets = new HashMap<>();
-            wallets.put(wallet.getWalletId(), wallet);
+            wallets.put(wallet.getWalletName(), wallet);
             Data.serializer(wallets, "wallet.json");
-        } else if (!wallets.containsKey(wallet.getWalletId())){
-            wallets.put(wallet.getWalletId(), wallet);
+        } else if (!wallets.containsKey(wallet.getWalletName())){
+            wallets.put(wallet.getWalletName(), wallet);
             Data.serializer(wallets, "wallet.json");
         } else{
-            wallets.replace(wallet.getWalletId(), wallet);
+            wallets.replace(wallet.getWalletName(), wallet);
             Data.serializer(wallets, "wallet.json");
         }
     }

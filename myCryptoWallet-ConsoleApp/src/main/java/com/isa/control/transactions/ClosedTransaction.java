@@ -13,6 +13,7 @@ import java.util.Objects;
 public class ClosedTransaction implements Transaction, Comparable<ClosedTransaction>{
 
     private static Logger LOGGER = LoggerFactory.getLogger(ClosedTransaction.class.getName());
+    private Long id;
     private long idTransaction;
     private Coin coin;
     private boolean isActive;
@@ -97,12 +98,20 @@ public class ClosedTransaction implements Transaction, Comparable<ClosedTransact
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClosedTransaction that = (ClosedTransaction) o;
-        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.closePrice, closePrice) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Objects.equals(coin, that.coin) && Objects.equals(closeTransactionDate, that.closeTransactionDate) && Objects.equals(activePartOfClosedTransaction, that.activePartOfClosedTransaction);
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.closePrice, closePrice) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Objects.equals(id, that.id) && Objects.equals(coin, that.coin) && Objects.equals(closeTransactionDate, that.closeTransactionDate) && Objects.equals(activePartOfClosedTransaction, that.activePartOfClosedTransaction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTransaction, coin, isActive, volume, closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
+        return Objects.hash(id, idTransaction, coin, isActive, volume, closeTransactionDate, closePrice, openPrice, activePartOfClosedTransaction);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public long getIdTransaction() {

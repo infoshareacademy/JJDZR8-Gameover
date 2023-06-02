@@ -14,6 +14,7 @@ import java.util.Objects;
 public class ActiveTransaction implements Transaction, Comparable<ActiveTransaction>{
 
     private static Logger LOGGER = LoggerFactory.getLogger(ActiveTransaction.class.getName());
+    private Long id;
     private long idTransaction;
     private Coin coin;
     private boolean isActive;
@@ -110,18 +111,17 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         return Endpoints.getCoinsNames().containsKey(coin.getShortSymbol());
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActiveTransaction that = (ActiveTransaction) o;
-        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Double.compare(that.stopLoss, stopLoss) == 0 && isSLOn == that.isSLOn && Double.compare(that.takeProfit, takeProfit) == 0 && isTPOn == that.isTPOn && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
+        return idTransaction == that.idTransaction && isActive == that.isActive && Double.compare(that.volume, volume) == 0 && Double.compare(that.openPrice, openPrice) == 0 && Double.compare(that.currentPrice, currentPrice) == 0 && Double.compare(that.stopLoss, stopLoss) == 0 && isSLOn == that.isSLOn && Double.compare(that.takeProfit, takeProfit) == 0 && isTPOn == that.isTPOn && Objects.equals(id, that.id) && Objects.equals(coin, that.coin) && Objects.equals(openTransactionDate, that.openTransactionDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice, stopLoss, isSLOn, takeProfit, isTPOn);
+        return Objects.hash(id, idTransaction, coin, isActive, volume, openTransactionDate, openPrice, currentPrice, stopLoss, isSLOn, takeProfit, isTPOn);
     }
 
     @Override
@@ -129,6 +129,14 @@ public class ActiveTransaction implements Transaction, Comparable<ActiveTransact
         if(idTransaction<activeTransaction.getIdTransaction()) return 1;
         else if (idTransaction>activeTransaction.getIdTransaction()) return -1;
         else return 0;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public long getIdTransaction() {

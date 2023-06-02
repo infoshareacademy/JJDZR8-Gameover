@@ -8,6 +8,7 @@ public class ActiveTransactionEntityMapper {
 
     public static ActiveTransaction mapActiveTransactionEntityToActiveTransaction(ActiveTransactionEntity activeTransactionEntity){
         ActiveTransaction activeTransaction = new ActiveTransaction();
+        activeTransaction.setId(activeTransactionEntity.getId());
         activeTransaction.setIdTransaction(activeTransactionEntity.getIdTransaction());
         activeTransaction.setActive(activeTransactionEntity.isActive());
         activeTransaction.setVolume(activeTransactionEntity.getVolume());

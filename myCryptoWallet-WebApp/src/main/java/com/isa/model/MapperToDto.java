@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class MapperToDto {
@@ -75,7 +74,7 @@ public class MapperToDto {
                     .map(MapperToDto::mapClosedTransactionToClosedTransactionDto)
                     .collect(Collectors.toSet());
         }
-        WalletDto walletDto = new WalletDto(wallet.getWalletId()
+        WalletDto walletDto = new WalletDto(wallet.getWalletName()
                 ,wallet.getWalletSum()
                 ,wallet.getProfitLoss()
                 ,wallet.getHistoricalProfitLoss()

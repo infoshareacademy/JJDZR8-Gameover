@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class Wallet {
     private static Logger LOGGER = LoggerFactory.getLogger(Wallet.class.getName());
-    private String walletId;
+    private Long id;
+    private String walletName;
     private double walletSum;
     private double profitLoss;
     private double historicalProfitLoss;
@@ -21,8 +22,8 @@ public class Wallet {
     private Set<ActiveTransaction> activeTransactions = new TreeSet<>();
     public Wallet(){}
 
-    public Wallet(String walletId){
-        this.walletId = walletId;
+    public Wallet(String walletName){
+        this.walletName = walletName;
         this.walletBalance = 0;
         this.paymentCalc = 0;
     }
@@ -200,20 +201,28 @@ public class Wallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Wallet wallet = (Wallet) o;
-        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Double.compare(wallet.paymentCalc, paymentCalc) == 0 && Objects.equals(walletId, wallet.walletId) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
+        return Double.compare(wallet.walletSum, walletSum) == 0 && Double.compare(wallet.profitLoss, profitLoss) == 0 && Double.compare(wallet.historicalProfitLoss, historicalProfitLoss) == 0 && Double.compare(wallet.transactionsCosts, transactionsCosts) == 0 && Double.compare(wallet.walletBalance, walletBalance) == 0 && Double.compare(wallet.paymentCalc, paymentCalc) == 0 && Objects.equals(id, wallet.id) && Objects.equals(walletName, wallet.walletName) && Objects.equals(transactionsHistory, wallet.transactionsHistory) && Objects.equals(activeTransactions, wallet.activeTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletId, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, paymentCalc, transactionsHistory, activeTransactions);
+        return Objects.hash(id, walletName, walletSum, profitLoss, historicalProfitLoss, transactionsCosts, walletBalance, paymentCalc, transactionsHistory, activeTransactions);
     }
 
-    public String getWalletId() {
-        return walletId;
+    public Long getId() {
+        return id;
     }
 
-    public void setWalletId(String walletId) {
-        this.walletId = walletId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getWalletName() {
+        return walletName;
+    }
+
+    public void setWalletName(String walletName) {
+        this.walletName = walletName;
     }
 
     public double getWalletSum() {

@@ -2,25 +2,23 @@ package com.isa.service;
 
 import com.isa.control.Coin;
 import com.isa.control.CoinSearch;
-import com.isa.control.Data;
 import com.isa.control.Wallet;
 import com.isa.control.transactions.ActiveTransaction;
+import com.isa.control.transactions.ClosedTransaction;
 import com.isa.entity.ActiveTransactionEntity;
 import com.isa.entity.ClosedTransactionEntity;
-import com.isa.entity.User;
 import com.isa.entity.WalletEntity;
 import com.isa.mapper.WalletEntityMapper;
 import com.isa.model.ActiveTransactionDto;
 import com.isa.model.ClosedTransactionDto;
 import com.isa.model.MapperToDto;
 import com.isa.repository.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -117,24 +115,21 @@ public class WalletService {
     public void saveWalletToFile(){
         if (this.wallet != null) {
             wallet.updateWallet();
-            WalletEntity walletEntity = WalletEntityMapper.mapWalletToEntity(wallet);
-            List<ClosedTransactionEntity> closedTransactionEntities = walletEntity.getClosedTransactionEntities();
-            List<ActiveTransactionEntity> activeTransactionEntityList = walletEntity.getActiveTransactionEntityList();
 
             WalletEntity dBWalletEntity = walletRepository.findWalletEntitiesByUserEmail(this.userMail);
 
         //Data.serializer(wallet, "wallet.json");
 
-            dBWalletEntity.setPaymentCalc(walletEntity.getPaymentCalc());
-            dBWalletEntity.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
-            dBWalletEntity.setWalletId(walletEntity.getWalletId());
+            dBWalletEntity.setPaymentCalc(this.wallet.getPaymentCalc());
+            dBWalletEntity.setHistoricalProfitLoss(this.wallet.getHistoricalProfitLoss());
+            dBWalletEntity.setWalletName(this.wallet.getWalletName());
 
+//            closedTransactionEntities.forEach(n->n.setWalletEntity(dBWalletEntity));
+//            activeTransactionEntityList.forEach(n->n.setWalletEntity(dBWalletEntity));
+            List<ActiveTransactionEntity> activeTransactionEntityList = updateActiveTransactionList(dBWalletEntity.getActiveTransactionEntityList(), this.wallet.getActiveTransactions());
 
-            closedTransactionEntities.forEach(n->n.setWalletEntity(dBWalletEntity));
-            activeTransactionEntityList.forEach(n->n.setWalletEntity(dBWalletEntity));
-
-            dBWalletEntity.setClosedTransactionEntities(closedTransactionEntities);
-            dBWalletEntity.setActiveTransactionEntityList(walletEntity.getActiveTransactionEntityList());
+//            dBWalletEntity.setClosedTransactionEntities(closedTransactionEntities);
+            dBWalletEntity.setActiveTransactionEntityList(activeTransactionEntityList);
 
 //            activeTransactionRepository.deleteActiveTransactionEntitiesByWalletEntity(currentWalletEntity);
 //            closedTransactionRepository.deleteClosedTransactionEntitiesByWalletEntity(currentWalletEntity);
@@ -143,6 +138,35 @@ public class WalletService {
         }
     }
 
+    public List<ActiveTransactionEntity> updateActiveTransactionList(List<ActiveTransactionEntity> activeTransactionEntityList, Set<ActiveTransaction> activeTransactionSet) {
+
+        activeTransactionEntityList.forEach(n -> {
+            Optional<ActiveTransaction> first = activeTransactionSet.stream()
+                    .filter(o -> o.getIdTransaction() == n.getIdTransaction())
+                    .findFirst();
+            if (first.isPresent()){
+                ActiveTransaction activeTransaction = first.get();
+                n.setCurrentPrice(activeTransaction.getCurrentPrice());
+               // activeTransactionRepository.saveAndFlush(n);
+            }
+        });
+        return activeTransactionEntityList;
+    }
+
+    public List<ClosedTransactionEntity> updateClosedTransactionList(List<ClosedTransactionEntity> closedTransactionEntityList, Set<ClosedTransaction> closedTransactionSet) {
+
+        closedTransactionEntityList.forEach(n -> {
+            Optional<ClosedTransaction> first = closedTransactionSet.stream()
+                    .filter(o -> o.getIdTransaction() == n.getIdTransaction())
+                    .findFirst();
+            if (first.isPresent()){
+                ClosedTransaction closedTransaction = first.get();
+                //todo zmapować co będzie potrzebne w przyszłości przy dodawaniu zamkniętych pozycji
+                // activeTransactionRepository.saveAndFlush(n);
+            }
+        });
+        return closedTransactionEntityList;
+    }
     public Wallet getWallet() {
         return wallet;
     }

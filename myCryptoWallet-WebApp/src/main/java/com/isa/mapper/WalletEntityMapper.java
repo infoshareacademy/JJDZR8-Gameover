@@ -29,7 +29,7 @@ public class WalletEntityMapper {
                     .collect(Collectors.toSet());
         }
         Wallet wallet = new Wallet();
-        wallet.setWalletId(walletEntity.getWalletId());
+        wallet.setWalletName(walletEntity.getWalletName());
         wallet.setHistoricalProfitLoss(walletEntity.getHistoricalProfitLoss());
         wallet.setPaymentCalc(walletEntity.getPaymentCalc());
         wallet.setActiveTransactions(activeTransactions);
@@ -49,7 +49,7 @@ public class WalletEntityMapper {
                     .map(ClosedTransactionEntityMapper::mapClosedTransactionToEntity).collect(Collectors.toList());
         }
         WalletEntity walletEntity = new WalletEntity();
-        walletEntity.setWalletId(wallet.getWalletId());
+        walletEntity.setWalletName(wallet.getWalletName());
         walletEntity.setHistoricalProfitLoss(wallet.getHistoricalProfitLoss());
         walletEntity.setPaymentCalc(wallet.getPaymentCalc());
         walletEntity.setActiveTransactionEntityList(activeTransactionEntityList);

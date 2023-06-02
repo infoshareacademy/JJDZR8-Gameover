@@ -1,7 +1,6 @@
 package com.isa.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +20,7 @@ public class WalletEntity {
     private Long id;
 
     @Column(name = "wallet_name", nullable = false)
-    private String walletId;
+    private String walletName;
 
     @Column(name = "historical_profit_loss")
     private double historicalProfitLoss;
